@@ -1,0 +1,31 @@
+{
+  "_comentario": [
+    "Regras do Realtime Database do painel (projeto status-cargas-varejo).",
+    "Como aplicar: console.firebase.google.com > Realtime Database > aba Regras,",
+    "cole o conteúdo abaixo (sem esta chave _comentario) e clique em Publicar.",
+    "",
+    "O que elas fazem, comparadas com o modo de teste (read/write liberados):",
+    "  - leitura continua pública, porque o painel lê sem login;",
+    "  - escrita só é aceita no caminho exato cargas/<numero-da-viagem>/<1 a 4>;",
+    "  - o valor gravado só pode ser true ou false.",
+    "Assim ninguém consegue apagar o banco inteiro de uma vez nem gravar lixo nele.",
+    "Isso NÃO impede alguém que tenha o link de marcar/desmarcar um status:",
+    "para isso seria preciso login de verdade (Firebase Authentication)."
+  ],
+
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "cargas": {
+      ".read": true,
+
+      "$viagem": {
+        "$etapa": {
+          ".write": "$viagem.matches(/^[0-9]{1,12}$/) && $etapa.matches(/^[1-4]$/)",
+          ".validate": "newData.isBoolean()"
+        }
+      }
+    }
+  }
+}

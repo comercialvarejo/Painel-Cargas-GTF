@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Painel de Cargas — GTFOODS</title>
+<meta name="description" content="Acompanhamento em tempo real dos romaneios de carregamento — GTFOODS Terra Boa Abatedouro.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0f1420">
+<meta name="color-scheme" content="dark">
+
+<!-- instalação como aplicativo (Android, Windows, macOS) -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon-32.png" sizes="32x32">
+<link rel="icon" href="icone-192.png" sizes="192x192">
+
+<!-- instalação como aplicativo (iPhone / iPad) -->
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Cargas GTF">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<style>
+  :root{
+    --bg:#0f1420; --panel:#161d2e; --panel2:#1c2438; --border:#2a3450;
+    --text:#e8ecf5; --muted:#8b95ad; --accent:#3b82f6;
+    --s1:#64748b; --s2:#eab308; --s3:#3b82f6; --s4:#22c55e;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--text); padding:24px;
+  }
+  h1{font-size:22px; margin:0 0 4px;}
+  .sub{color:var(--muted); font-size:13px; margin-bottom:20px;}
+  .toolbar{
+    display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:18px;
+  }
+  .toolbar input[type=text]{
+    background:var(--panel2); border:1px solid var(--border); color:var(--text);
+    padding:8px 12px; border-radius:8px; font-size:13px; min-width:220px;
+  }
+  .toolbar select{
+    background:var(--panel2); border:1px solid var(--border); color:var(--text);
+    padding:8px 12px; border-radius:8px; font-size:13px;
+  }
+  .stats{display:flex; gap:10px; margin-left:auto; flex-wrap:wrap;}
+  .stat{
+    background:var(--panel2); border:1px solid var(--border); border-radius:8px;
+    padding:8px 14px; font-size:12px; color:var(--muted); text-align:center;
+  }
+  .stat b{display:block; font-size:16px; color:var(--text);}
+  .grid{display:flex; flex-direction:column; gap:14px;}
+  .card{
+    background:var(--panel); border:1px solid var(--border); border-radius:12px;
+    overflow:hidden;
+  }
+  .card-head{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 18px; cursor:pointer; gap:12px; flex-wrap:wrap;
+  }
+  .head-left:hover{background:rgba(255,255,255,0.02);}
+  .head-left{display:flex; flex-direction:column; gap:2px; cursor:pointer;}
+  .head-left:hover .viagem-id{color:var(--accent);}
+  .viagem-id{font-size:15px; font-weight:600; display:flex; align-items:center; gap:8px;}
+  .head-meta{font-size:12px; color:var(--muted);}
+  /* ordem de carregamento: a fila em que os veículos serão carregados */
+  .ordem-chip{
+    display:inline-flex; align-items:center; justify-content:center;
+    min-width:26px; height:26px; padding:0 6px; border-radius:7px;
+    background:var(--accent); color:#fff; font-size:12px; font-weight:700;
+    flex:none;
+  }
+  /* horário previsto de chegada do veículo na planta */
+  .badge-chegada{
+    background:rgba(234,179,8,0.14); border-color:rgba(234,179,8,0.5);
+    color:#f2b93a; font-weight:600;
+  }
+  .regiao{color:var(--text); font-weight:600;}
+
+  /* ---------- resumo de peso ---------- */
+  .peso-wrap{
+    background:var(--panel); border:1px solid var(--border); border-radius:12px;
+    padding:16px 18px; margin-bottom:16px;
+  }
+  .peso-titulo{
+    font-size:11px; color:var(--muted); text-transform:uppercase;
+    letter-spacing:.06em; font-weight:600; margin-bottom:12px;
+  }
+  .peso-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px;}
+  .peso-card{
+    background:var(--panel2); border:1px solid var(--border); border-radius:10px;
+    padding:12px 14px; display:flex; flex-direction:column; gap:4px;
+  }
+  .peso-card.destaque{border-color:var(--s3);}
+  .peso-label{font-size:12px; color:var(--muted);}
+  .peso-valor{font-size:22px; font-weight:700; line-height:1.15; font-variant-numeric:tabular-nums;}
+  .peso-valor span{font-size:12px; font-weight:500; color:var(--muted); margin-left:2px;}
+  .peso-sub{font-size:11px; color:var(--muted);}
+  .peso-bar{
+    height:5px; border-radius:3px; background:rgba(255,255,255,0.07);
+    overflow:hidden; margin-top:6px;
+  }
+  .peso-bar i{display:block; height:100%; border-radius:3px; transition:width .3s;}
+  @media (max-width: 760px){
+    .peso-wrap{padding:14px;}
+    .peso-grid{grid-template-columns:1fr 1fr; gap:10px;}
+    .peso-card{padding:10px 12px;}
+    .peso-valor{font-size:18px;}
+  }
+  .head-right{display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
+  .status-label{font-size:10px; color:var(--muted); width:100%; text-align:right;}
+  .totals{font-size:12px; color:var(--muted); text-align:right;}
+  .totals b{color:var(--text);}
+  .status-track{display:flex; gap:4px;}
+  .status-btn{
+    display:flex; align-items:center; gap:6px;
+    border:1px solid var(--border); background:var(--panel2); color:var(--muted);
+    font-size:11px; padding:6px 10px; border-radius:6px; cursor:pointer;
+    white-space:nowrap; transition:all .15s;
+  }
+  .status-btn:hover{border-color:var(--accent);}
+  .status-btn .dot{
+    width:14px; height:14px; border-radius:4px; border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; flex:none;
+    font-size:10px; background:var(--bg);
+  }
+  .status-btn.on-1{border-color:var(--s1);} .status-btn.on-1 .dot{background:var(--s1); border-color:var(--s1); color:#fff;}
+  .status-btn.on-2{border-color:var(--s2);} .status-btn.on-2 .dot{background:var(--s2); border-color:var(--s2); color:#1a1400;}
+  .status-btn.on-3{border-color:var(--s3);} .status-btn.on-3 .dot{background:var(--s3); border-color:var(--s3); color:#fff;}
+  .status-btn.on-4{border-color:var(--s4);} .status-btn.on-4 .dot{background:var(--s4); border-color:var(--s4); color:#04220f;}
+  .lock-icon{font-size:10px; color:var(--muted); margin-right:2px;}
+  .chev{color:var(--muted); font-size:13px; margin-left:4px;}
+  .admin-bar{display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted);}
+  .admin-bar button{
+    background:var(--panel2); border:1px solid var(--border); color:var(--text);
+    padding:6px 12px; border-radius:8px; font-size:12px; cursor:pointer;
+  }
+  .admin-bar button:hover{border-color:var(--accent);}
+  .admin-on{color:var(--s4) !important; font-weight:600;}
+  .sync-bar{
+    display:flex; align-items:center; gap:8px; font-size:12px; margin-bottom:16px;
+    padding:8px 12px; border-radius:8px; border:1px solid var(--border);
+  }
+  .sync-bar .dot-status{width:8px; height:8px; border-radius:50%; flex:none;}
+  .sync-ok{background:rgba(34,197,94,0.08);} .sync-ok .dot-status{background:var(--s4);}
+  .sync-off{background:rgba(234,179,8,0.08);} .sync-off .dot-status{background:var(--s2);}
+  .sync-err{background:rgba(239,68,68,0.08);} .sync-err .dot-status{background:#ef4444;}
+  .card-body{display:none; border-top:1px solid var(--border);}
+  .card-body.open{display:block;}
+  .pedido{border-bottom:1px solid var(--border); padding:12px 18px;}
+  .pedido:last-child{border-bottom:none;}
+  .pedido-head{
+    display:flex; justify-content:space-between; align-items:baseline; gap:10px;
+    cursor:pointer; flex-wrap:wrap;
+  }
+  .pedido-cliente{font-size:13.5px; font-weight:600;}
+  .pedido-cidade{font-size:12px; color:var(--muted); font-weight:400; margin-left:6px;}
+  .pedido-tot{font-size:12px; color:var(--muted); white-space:nowrap;}
+  .pedido-obs{font-size:11.5px; color:#f2b93a; margin-top:4px; font-style:italic;}
+  .itens{display:none; margin-top:10px;}
+  .itens.open{display:block;}
+  table{width:100%; border-collapse:collapse; font-size:12.5px;}
+  th{
+    text-align:left; color:var(--muted); font-weight:500; font-size:11px;
+    padding:4px 8px; border-bottom:1px solid var(--border);
+    text-transform:uppercase; letter-spacing:.03em;
+  }
+  td{padding:5px 8px; border-bottom:1px solid rgba(255,255,255,0.04);}
+  td.num{text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums;}
+  .codigo{color:var(--muted); font-size:11px;}
+  .footer-note{
+    margin-top:26px; font-size:11.5px; color:var(--muted); line-height:1.6;
+    border-top:1px solid var(--border); padding-top:14px;
+  }
+  .badge{
+    font-size:10px; padding:2px 7px; border-radius:20px; border:1px solid var(--border);
+    color:var(--muted);
+  }
+  .brand-bar{display:flex; align-items:center; gap:14px; margin-bottom:18px;}
+  .brand-bar img{height:44px; width:auto; display:block;}
+  .brand-bar .logo-box{
+    background:#fff; padding:8px 14px; border-radius:8px; display:flex; align-items:center;
+  }
+  .brand-bar .titles h1{margin:0;}
+  .brand-bar .titles .sub{margin-bottom:0;}
+  .empty{padding:30px; text-align:center; color:var(--muted);}
+
+  @media (max-width: 640px){
+    body{padding:14px;}
+    .brand-bar{margin-bottom:14px;}
+    .brand-bar img{height:34px;}
+    h1{font-size:18px;}
+    .sub{font-size:12px;}
+    .toolbar{gap:8px;}
+    .toolbar input[type=text]{min-width:0; width:100%;}
+    .toolbar select{width:100%;}
+    .stats{width:100%; margin-left:0; justify-content:space-between;}
+    .stat{flex:1 1 auto; padding:6px 8px;}
+    .card-head{flex-direction:column; align-items:stretch; padding:12px;}
+    .head-right{width:100%; align-items:stretch;}
+    .totals{text-align:left; margin-bottom:6px;}
+    .status-label{text-align:left;}
+    .status-track{flex-wrap:wrap; width:100%; gap:6px;}
+    .status-btn{flex:1 1 calc(50% - 6px); justify-content:center; padding:8px 6px; font-size:11px;}
+    .pedido{padding:10px 12px;}
+    table{font-size:11.5px;}
+    th, td{padding:4px 5px;}
+  }
+
+  /* ---------- ajustes de aplicativo (celular e modo instalado) ---------- */
+
+  /* respeita o entalhe/barra de gestos do iPhone quando aberto como app */
+  body{
+    padding-left:max(24px, env(safe-area-inset-left));
+    padding-right:max(24px, env(safe-area-inset-right));
+    padding-bottom:max(24px, env(safe-area-inset-bottom));
+    padding-top:max(24px, env(safe-area-inset-top));
+    -webkit-text-size-adjust:100%;
+  }
+  /* sem "flash" cinza ao tocar nos botões no celular */
+  button, .status-btn, .head-left, .pedido-head{
+    -webkit-tap-highlight-color:transparent;
+  }
+  /* o iOS dá zoom no campo se a fonte for menor que 16px */
+  .toolbar input[type=text], .toolbar select{font-size:16px;}
+
+  .install-btn{
+    display:none; align-items:center; gap:6px;
+    background:var(--accent); border:none; color:#fff; font-size:13px; font-weight:600;
+    padding:8px 14px; border-radius:8px; cursor:pointer;
+  }
+  .install-btn.show{display:inline-flex;}
+  .ios-hint{
+    display:none; font-size:12px; color:var(--muted); background:var(--panel2);
+    border:1px solid var(--border); border-radius:8px; padding:10px 12px; margin-bottom:12px;
+  }
+  .ios-hint.show{display:block;}
+  .ios-hint b{color:var(--text);}
+  .ios-hint button{
+    background:none; border:none; color:var(--accent); cursor:pointer;
+    font-size:12px; padding:0; margin-left:6px; text-decoration:underline;
+  }
+
+  @media (max-width: 640px){
+    body{
+      padding-left:max(14px, env(safe-area-inset-left));
+      padding-right:max(14px, env(safe-area-inset-right));
+      padding-bottom:max(14px, env(safe-area-inset-bottom));
+      padding-top:max(14px, env(safe-area-inset-top));
+    }
+    /* busca e filtro sempre à mão ao rolar a lista no celular */
+    .toolbar{
+      position:sticky; top:0; z-index:20; background:var(--bg);
+      padding:8px 0; margin-bottom:12px;
+    }
+    /* contadores: "Total de cargas" em cima, as 4 etapas em linha embaixo */
+    .stats{display:grid; grid-template-columns:repeat(4,1fr); gap:6px;}
+    .stat{padding:6px 4px; font-size:10.5px; line-height:1.25;}
+    .stat:first-child{grid-column:1 / -1;}
+    .stat b{font-size:15px;}
+
+    /* botões de status em 2 colunas certinhas, sem linha solta */
+    .status-track{display:grid; grid-template-columns:1fr 1fr; gap:6px;}
+    .status-btn{width:100%;}
+
+    /* alvos de toque maiores */
+    .status-btn{min-height:42px;}
+    .pedido-head{min-height:38px;}
+    .admin-bar button{min-height:38px; padding:8px 12px;}
+  }
+
+  /* quando aberto pelo ícone na tela inicial, o botão de instalar some */
+  @media (display-mode: standalone){
+    .install-btn, .ios-hint{display:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="brand-bar">
+  <div class="logo-box"><img src="data:image/png;base64,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" alt="GTF"></div>
+  <div class="titles">
+    <h1>Painel de Cargas — GTFOODS Terra Boa Abatedouro</h1>
+    <div class="sub">Romaneios de carregamento &middot; clique no status para atualizar &middot; clique na carga/pedido para ver os itens</div>
+  </div>
+</div>
+
+<div class="toolbar">
+  <input type="text" id="busca" placeholder="Buscar viagem, transportadora, motorista ou cliente...">
+  <select id="filtroStatus">
+    <option value="">Todos os status</option>
+    <option value="1">Veículo chegou na planta</option>
+    <option value="2">Separado</option>
+    <option value="3">Carregado</option>
+    <option value="4">Faturado</option>
+  </select>
+  <div class="stats" id="stats"></div>
+</div>
+
+<div class="ios-hint" id="iosHint">
+  Para usar como aplicativo no iPhone: toque em <b>Compartilhar</b> e depois em
+  <b>Adicionar à Tela de Início</b>.
+  <button id="iosHintClose">ok, entendi</button>
+</div>
+
+<div class="admin-bar" style="margin-bottom:10px;">
+  <span id="adminState">Modo consulta (somente leitura)</span>
+  <button id="adminToggle">Entrar como admin</button>
+  <button class="install-btn" id="installBtn">Instalar aplicativo</button>
+</div>
+
+<div class="sync-bar sync-off" id="syncBar">
+  <span class="dot-status"></span>
+  <span id="syncText">Conectando à atualização em tempo real...</span>
+</div>
+
+<div class="peso-wrap">
+  <div class="peso-titulo">Resumo de peso</div>
+  <div class="peso-grid" id="resumoPeso"></div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<script>
+const STAGES = ["Veículo chegou na planta","Separado","Carregado","Faturado"];
+
+const viagens = [
+{numero:"5002380",transportadora:"GONCALVES & TORTOLA S/A",motorista:"SERGIO ANDRE CAMPOS SANTANA",data:"21/09/2026",hora:"18:12",placa:"RUY7D65",ordem:1,chegada:"00:00",regiao:"ARAPONGAS",entregas:18,totalCx:385.0,totalKg:4732.7,pedidos:[
+  {codigo:"005292",cliente:"FAGOTTE E SANCHES LTDA",cidade:"ARAPONGAS/PR",itens:[
+    ["FRINCANMI000002","FRANGO RESFRIADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",2.0,40.0]]},
+  {codigo:"005292",cliente:"FAGOTTE E SANCHES LTDA",cidade:"ARAPONGAS/PR",itens:[
+    ["FRINCANMI000002","FRANGO RESFRIADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",5.0,100.0],
+    ["FRPTCANMI000004","CARNE CONGELADA DE FRANGO PEITO C/ OSSO PV CX 18 KG",2.0,36.0]]},
+  {codigo:"013811",cliente:"SUPERALVO SUPERMERCADO LTDA",cidade:"APUCARANA/PR",itens:[
+    ["COMPRO000064","FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",1.0,7.0],
+    ["COMPRO000066","EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",1.0,7.0],
+    ["COMPRO000067","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 2 KG CAIXA PP 10 KG (CANCAO ALIMENTOS)",2.0,20.0],
+    ["COMPRO000068","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",1.0,10.0],
+    ["COMPRO000069","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",2.0,19.8],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0],
+    ["FRINCANMI000002","FRANGO RESFRIADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",5.0,100.0],
+    ["FRINCANMI000003","FRANGO CONGELADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",10.0,200.0],
+    ["FRMDCANMI000015","MIUDOS CONGELADOS DE FRANGO (CORACAO) PCT 20 X 1 KG CX 20 KG",1.0,20.0],
+    ["FRMDCANMI000022","MIUDOS CONGELADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",1.0,20.0],
+    ["FRPECANME000003","CARNE CONGELADA DE FRANGO C/ OSSO PES GRADE A PCT 2 X 7,5 KG CX 15 KG G2",5.0,75.0],
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0],
+    ["FRPTCANMI000021","CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0]]},
+  {codigo:"013811",cliente:"SUPERALVO SUPERMERCADO LTDA",cidade:"APUCARANA/PR",itens:[
+    ["COMPRO000064","FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",1.0,7.0],
+    ["COMPRO000066","EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",1.0,7.0],
+    ["COMPRO000068","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",1.0,10.0],
+    ["COMPRO000081","PAO DE QUEIJO TRADICIONAL CONGELADO PACOTE 300 G CX PP 9,6 KG (CANCAO)",1.0,9.6],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0],
+    ["FRASCANMI000011","CARNE CONGELADA DE FRANGO (MEIO DA ASA PACOTE IQF) CX PP 10 KG",1.0,10.0],
+    ["FRASCANMI000043","CARNE CONGELADA DE FRANGO (MEIO DA ASA C/ OSSO) PCT 10 KG CX PP 20 KG (CANCAO)",10.0,200.0],
+    ["FRCSCANMI000011","CARNE CONGELADA DE FRANGO SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRINCANMI000003","FRANGO CONGELADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",3.0,60.0],
+    ["FRMDCANMI000015","MIUDOS CONGELADOS DE FRANGO (CORACAO) PCT 20 X 1 KG CX 20 KG",1.0,20.0],
+    ["FRMDCANMI000022","MIUDOS CONGELADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",1.0,20.0],
+    ["FRPECANME000003","CARNE CONGELADA DE FRANGO C/ OSSO PES GRADE A PCT 2 X 7,5 KG CX 15 KG G2",4.0,60.0],
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0],
+    ["FRPTCANMI000021","CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0]]},
+  {codigo:"013811",cliente:"SUPERALVO SUPERMERCADO LTDA",cidade:"APUCARANA/PR",itens:[
+    ["COMPRO000064","FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",1.0,7.0],
+    ["COMPRO000068","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",1.0,10.0],
+    ["COMPRO000069","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",2.0,19.8],
+    ["COMPRO000081","PAO DE QUEIJO TRADICIONAL CONGELADO PACOTE 300 G CX PP 9,6 KG (CANCAO)",1.0,9.6],
+    ["COMPRO000094","LASANHA A BOLONHESA CONG BDJ 600 G CX 7,2 KG",1.0,7.2],
+    ["COMPRO000095","LASANHA QUATRO QUEIJOS CONG BDJ 600 G CX 7,2 KG",1.0,7.2],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0],
+    ["FRASCANMI000011","CARNE CONGELADA DE FRANGO (MEIO DA ASA PACOTE IQF) CX PP 10 KG",2.0,20.0],
+    ["FRCSCANMI000003","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",13.0,234.0],
+    ["FRCSCANMI000009","CARNE CONGELADA DE FRANGO (COXA PACOTE IQF) CX PP 10 KG",1.0,10.0],
+    ["FRCSCANMI000011","CARNE CONGELADA DE FRANGO SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRINCANMI000002","FRANGO RESFRIADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",1.0,20.0],
+    ["FRMDCANMI000016","MIUDOS CONGELADOS DE FRANGO FIGADO PCT 20 X 1 KG CX 20 KG",2.0,40.0],
+    ["FRMDCANMI000022","MIUDOS CONGELADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",1.0,20.0],
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0],
+    ["FRPTCANMI000021","CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0]]},
+  {codigo:"013811",cliente:"SUPERALVO SUPERMERCADO LTDA",cidade:"APUCARANA/PR",itens:[
+    ["COMPRO000064","FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",1.0,7.0],
+    ["COMPRO000067","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 2 KG CAIXA PP 10 KG (CANCAO ALIMENTOS)",2.0,20.0],
+    ["COMPRO000068","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",1.0,10.0],
+    ["COMPRO000069","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",2.0,19.8],
+    ["COMPRO000081","PAO DE QUEIJO TRADICIONAL CONGELADO PACOTE 300 G CX PP 9,6 KG (CANCAO)",1.0,9.6],
+    ["COMPRO000094","LASANHA A BOLONHESA CONG BDJ 600 G CX 7,2 KG",1.0,7.2],
+    ["COMPRO000095","LASANHA QUATRO QUEIJOS CONG BDJ 600 G CX 7,2 KG",1.0,7.2],
+    ["FRASCANMI000043","CARNE CONGELADA DE FRANGO (MEIO DA ASA C/ OSSO) PCT 10 KG CX PP 20 KG (CANCAO)",6.0,120.0],
+    ["FRCSCANMI000009","CARNE CONGELADA DE FRANGO (COXA PACOTE IQF) CX PP 10 KG",1.0,10.0],
+    ["FRCSCANMI000011","CARNE CONGELADA DE FRANGO SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRINCANMI000003","FRANGO CONGELADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",3.0,60.0],
+    ["FRMDCANMI000016","MIUDOS CONGELADOS DE FRANGO FIGADO PCT 20 X 1 KG CX 20 KG",1.0,20.0],
+    ["FRPECANME000003","CARNE CONGELADA DE FRANGO C/ OSSO PES GRADE A PCT 2 X 7,5 KG CX 15 KG G2",5.0,75.0],
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRPTCANMI000021","CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0],
+    ["FRPTCANMI000033","CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",7.0,140.0]]},
+  {codigo:"013816",cliente:"SUPERCENTER COMERCIO ATACADISTA LTDA",cidade:"ARAPONGAS/PR",obs:"DESCARGA AGENDADA AS14 HRS DIA 18 09",itens:[
+    ["COMPRO000069","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",192.0,1900.8]]},
+  {codigo:"061790",cliente:"MORIAH MINIMERCADO LTDA",cidade:"APUCARANA/PR",itens:[
+    ["FRPTCANMI000033","CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",5.0,100.0]]},
+  {codigo:"064711",cliente:"A.T. DE SOUZA SANTOS MERCEARIA LTDA",cidade:"APUCARANA/PR",itens:[
+    ["COMPRO000069","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",2.0,19.8],
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0]]},
+  {codigo:"064731",cliente:"R H DA SILVA MERCEARIA E QUITANDA",cidade:"APUCARANA/PR",itens:[
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRPTCANMI000069","CARNE CONGELADA DE FRANGO S/ OSSO S/ PELE FILE DE PEITO EM BIFES IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0]]},
+  {codigo:"064874",cliente:"ANDRADE E NASCIMENTO LTDA",cidade:"APUCARANA/PR",itens:[
+    ["COMPRO000065","EMPANADO DE FRANGO CONG (CHICKEN) PCT 300G CAIXA PP 3 KG",1.0,3.0]]},
+  {codigo:"065286",cliente:"SERGIUS PASTEIS LTDA",cidade:"APUCARANA/PR",itens:[
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",20.0,200.0]]},
+  {codigo:"066402",cliente:"E.SILVA ALIMENTOS LTDA",cidade:"ARAPONGAS/PR",itens:[
+    ["FRMDCANMI000020","MIUDOS RESFRIADOS DE FRANGO CORACAO PCT 20 X 1 KG CX 20 KG",1.0,20.0]]},
+  {codigo:"068703",cliente:"GS COMERCIO DE CARNES LTDA",cidade:"APUCARANA/PR",itens:[
+    ["FRPTCANMI000033","CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",3.0,60.0]]},
+  {codigo:"069683",cliente:"SATELIS E MATEUS LTDA",cidade:"APUCARANA/PR",itens:[
+    ["FRPTCANMI000004","CARNE CONGELADA DE FRANGO PEITO C/ OSSO PV CX 18 KG",2.0,36.0]]},
+  {codigo:"071115",cliente:"MARCIO ROBERTO TOSATTO 02342969929",cidade:"APUCARANA/PR",itens:[
+    ["COMPRO000068","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",1.0,10.0]]},
+  {codigo:"072033",cliente:"MERCADO SANTIAGO LTDA",cidade:"ARAPONGAS/PR",itens:[
+    ["COMPRO000101","EMPANADO DE TILAPIA (SMALL FISH) CONG PCT 400 G CX 3,2 KG",1.0,3.2],
+    ["FRCSCANMI000003","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",3.0,54.0],
+    ["FRPTCANMI000033","CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",3.0,60.0]]},
+  {codigo:"076898",cliente:"DOUGLAS GODAS DO NASCIMENTO",cidade:"APUCARANA/PR",itens:[
+    ["COMPRO000066","EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",1.0,7.0],
+    ["COMPRO000069","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",1.0,9.9]]}
+]},
+{numero:"5002384",transportadora:"GONCALVES & TORTOLA S/A",motorista:"JULIO FELIX DA SILVA",data:"21/09/2026",hora:"18:15",placa:"RVE0H48",ordem:2,chegada:"00:10",regiao:"MARINGA",entregas:26,totalCx:111.0,totalKg:1356.8,pedidos:[
+  {codigo:"003774",cliente:"COMPANHIA SULAMERICANA DE DISTRIBUICAO",cidade:"MARINGA/PR",itens:[
+    ["FRASCANMI000047","CARNE RESFRIADA DE FRANGO C/ OSSO COXINHA DA ASA BDJ PV CX 10,5 KG",2.0,21.0],
+    ["FRASCANMI000048","CARNE RESFRIADA DE FRANGO C/ OSSO MEIO DAS ASAS BDJ PV CX 10,2 KG",1.0,10.2],
+    ["FRCSCANMI000051","CARNE RESFRIADA DE FRANGO C/ OSSO SOBRECOXA BDJ PV CX 13 KG",1.0,13.0],
+    ["FRPTCANMI000061","CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",2.0,22.8],
+    ["FRPTCANMI000062","CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",5.0,56.0]]},
+  {codigo:"004559",cliente:"ACOUGUE REI DA CARNE LTDA",cidade:"SARANDI/PR",itens:[
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",10.0,180.0],
+    ["FRMDCANMI000020","MIUDOS RESFRIADOS DE FRANGO CORACAO PCT 20 X 1 KG CX 20 KG",7.0,140.0]]},
+  {codigo:"006769",cliente:"J C BRAGANTINE MINIMERCADO",cidade:"SARANDI/PR",itens:[
+    ["COMPRO000099","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",1.0,3.0],
+    ["FRPTCANMI000021","CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0]]},
+  {codigo:"006868",cliente:"J MARTUCCI MINIMERCADO LTDA",cidade:"MARINGA/PR",itens:[
+    ["COMPRO000094","LASANHA A BOLONHESA CONG BDJ 600 G CX 7,2 KG",1.0,7.2],
+    ["COMPRO000099","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",1.0,3.0],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRCSCANMI000059","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA A PASSARINHO IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0]]},
+  {codigo:"007710",cliente:"L J LOPES PIRES",cidade:"SARANDI/PR",itens:[
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",2.0,36.0]]},
+  {codigo:"007721",cliente:"L M DO CARMO SCACCHETI - ME",cidade:"SARANDI/PR",itens:[
+    ["COMPRO000064","FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",1.0,7.0],
+    ["COMPRO000069","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",1.0,9.9],
+    ["FRCSCANMI000003","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",1.0,18.0],
+    ["FRPECANME000003","CARNE CONGELADA DE FRANGO C/ OSSO PES GRADE A PCT 2 X 7,5 KG CX 15 KG G2",1.0,15.0]]},
+  {codigo:"007828",cliente:"RESTAURANTE SHIRMAR LTDA",cidade:"MARINGA/PR",itens:[
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",3.0,54.0]]},
+  {codigo:"008383",cliente:"M. J. CORREIA DA SILVA & SILVA LTDA",cidade:"MARINGA/PR",itens:[
+    ["FRASCANMI000027","CARNE RESFRIADA DE FRANGO COXINHA DA ASA PV CX 20 KG",2.0,40.0],
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",4.0,40.0]]},
+  {codigo:"009630",cliente:"MERCADO KATAYAMA LTDA",cidade:"MARINGA/PR",itens:[
+    ["COMPRO000069","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",1.0,9.9],
+    ["COMPRO000081","PAO DE QUEIJO TRADICIONAL CONGELADO PACOTE 300 G CX PP 9,6 KG (CANCAO)",1.0,9.6]]},
+  {codigo:"011551",cliente:"PEREIRA FARIAS ACOUGUE LTDA",cidade:"MARINGA/PR",itens:[
+    ["FRCSCANMI000003","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",6.0,108.0]]},
+  {codigo:"013507",cliente:"SIRLEI GOMES DE AQUINO",cidade:"SARANDI/PR",itens:[
+    ["COMPRO000068","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",1.0,10.0],
+    ["COMPRO000099","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",1.0,3.0],
+    ["FRCSCANMI000021","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA C/ PORCAO DORSAL PV CX 18 KG",3.0,54.0]]},
+  {codigo:"027038",cliente:"G L BERNARDINI RESTAURANTE EIRELI",cidade:"SARANDI/PR",obs:"RECEBIMENTO ATE 15HSSS",itens:[
+    ["FRCSCANMI000053","CARNE CONGELADA DE FRANGO S/ OSSO C/ PELE FILE DE COXA E SOBRECOXA PCT 20 X 1 KG CX 20 KG",2.0,40.0]]},
+  {codigo:"035084",cliente:"MNC MARTINS LTDA",cidade:"MARINGA/PR",itens:[
+    ["FRMDCANMI000008","MIUDOS RESFRIADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",2.0,40.0]]},
+  {codigo:"037803",cliente:"MERCADO PAULISTANO LTDA",cidade:"SARANDI/PR",itens:[
+    ["COMPRO000094","LASANHA A BOLONHESA CONG BDJ 600 G CX 7,2 KG",1.0,7.2],
+    ["COMPRO000118","SANDUICHE FUT BURGUER MAIONESE GRILL CONG PCT 18 X 150 G CX 2,7 KG",1.0,2.7],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRMDCANMI000022","MIUDOS CONGELADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",1.0,20.0],
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRPTCANMI000059","CARNE CONGELADA DE FRANGO S/ OSSO S/ PELE FILE DE PEITO BDJ 12 X 1 KG CX 12 KG",1.0,12.0]]},
+  {codigo:"039124",cliente:"ADEMIR COLA MINIMERCADO",cidade:"SARANDI/PR",itens:[
+    ["COMPRO000118","SANDUICHE FUT BURGUER MAIONESE GRILL CONG PCT 18 X 150 G CX 2,7 KG",1.0,2.7],
+    ["FRPTCANMI000021","CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0]]},
+  {codigo:"056478",cliente:"I B SIQUEIRA PANIFICADORA",cidade:"MARINGA/PR",itens:[
+    ["FRPTCANMI000045","CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",1.0,20.0]]},
+  {codigo:"059909",cliente:"MARIA JOSE DOS SANTOS LTDA",cidade:"SARANDI/PR",itens:[
+    ["COMPRO000099","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",1.0,3.0]]},
+  {codigo:"060264",cliente:"MERCADINHO BOM PRECO LTDA",cidade:"SARANDI/PR",itens:[
+    ["COMPRO000067","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 2 KG CAIXA PP 10 KG (CANCAO ALIMENTOS)",1.0,10.0],
+    ["COMPRO000099","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",1.0,3.0],
+    ["FRCSCANMI000011","CARNE CONGELADA DE FRANGO SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0]]},
+  {codigo:"060508",cliente:"MERCADO KUSUMOTO WELLINGTON XAVIER LTDA",cidade:"SARANDI/PR",itens:[
+    ["COMPRO000069","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",1.0,9.9],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0]]},
+  {codigo:"064003",cliente:"MERCADO SERV+ 2 LTDA",cidade:"SARANDI/PR",itens:[
+    ["COMPRO000069","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",1.0,9.9],
+    ["COMPRO000094","LASANHA A BOLONHESA CONG BDJ 600 G CX 7,2 KG",1.0,7.2],
+    ["COMPRO000117","SANDUICHE FUT BURGUER BACON C/ REQUEIJAO CONG PCT 18 X 150 G CX 2,7 KG",1.0,2.7]]},
+  {codigo:"067749",cliente:"BRITO E LINO LTDA",cidade:"SARANDI/PR",itens:[
+    ["COMPRO000059","POLENTA PALITO TRADICIONAL CONGELADA PACOTE 1 KG CX PP 10 KG PROD CANCAO",1.0,10.0],
+    ["COMPRO000099","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",1.0,3.0],
+    ["COMPRO000116","SANDUICHE FUT BURGUER C/ MOLHO DE PICLES CONG PCT 18 X 150 G CX 2,7 KG",1.0,2.7],
+    ["COMPRO000117","SANDUICHE FUT BURGUER BACON C/ REQUEIJAO CONG PCT 18 X 150 G CX 2,7 KG",1.0,2.7],
+    ["COMPRO000118","SANDUICHE FUT BURGUER MAIONESE GRILL CONG PCT 18 X 150 G CX 2,7 KG",1.0,2.7]]},
+  {codigo:"071702",cliente:"TRAJANO COMERCIO LTDA",cidade:"SARANDI/PR",itens:[
+    ["COMPRO000064","FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",1.0,7.0],
+    ["COMPRO000069","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",1.0,9.9],
+    ["FRASCANMI000011","CARNE CONGELADA DE FRANGO (MEIO DA ASA PACOTE IQF) CX PP 10 KG",1.0,10.0],
+    ["FRPTCANMI000021","CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0]]},
+  {codigo:"073117",cliente:"REAL LIMA SARANDI LTDA",cidade:"SARANDI/PR",itens:[
+    ["COMPRO000116","SANDUICHE FUT BURGUER C/ MOLHO DE PICLES CONG PCT 18 X 150 G CX 2,7 KG",1.0,2.7],
+    ["COMPRO000117","SANDUICHE FUT BURGUER BACON C/ REQUEIJAO CONG PCT 18 X 150 G CX 2,7 KG",1.0,2.7],
+    ["COMPRO000118","SANDUICHE FUT BURGUER MAIONESE GRILL CONG PCT 18 X 150 G CX 2,7 KG",1.0,2.7]]},
+  {codigo:"073271",cliente:"GNOATTO & GNOATTO LTDA",cidade:"SARANDI/PR",itens:[
+    ["COMPRO000068","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",1.0,10.0]]},
+  {codigo:"073508",cliente:"MERCEARIA BOM PASTOR LTDA",cidade:"SARANDI/PR",itens:[
+    ["FRCSCANMI000059","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA A PASSARINHO IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0]]},
+  {codigo:"074287",cliente:"TALES MERCADO LTDA",cidade:"SARANDI/PR",itens:[
+    ["COMPRO000069","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",2.0,19.8],
+    ["FRCSCANMI000059","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA A PASSARINHO IQF PCT 10 X 1 KG CX 10 KG",10.0,100.0]]}
+]},
+{numero:"5002381",transportadora:"GONCALVES & TORTOLA S/A",motorista:"DIEGO OLIVEIRA DE MORAES",data:"21/09/2026",hora:"18:12",placa:"RVC1F26",ordem:3,chegada:"02:00",regiao:"CAMPO MOURAO",entregas:10,totalCx:444.0,totalKg:6393.5,pedidos:[
+  {codigo:"001904",cliente:"VENDRAMINI FILHOS LTDA",cidade:"CAMPO MOURAO/PR",itens:[
+    ["COMPRO000121","COXINHA DA ASA EMPANADA TRADICIONAL PCT 10 X 700 G CX 7 KG",1.0,7.0],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",6.0,60.0],
+    ["FRASCANMI000011","CARNE CONGELADA DE FRANGO (MEIO DA ASA PACOTE IQF) CX PP 10 KG",5.0,50.0],
+    ["FRASCANMI000027","CARNE RESFRIADA DE FRANGO COXINHA DA ASA PV CX 20 KG",3.0,60.0],
+    ["FRASCANMI000037","CARNE RESFRIADA DE FRANGO ASA PV CX 20 KG",3.0,60.0],
+    ["FRCSCANMI000009","CARNE CONGELADA DE FRANGO (COXA PACOTE IQF) CX PP 10 KG",2.0,20.0],
+    ["FRCSCANMI000055","CARNE CONGELADA DE FRANGO FILE DE SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",3.0,30.0],
+    ["FRMDCANMI000020","MIUDOS RESFRIADOS DE FRANGO CORACAO PCT 20 X 1 KG CX 20 KG",3.0,60.0],
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",5.0,50.0],
+    ["FRPTCANMI000021","CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",4.0,40.0]]},
+  {codigo:"001904",cliente:"VENDRAMINI FILHOS LTDA",cidade:"ARARUNA/PR",itens:[
+    ["COMPRO000008","FILEZINHO DE FRANGO EMPANADO CONG PCT 700 G CX PP 7 KG",1.0,7.0],
+    ["COMPRO000066","EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",2.0,14.0],
+    ["COMPRO000100","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 1 KG CX 7 KG",2.0,14.0],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",6.0,60.0],
+    ["FRCSCANMI000055","CARNE CONGELADA DE FRANGO FILE DE SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0]]},
+  {codigo:"002380",cliente:"CARREIRA & IRMAOS LTDA",cidade:"CAMPO MOURAO/PR",obs:"AGENDAMENTO 9 00",itens:[
+    ["COMPRO000059","POLENTA PALITO TRADICIONAL CONGELADA PACOTE 1 KG CX PP 10 KG PROD CANCAO",4.0,40.0],
+    ["COMPRO000067","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 2 KG CAIXA PP 10 KG (CANCAO ALIMENTOS)",25.0,250.0],
+    ["COMPRO000083","GALINHA INTEIRA CONGELADA (CABECA PESCOCO MOELA E PES) CX PP 20 KG (MISTER FRANGO)",10.0,200.0],
+    ["COMPRO000094","LASANHA A BOLONHESA CONG BDJ 600 G CX 7,2 KG",2.0,14.4],
+    ["COMPRO000099","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",1.0,3.0],
+    ["COMPRO000117","SANDUICHE FUT BURGUER BACON C/ REQUEIJAO CONG PCT 18 X 150 G CX 2,7 KG",1.0,2.7],
+    ["FRASCANMI000048","CARNE RESFRIADA DE FRANGO C/ OSSO MEIO DAS ASAS BDJ PV CX 10,2 KG",2.0,20.4],
+    ["FRCSCANMI000011","CARNE CONGELADA DE FRANGO SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",30.0,300.0],
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",11.0,198.0],
+    ["FRINCANMI000005","FRANGO TEMPERADO CONGELADO C/ MIUDOS (PESCOCO MOELA E FIGADO) CX PP 20 KG (CANCAO)",10.0,200.0],
+    ["FRMDCANMI000016","MIUDOS CONGELADOS DE FRANGO FIGADO PCT 20 X 1 KG CX 20 KG",10.0,200.0],
+    ["FRPTCANMI000061","CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",18.0,205.2],
+    ["FRPTCANMI000062","CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",27.0,302.4]]},
+  {codigo:"014998",cliente:"CIA PARANA DE ALIMENTOS S/A",cidade:"CAMPO MOURAO/PR",itens:[
+    ["FRCSCANMI000003","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",83.0,1494.0]]},
+  {codigo:"014998",cliente:"CIA PARANA DE ALIMENTOS S/A",cidade:"CAMPO MOURAO/PR",itens:[
+    ["FRCSCANMI000003","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",83.0,1494.0]]},
+  {codigo:"029986",cliente:"KAIROS COMERCIO DE ALIMENTOS LTDA",cidade:"UBIRATA/PR",itens:[
+    ["COMPRO000066","EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",2.0,14.0],
+    ["COMPRO000067","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 2 KG CAIXA PP 10 KG (CANCAO ALIMENTOS)",3.0,30.0],
+    ["COMPRO000068","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",3.0,30.0],
+    ["COMPRO000082","PAO DE QUEIJO TRADICIONAL CONGELADO PCT 800 G CX PP 9,6 KG (CANCAO)",2.0,19.2],
+    ["COMPRO000094","LASANHA A BOLONHESA CONG BDJ 600 G CX 7,2 KG",1.0,7.2],
+    ["COMPRO000099","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",1.0,3.0],
+    ["COMPRO000100","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 1 KG CX 7 KG",1.0,7.0],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",15.0,150.0],
+    ["FRASCANMI000011","CARNE CONGELADA DE FRANGO (MEIO DA ASA PACOTE IQF) CX PP 10 KG",3.0,30.0],
+    ["FRCSCANMI000009","CARNE CONGELADA DE FRANGO (COXA PACOTE IQF) CX PP 10 KG",3.0,30.0],
+    ["FRCSCANMI000011","CARNE CONGELADA DE FRANGO SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",3.0,30.0],
+    ["FRCSCANMI000059","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA A PASSARINHO IQF PCT 10 X 1 KG CX 10 KG",4.0,40.0],
+    ["FRMDCANMI000016","MIUDOS CONGELADOS DE FRANGO FIGADO PCT 20 X 1 KG CX 20 KG",1.0,20.0],
+    ["FRMDCANMI000034","MIUDOS CONGELADOS DE FRANGO (CORACAO) BDJ 20 X 600 G CX 12 KG",1.0,12.0],
+    ["FRPTCANMI000004","CARNE CONGELADA DE FRANGO PEITO C/ OSSO PV CX 18 KG",3.0,54.0],
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",4.0,40.0],
+    ["FRPTCANMI000021","CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",5.0,50.0],
+    ["FRPTCANMI000033","CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",3.0,60.0]]},
+  {codigo:"062082",cliente:"ROSE A. SOARES PANIFICADORA LTDA.",cidade:"MAMBORE/PR",itens:[
+    ["FRPTCANMI000033","CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",3.0,60.0]]},
+  {codigo:"062084",cliente:"J. SACHUK & CIA. LTDA",cidade:"MAMBORE/PR",itens:[
+    ["COMPRO000069","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",1.0,9.9],
+    ["COMPRO000095","LASANHA QUATRO QUEIJOS CONG BDJ 600 G CX 7,2 KG",1.0,7.2],
+    ["FRINCANMI000002","FRANGO RESFRIADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",1.0,20.0]]},
+  {codigo:"069213",cliente:"EVERTON LUCASYNSKI CARLIM",cidade:"MAMBORE/PR",itens:[
+    ["COMPRO000009","ANEIS DE CEBOLA EMPANADAS CONGELADA PACOTE 1,1 KG CX PP 11 KG (CANCAO ALIMENTOS)",1.0,11.0],
+    ["COMPRO000066","EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",1.0,7.0],
+    ["COMPRO000069","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",1.0,9.9],
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0]]},
+  {codigo:"076133",cliente:"JOAO LEOPOLDO MOREIRA",cidade:"CAMPINA DA LAGOA/PR",itens:[
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0],
+    ["FRCSCANMI000003","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",2.0,36.0],
+    ["FRCSCANMI000055","CARNE CONGELADA DE FRANGO FILE DE SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRMDCANMI000015","MIUDOS CONGELADOS DE FRANGO (CORACAO) PCT 20 X 1 KG CX 20 KG",1.0,20.0],
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0],
+    ["FRPTCANMI000033","CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",2.0,40.0]]}
+]},
+{numero:"5002383",transportadora:"GONCALVES & TORTOLA S/A",motorista:"JOSE GERMANO SOARES",data:"21/09/2026",hora:"18:15",placa:"RVE0H44",ordem:4,chegada:"02:30",regiao:"MARINGA",entregas:27,totalCx:114.0,totalKg:1402.7,pedidos:[
+  {codigo:"001471",cliente:"B O ALVES BARBOSA LANCHONETE",cidade:"MARINGA/PR",itens:[
+    ["COMPRO000069","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",1.0,9.9]]},
+  {codigo:"001989",cliente:"BRASEIRO COMERCIO DE GENEROS ALIMENTICIOS LTDA",cidade:"MARINGA/PR",itens:[
+    ["COMPRO000059","POLENTA PALITO TRADICIONAL CONGELADA PACOTE 1 KG CX PP 10 KG PROD CANCAO",1.0,10.0],
+    ["COMPRO000068","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",1.0,10.0],
+    ["COMPRO000099","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",1.0,3.0],
+    ["FRMDCANMI000020","MIUDOS RESFRIADOS DE FRANGO CORACAO PCT 20 X 1 KG CX 20 KG",2.0,40.0]]},
+  {codigo:"003774",cliente:"COMPANHIA SULAMERICANA DE DISTRIBUICAO",cidade:"MARINGA/PR",itens:[
+    ["FRASCANMI000047","CARNE RESFRIADA DE FRANGO C/ OSSO COXINHA DA ASA BDJ PV CX 10,5 KG",1.0,10.5],
+    ["FRASCANMI000048","CARNE RESFRIADA DE FRANGO C/ OSSO MEIO DAS ASAS BDJ PV CX 10,2 KG",1.0,10.2],
+    ["FRCSCANMI000051","CARNE RESFRIADA DE FRANGO C/ OSSO SOBRECOXA BDJ PV CX 13 KG",1.0,13.0],
+    ["FRCSCANMI000052","CARNE RESFRIADA DE FRANGO C/ OSSO COXA BDJ PV CX 11,1 KG",1.0,11.1],
+    ["FRPTCANMI000061","CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",1.0,11.4],
+    ["FRPTCANMI000062","CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",1.0,11.2]]},
+  {codigo:"003774",cliente:"COMPANHIA SULAMERICANA DE DISTRIBUICAO",cidade:"MARINGA/PR",itens:[
+    ["FRASCANMI000047","CARNE RESFRIADA DE FRANGO C/ OSSO COXINHA DA ASA BDJ PV CX 10,5 KG",1.0,10.5],
+    ["FRPTCANMI000061","CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",1.0,11.4],
+    ["FRPTCANMI000062","CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",4.0,44.8]]},
+  {codigo:"006484",cliente:"INDUSTRIA E COMERCIO DE MASSAS HUMAITA LTDA",cidade:"MARINGA/PR",itens:[
+    ["FRPTCANMI000065","CARNE RESFRIADA DE FRANGO S/ OSSO S/ PELE PEITO S/ SASSAMI PCT PV CX 20 KG",1.0,20.0]]},
+  {codigo:"007563",cliente:"KENT FRIO ALIMENTOS LTDA",cidade:"MARINGA/PR",itens:[
+    ["COMPRO000009","ANEIS DE CEBOLA EMPANADAS CONGELADA PACOTE 1,1 KG CX PP 11 KG (CANCAO ALIMENTOS)",1.0,11.0],
+    ["FRPTCANMI000033","CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",1.0,20.0]]},
+  {codigo:"008020",cliente:"LEJON COMERCIO ATACADISTA DE PRODUTOS ALIMENTICIOS LTDA",cidade:"MARINGA/PR",itens:[
+    ["COMPRO000067","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 2 KG CAIXA PP 10 KG (CANCAO ALIMENTOS)",9.0,90.0],
+    ["COMPRO000082","PAO DE QUEIJO TRADICIONAL CONGELADO PCT 800 G CX PP 9,6 KG (CANCAO)",10.0,96.0]]},
+  {codigo:"008526",cliente:"M S TANABE & CIA LTDA",cidade:"MARINGA/PR",itens:[
+    ["FRCSCANMI000053","CARNE CONGELADA DE FRANGO S/ OSSO C/ PELE FILE DE COXA E SOBRECOXA PCT 20 X 1 KG CX 20 KG",1.0,20.0],
+    ["FRMDCANMI000015","MIUDOS CONGELADOS DE FRANGO (CORACAO) PCT 20 X 1 KG CX 20 KG",1.0,20.0],
+    ["FRPTCANMI000004","CARNE CONGELADA DE FRANGO PEITO C/ OSSO PV CX 18 KG",1.0,18.0]]},
+  {codigo:"011974",cliente:"R Y ONO DOCES",cidade:"MARINGA/PR",itens:[
+    ["FRPTCANMI000018","CARNE RESFRIADA DE FRANGO PEITO C/ OSSO PV CX 18 KG",3.0,54.0]]},
+  {codigo:"012248",cliente:"RESTAURANTE ALINANDA LTDA",cidade:"MARINGA/PR",itens:[
+    ["FRCSCANMI000003","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",1.0,18.0],
+    ["FRPTCANMI000033","CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",1.0,20.0]]},
+  {codigo:"014337",cliente:"SUPERMERCADO NOVA KIPAO LTDA",cidade:"MARINGA/PR",itens:[
+    ["COMPRO000065","EMPANADO DE FRANGO CONG (CHICKEN) PCT 300G CAIXA PP 3 KG",1.0,3.0]]},
+  {codigo:"016014",cliente:"CILIOMAR TORTOLA",cidade:"MARINGA/PR",obs:"ENTRGAR NA RECEPCAO DA GTF ATE 09H",itens:[
+    ["COMPRO000064","FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",1.0,7.0],
+    ["COMPRO000099","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",1.0,3.0],
+    ["PEFLCANMI000001","FILE DE TILAPIA CONGELADA IQF 800 G CX PP 10,4 (CANCAO ALIMENTOS)",1.0,10.4]]},
+  {codigo:"024494",cliente:"PG RESTAURANTE LTDA",cidade:"MARINGA/PR",itens:[
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0]]},
+  {codigo:"026205",cliente:"GFC FOODS LTDA",cidade:"MARINGA/PR",itens:[
+    ["COMPRO000003","MANDIOCA TOLETE CONGELADA PACOTE 1 KG CX PP 12 KG PROD CANCAO",1.0,12.0]]},
+  {codigo:"036021",cliente:"COMERCIO DE GENEROS ALIMENTICIOS SM LTDA",cidade:"MARINGA/PR",itens:[
+    ["COMPRO000064","FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",1.0,7.0],
+    ["COMPRO000096","LASANHA DE FRANGO CONG BDJ 600 G CX 7,2 KG",1.0,7.2],
+    ["COMPRO000099","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",1.0,3.0]]},
+  {codigo:"037596",cliente:"RESTAURANTE E LANCHONETE CAPRA LTDA",cidade:"MARINGA/PR",itens:[
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",3.0,54.0]]},
+  {codigo:"037694",cliente:"BRIOCHE CROCANTE PANIFICADORA E CONFEITARIA LTDA",cidade:"MARINGA/PR",itens:[
+    ["FRPTCANMI000045","CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",3.0,60.0]]},
+  {codigo:"038063",cliente:"ARMAZEM BAR E RESTAURANTE LTDA",cidade:"MARINGA/PR",itens:[
+    ["FRASCANMI000043","CARNE CONGELADA DE FRANGO (MEIO DA ASA C/ OSSO) PCT 10 KG CX PP 20 KG (CANCAO)",1.0,20.0],
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",1.0,18.0],
+    ["FRCSCANMI000053","CARNE CONGELADA DE FRANGO S/ OSSO C/ PELE FILE DE COXA E SOBRECOXA PCT 20 X 1 KG CX 20 KG",1.0,20.0]]},
+  {codigo:"046249",cliente:"RAFAEL ALVES DA SILVA 08549174971",cidade:"PAICANDU/PR",itens:[
+    ["COMPRO000116","SANDUICHE FUT BURGUER C/ MOLHO DE PICLES CONG PCT 18 X 150 G CX 2,7 KG",1.0,2.7],
+    ["COMPRO000117","SANDUICHE FUT BURGUER BACON C/ REQUEIJAO CONG PCT 18 X 150 G CX 2,7 KG",1.0,2.7],
+    ["COMPRO000118","SANDUICHE FUT BURGUER MAIONESE GRILL CONG PCT 18 X 150 G CX 2,7 KG",1.0,2.7],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRASCANMI000011","CARNE CONGELADA DE FRANGO (MEIO DA ASA PACOTE IQF) CX PP 10 KG",1.0,10.0],
+    ["FRPTCANMI000033","CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",1.0,20.0]]},
+  {codigo:"046414",cliente:"PANIFICADORA PAO QUENTE DE MARINGA LTDA",cidade:"MARINGA/PR",itens:[
+    ["FRPTCANMI000033","CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",4.0,80.0]]},
+  {codigo:"069323",cliente:"PEGASUS RESTAURANTE E CAFETERIA LTDA",cidade:"MARINGA/PR",itens:[
+    ["FRCSCANMI000053","CARNE CONGELADA DE FRANGO S/ OSSO C/ PELE FILE DE COXA E SOBRECOXA PCT 20 X 1 KG CX 20 KG",1.0,20.0],
+    ["FRPTCANMI000045","CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",1.0,20.0]]},
+  {codigo:"070647",cliente:"20.283.103 EDERSON HILDEBRANDI",cidade:"MARINGA/PR",itens:[
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",17.0,170.0]]},
+  {codigo:"071314",cliente:"A M SETANI LANCHES",cidade:"MARINGA/PR",itens:[
+    ["FRPTCANMI000045","CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",1.0,20.0]]},
+  {codigo:"073351",cliente:"K2 RESTAURANTE LTDA",cidade:"MARINGA/PR",itens:[
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",1.0,18.0],
+    ["FRPTCANMI000045","CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",2.0,40.0]]},
+  {codigo:"074471",cliente:"DIOFAINES KER NETO RESTAURANTE",cidade:"MARINGA/PR",itens:[
+    ["COMPRO000099","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",2.0,6.0],
+    ["PEFLCANMI000013","PEIXE TEMPERADO EMPANADO CONGELADO (ISCAS DE TILAPIA) PCT 400 G CX PP 3,2 KG",5.0,16.0]]},
+  {codigo:"075003",cliente:"V. C. RESTAURANTE LTDA",cidade:"MARINGA/PR",itens:[
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",5.0,90.0]]},
+  {codigo:"076517",cliente:"62.594.861 FRANCISCA MARIA DE JESUS",cidade:"MARINGA/PR",itens:[
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",2.0,36.0]]}
+]},
+{numero:"5002377",transportadora:"GO LOG TRANSPORTES RAPIDOS LTDA",motorista:"JOSEILTON RODRIGUES CARDOSO",data:"21/09/2026",hora:"18:10",placa:"AXU5151",ordem:5,chegada:"03:00",regiao:"MANDAGUACU",entregas:10,totalCx:186.0,totalKg:2145.2,pedidos:[
+  {codigo:"003666",cliente:"COMERCIO DE CARNES PEPELIO LTDA.",cidade:"MARINGA/PR",itens:[
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",40.0,720.0]]},
+  {codigo:"005865",cliente:"GCA - DISTRIBUIDORA COMERCIAL DE ALIMENTOS LTDA",cidade:"MANDAGUACU/PR",obs:"ATENCAO ENTREGAR DO ENDERECO AV MARINGA 1043 SARANDI PR",itens:[
+    ["FRASCANMI000047","CARNE RESFRIADA DE FRANGO C/ OSSO COXINHA DA ASA BDJ PV CX 10,5 KG",4.0,42.0],
+    ["FRASCANMI000047","CARNE RESFRIADA DE FRANGO C/ OSSO COXINHA DA ASA BDJ PV CX 10,5 KG",3.0,31.5],
+    ["FRASCANMI000047","CARNE RESFRIADA DE FRANGO C/ OSSO COXINHA DA ASA BDJ PV CX 10,5 KG",3.0,31.5],
+    ["FRASCANMI000047","CARNE RESFRIADA DE FRANGO C/ OSSO COXINHA DA ASA BDJ PV CX 10,5 KG",9.0,94.5],
+    ["FRASCANMI000048","CARNE RESFRIADA DE FRANGO C/ OSSO MEIO DAS ASAS BDJ PV CX 10,2 KG",1.0,10.2],
+    ["FRASCANMI000048","CARNE RESFRIADA DE FRANGO C/ OSSO MEIO DAS ASAS BDJ PV CX 10,2 KG",1.0,10.2],
+    ["FRASCANMI000048","CARNE RESFRIADA DE FRANGO C/ OSSO MEIO DAS ASAS BDJ PV CX 10,2 KG",1.0,10.2],
+    ["FRASCANMI000048","CARNE RESFRIADA DE FRANGO C/ OSSO MEIO DAS ASAS BDJ PV CX 10,2 KG",1.0,10.2],
+    ["FRASCANMI000048","CARNE RESFRIADA DE FRANGO C/ OSSO MEIO DAS ASAS BDJ PV CX 10,2 KG",3.0,30.6],
+    ["FRCSCANMI000052","CARNE RESFRIADA DE FRANGO C/ OSSO COXA BDJ PV CX 11,1 KG",3.0,33.3],
+    ["FRCSCANMI000052","CARNE RESFRIADA DE FRANGO C/ OSSO COXA BDJ PV CX 11,1 KG",3.0,33.3],
+    ["FRCSCANMI000052","CARNE RESFRIADA DE FRANGO C/ OSSO COXA BDJ PV CX 11,1 KG",4.0,44.4],
+    ["FRCSCANMI000052","CARNE RESFRIADA DE FRANGO C/ OSSO COXA BDJ PV CX 11,1 KG",3.0,33.3],
+    ["FRCSCANMI000052","CARNE RESFRIADA DE FRANGO C/ OSSO COXA BDJ PV CX 11,1 KG",4.0,44.4],
+    ["FRPTCANMI000061","CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",2.0,22.8],
+    ["FRPTCANMI000061","CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",3.0,34.2],
+    ["FRPTCANMI000061","CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",3.0,34.2],
+    ["FRPTCANMI000061","CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",3.0,34.2],
+    ["FRPTCANMI000061","CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",7.0,79.8],
+    ["FRPTCANMI000062","CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",3.0,33.6],
+    ["FRPTCANMI000062","CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",3.0,33.6],
+    ["FRPTCANMI000062","CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",6.0,67.2],
+    ["FRPTCANMI000062","CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",4.0,44.8],
+    ["FRPTCANMI000062","CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",9.0,100.8]]},
+  {codigo:"007120",cliente:"SUPERMERCADO JOTA K LTDA",cidade:"MANDAGUACU/PR",itens:[
+    ["COMPRO000064","FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",1.0,7.0]]},
+  {codigo:"035793",cliente:"SILVA & JANUARIO GENEROS ALIMENTICIOS LTDA",cidade:"MANDAGUACU/PR",itens:[
+    ["COMPRO000117","SANDUICHE FUT BURGUER BACON C/ REQUEIJAO CONG PCT 18 X 150 G CX 2,7 KG",1.0,2.7],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRCSCANMI000059","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA A PASSARINHO IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0]]},
+  {codigo:"035793",cliente:"SILVA & JANUARIO GENEROS ALIMENTICIOS LTDA",cidade:"MANDAGUACU/PR",itens:[
+    ["COMPRO000065","EMPANADO DE FRANGO CONG (CHICKEN) PCT 300G CAIXA PP 3 KG",1.0,3.0],
+    ["COMPRO000116","SANDUICHE FUT BURGUER C/ MOLHO DE PICLES CONG PCT 18 X 150 G CX 2,7 KG",1.0,2.7],
+    ["COMPRO000117","SANDUICHE FUT BURGUER BACON C/ REQUEIJAO CONG PCT 18 X 150 G CX 2,7 KG",1.0,2.7],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRCSCANMI000059","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA A PASSARINHO IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0]]},
+  {codigo:"036828",cliente:"JOSE ALEXANDRE ROSA RESTAURANTE LTDA",cidade:"MANDAGUACU/PR",itens:[
+    ["COMPRO000097","BOLINHO DE TILAPIA CONG PCT 300 G CX 4,2 KG",1.0,4.2],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",3.0,30.0],
+    ["FRCSCANMI000011","CARNE CONGELADA DE FRANGO SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0]]},
+  {codigo:"057374",cliente:"V SARETTO & SARETTO LTDA",cidade:"DOUTOR CAMARGO/PR",obs:"RESTAURANTE CATARINA PROXIMO A PONTE DO RIO IVAI ENTREGAR A PARTIR DAS 5 30H",itens:[
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX (CANCAO ALIMENTOS): Folha: 3 PP 18KG (CANCAO)",10.0,180.0],
+    ["FRMDCANMI000022","MIUDOS CONGELADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",1.0,20.0]]},
+  {codigo:"057375",cliente:"BRUSTOLIM E RODRIGUES LTDA",cidade:"MARINGA/PR",itens:[
+    ["COMPRO000064","FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",10.0,70.0]]},
+  {codigo:"060088",cliente:"ANTONIO RODRIGUES GUEDES LTDA",cidade:"MARINGA/PR",itens:[
+    ["COMPRO000069","BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",1.0,9.9],
+    ["COMPRO000097","BOLINHO DE TILAPIA CONG PCT 300 G CX 4,2 KG",1.0,4.2],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0]]},
+  {codigo:"072711",cliente:"SRA. DESCONTAO GENEROS ALIMENTICIOS LTDA",cidade:"MARIALVA/PR",itens:[
+    ["COMPRO000101","EMPANADO DE TILAPIA (SMALL FISH) CONG PCT 400 G CX 3,2 KG",20.0,64.0]]}
+]},
+{numero:"5002378",transportadora:"GO LOG TRANSPORTES RAPIDOS LTDA",motorista:"JOSEILTON RODRIGUES CARDOSO",data:"21/09/2026",hora:"18:11",placa:"AZU2043",ordem:6,chegada:"03:30",regiao:"ASSIS CHATEAUBRIAND",entregas:6,totalCx:275.0,totalKg:4490.4,pedidos:[
+  {codigo:"001904",cliente:"VENDRAMINI FILHOS LTDA",cidade:"ENGENHEIRO BELTRAO/PR",itens:[
+    ["COMPRO000064","FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",1.0,7.0],
+    ["COMPRO000100","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 1 KG CX 7 KG",2.0,14.0],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",6.0,60.0],
+    ["FRCSCANMI000009","CARNE CONGELADA DE FRANGO (COXA PACOTE IQF) CX PP 10 KG",2.0,20.0],
+    ["FRCSCANMI000055","CARNE CONGELADA DE FRANGO FILE DE SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0],
+    ["FRMDCANMI000030","CARNE CONGELADA DE FRANGO PESCOCO S/ PELE C/ OSSO PCT 18 X 1 KG CX 18 KG",2.0,36.0],
+    ["FRPTCANMI000021","CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",4.0,40.0],
+    ["FRPTCANMI000069","CARNE CONGELADA DE FRANGO S/ OSSO S/ PELE FILE DE PEITO EM BIFES IQF PCT 10 X 1 KG CX 10 KG",3.0,30.0]]},
+  {codigo:"001904",cliente:"VENDRAMINI FILHOS LTDA",cidade:"PEABIRU/PR",itens:[
+    ["COMPRO000064","FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",1.0,7.0],
+    ["COMPRO000066","EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",2.0,14.0],
+    ["COMPRO000100","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 1 KG CX 7 KG",2.0,14.0],
+    ["COMPRO000119","BOLINHO DE FRANGO FUT CHICKEN C/ RECHEIO CREMOSO DE QUEIJO CONG PTC 300 G CX 4,2 KG",2.0,8.4],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",6.0,60.0],
+    ["FRCSCANMI000055","CARNE CONGELADA DE FRANGO FILE DE SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",2.0,20.0],
+    ["FRMDCANMI000030","CARNE CONGELADA DE FRANGO PESCOCO S/ PELE C/ OSSO PCT 18 X 1 KG CX 18 KG",2.0,36.0],
+    ["FRPTCANMI000021","CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",4.0,40.0]]},
+  {codigo:"001904",cliente:"VENDRAMINI FILHOS LTDA",cidade:"TERRA BOA/PR",itens:[
+    ["COMPRO000008","FILEZINHO DE FRANGO EMPANADO CONG PCT 700 G CX PP 7 KG",3.0,21.0],
+    ["COMPRO000064","FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",2.0,14.0],
+    ["COMPRO000066","EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",3.0,21.0],
+    ["FRCSCANMI000055","CARNE CONGELADA DE FRANGO FILE DE SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",3.0,30.0]]},
+  {codigo:"014998",cliente:"CIA PARANA DE ALIMENTOS S A",cidade:"CAMPO MOURAO/PR",itens:[
+    ["FRCSCANMI000003","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",83.0,1494.0]]},
+  {codigo:"014998",cliente:"CIA PARANA DE ALIMENTOS S A",cidade:"GOIOERE/PR",itens:[
+    ["FRCSCANMI000003","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",83.0,1494.0]]},
+  {codigo:"014998",cliente:"CIA PARANA DE ALIMENTOS S A",cidade:"ASSIS CHATEAUBRIAND/PR",itens:[
+    ["FRCSCANMI000003","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",55.0,990.0]]}
+]},
+{numero:"5002379",transportadora:"R C LOGISTICA LTDA",motorista:"RAFAEL BRUNO COMO",data:"21/09/2026",hora:"18:11",placa:"QIU3C76",ordem:7,chegada:"04:00",regiao:"IVAIPORA",entregas:4,totalCx:276.0,totalKg:4968.0,pedidos:[
+  {codigo:"014998",cliente:"CIA PARANA DE ALIMENTOS S/A",cidade:"IVAIPORA/PR",itens:[
+    ["FRCSCANMI000003","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",83.0,1494.0]]},
+  {codigo:"014998",cliente:"CIA PARANA DE ALIMENTOS S A",cidade:"IVAIPORA/PR",itens:[
+    ["FRCSCANMI000003","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",83.0,1494.0]]},
+  {codigo:"014998",cliente:"CIA PARANA DE ALIMENTOS S A",cidade:"PITANGA/PR",itens:[
+    ["FRCSCANMI000003","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",83.0,1494.0]]},
+  {codigo:"014998",cliente:"CIA PARANA DE ALIMENTOS S/A",cidade:"MANOEL RIBAS/PR",itens:[
+    ["FRCSCANMI000003","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",27.0,486.0]]}
+]},
+{numero:"5002382",transportadora:"GONCALVES & TORTOLA S/A",motorista:"MAICON DOUGLAS DOS SANTOS SAGRILO",data:"21/09/2026",hora:"18:14",placa:"RVE0H38",ordem:8,chegada:"04:00",regiao:"LONDRINA",entregas:19,totalCx:57.0,totalKg:937.2,pedidos:[
+  {codigo:"000410",cliente:"ADALCIR SAGGIN - RESTAURANTE",cidade:"CAMBE/PR",obs:"DAS 7 AS 14 HRS",itens:[
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",3.0,54.0]]},
+  {codigo:"000436",cliente:"ADEMAR SANCHES CANO",cidade:"ARAPONGAS/PR",itens:[
+    ["FRINCANMI000002","FRANGO RESFRIADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",2.0,40.0]]},
+  {codigo:"005794",cliente:"G.LOPES & CIA LTDA",cidade:"ROLANDIA/PR",itens:[
+    ["FRMDCANMI000016","MIUDOS CONGELADOS DE FRANGO FIGADO PCT 20 X 1 KG CX 20 KG",10.0,200.0],
+    ["FRMDCANMI000030","CARNE CONGELADA DE FRANGO PESCOCO S/ PELE C/ OSSO PCT 18 X 1 KG CX 18 KG",5.0,90.0]]},
+  {codigo:"006750",cliente:"J A LOPES COMERCIAL DE ALIMENTOS LTDA",cidade:"ROLANDIA/PR",itens:[
+    ["FRMDCANMI000016","MIUDOS CONGELADOS DE FRANGO FIGADO PCT 20 X 1 KG CX 20 KG",6.0,120.0],
+    ["FRMDCANMI000030","CARNE CONGELADA DE FRANGO PESCOCO S/ PELE C/ OSSO PCT 18 X 1 KG CX 18 KG",3.0,54.0]]},
+  {codigo:"007174",cliente:"JOCIMAR DO ESPIRITO SANTO LTDA",cidade:"LONDRINA/PR",itens:[
+    ["FRMDCANMI000030","CARNE CONGELADA DE FRANGO PESCOCO S/ PELE C/ OSSO PCT 18 X 1 KG CX 18 KG",2.0,36.0]]},
+  {codigo:"010079",cliente:"MERCEARIA PROMISSAO LTDA",cidade:"ARAPONGAS/PR",itens:[
+    ["FRCSCANMI000006","CARNE CONGELADA DE FRANGO (COXAS INTERFOLHADO) CX PP 18 KG",5.0,90.0]]},
+  {codigo:"035752",cliente:"INOUE & SEIDI LTDA",cidade:"LONDRINA/PR",itens:[
+    ["FRPTCANMI000045","CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",1.0,20.0]]},
+  {codigo:"064695",cliente:"MACARIO RESTAURANTE LTDA",cidade:"LONDRINA/PR",itens:[
+    ["COMPRO000097","BOLINHO DE TILAPIA CONG PCT 300 G CX 4,2 KG",2.0,8.4]]},
+  {codigo:"064917",cliente:"VALDECIR PONTES DE OLIVEIRA - MINIMERCADO",cidade:"ARAPONGAS/PR",itens:[
+    ["FRCSCANMI000059","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA A PASSARINHO IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0]]},
+  {codigo:"065076",cliente:"PALADAR NOBRE ESPETARIA LTDA",cidade:"ARAPONGAS/PR",itens:[
+    ["FRPTCANMI000033","CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",2.0,40.0]]},
+  {codigo:"065169",cliente:"PIZZARIA HOT LTDA",cidade:"ARAPONGAS/PR",itens:[
+    ["FRPTCANMI000045","CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",2.0,40.0]]},
+  {codigo:"069646",cliente:"BASSI COMERCIO DE ALIMENTOS LTDA",cidade:"ARAPONGAS/PR",itens:[
+    ["PEFLCANMI000002","FILE DE TILAPIA CONGELADA IQF 400 G CX PP 10,4 KG",1.0,10.4]]},
+  {codigo:"071673",cliente:"BEMALVEDAN 1 LTDA",cidade:"LONDRINA/PR",itens:[
+    ["COMPRO000074","ANEIS DE CEBOLA EMPANADAS CONGELADA PACOTE 1,1 KG CX PP 6,6 KG (CANCAO ALIMENTOS)",1.0,6.6]]},
+  {codigo:"071848",cliente:"48.385.117 MONICA VIVARELLI BERTOZZI",cidade:"LONDRINA/PR",itens:[
+    ["FRCSCANMI000011","CARNE CONGELADA DE FRANGO SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0]]},
+  {codigo:"072530",cliente:"VILLA VERDE HORTIFRUTI E MERCEARIA LTDA",cidade:"LONDRINA/PR",itens:[
+    ["COMPRO000099","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",1.0,3.0],
+    ["COMPRO000119","BOLINHO DE FRANGO FUT CHICKEN C/ RECHEIO CREMOSO DE QUEIJO CONG PTC 300 G CX 4,2 KG",1.0,4.2]]},
+  {codigo:"072581",cliente:"THAISA MARIS MANSANO AIRES GREGORI 03626673901",cidade:"LONDRINA/PR",itens:[
+    ["FRPTCANMI000045","CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",1.0,20.0]]},
+  {codigo:"072766",cliente:"IRMAOS ESCAPILATO & CIA LTDA",cidade:"LONDRINA/PR",itens:[
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO) CX 10 KG: Folha: 3",1.0,18.0]]},
+  {codigo:"073079",cliente:"PAULO CESAR TRUIZ & CIA LTDA",cidade:"ARAPONGAS/PR",itens:[
+    ["FRCSCANMI000051","CARNE RESFRIADA DE FRANGO C/ OSSO SOBRECOXA BDJ PV CX 13 KG",2.0,26.0],
+    ["FRPTCANMI000062","CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",2.0,22.4]]},
+  {codigo:"075714",cliente:"64.711.824 ODAIR FERNANDES",cidade:"CAMBE/PR",itens:[
+    ["COMPRO000097","BOLINHO DE TILAPIA CONG PCT 300 G CX 4,2 KG",1.0,4.2]]}
+]},
+{numero:"5002385",transportadora:"TRANSPORTADORA ROSA DOS VENTOS LTDA",motorista:"RAFAEL DO NASCIMENTO MORAES",data:"21/09/2026",hora:"18:16",placa:"SEA3A72",ordem:9,chegada:"04:30",regiao:"LONDRINA",entregas:10,totalCx:90.0,totalKg:1206.6,pedidos:[
+  {codigo:"004716",cliente:"EDNALVA FELIX DA SILVA LTDA",cidade:"LONDRINA/PR",itens:[
+    ["FRASCANMI000037","CARNE RESFRIADA DE FRANGO ASA PV CX 20 KG",2.0,40.0],
+    ["FRASCANMI000043","CARNE CONGELADA DE FRANGO (MEIO DA ASA C/ OSSO) PCT 10 KG CX PP 20 KG (CANCAO)",1.0,20.0],
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",3.0,54.0],
+    ["FRMDCANMI000020","MIUDOS RESFRIADOS DE FRANGO CORACAO PCT 20 X 1 KG CX 20 KG",1.0,20.0],
+    ["FRPECANME000003","CARNE CONGELADA DE FRANGO C/ OSSO PES GRADE A PCT 2 X 7,5 KG CX 15 KG G2",1.0,15.0],
+    ["FRPTCANMI000061","CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",2.0,22.8]]},
+  {codigo:"011879",cliente:"R.A CAIRES DISTRIBUIDORA DE CARNES ME",cidade:"LONDRINA/PR",obs:"ENTREGA NA PARTE DA MANHA",itens:[
+    ["FRPTCANMI000045","CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",20.0,400.0]]},
+  {codigo:"014645",cliente:"SUPERMERCADOS BAZA LTDA",cidade:"JATAIZINHO/PR",itens:[
+    ["COMPRO000101","EMPANADO DE TILAPIA (SMALL FISH) CONG PCT 400 G CX 3,2 KG",3.0,9.6],
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",2.0,36.0],
+    ["FRMDCANMI000008","MIUDOS RESFRIADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",1.0,20.0]]},
+  {codigo:"014645",cliente:"SUPERMERCADOS BAZA LTDA",cidade:"IBIPORA/PR",obs:"CLIENTE RECEBE DAS 8H ATE 11H 2H ATE 16 30",itens:[
+    ["COMPRO000066","EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",3.0,21.0],
+    ["COMPRO000101","EMPANADO DE TILAPIA (SMALL FISH) CONG PCT 400 G CX 3,2 KG",20.0,64.0],
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",5.0,90.0],
+    ["FRINCANMI000002","FRANGO RESFRIADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",4.0,80.0],
+    ["FRMDCANMI000008","MIUDOS RESFRIADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",1.0,20.0]]},
+  {codigo:"014645",cliente:"SUPERMERCADOS BAZA LTDA",cidade:"IBIPORA/PR",obs:"CLIENTE RECEBE DAS 8H ATE 11H 2H ATE 16 30H",itens:[
+    ["COMPRO000101","EMPANADO DE TILAPIA (SMALL FISH) CONG PCT 400 G CX 3,2 KG",3.0,9.6],
+    ["FRINCANMI000002","FRANGO RESFRIADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",1.0,20.0]]},
+  {codigo:"065686",cliente:"DOCE VIDA COMERCIO DE ALIMENTOS LTDA",cidade:"LONDRINA/PR",obs:"CLIENTE RECEBE ATE 12H",itens:[
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",2.0,36.0],
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",2.0,36.0],
+    ["FRPTCANMI000045","CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",1.0,20.0]]},
+  {codigo:"068996",cliente:"A. K. MIYAZAKI DOS SANTOS & CIA LTDA",cidade:"LONDRINA/PR",itens:[
+    ["FRPTCANMI000033","CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",3.0,60.0]]},
+  {codigo:"071876",cliente:"MINIMERCADO PARREIRA LTDA",cidade:"LONDRINA/PR",obs:"CLIENTE FECHA DAS 13H ATE 15H",itens:[
+    ["COMPRO000100","EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 1 KG CX 7 KG",1.0,7.0],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRCSCANMI000059","CARNE CONGELADA DE FRANGO COXA E SOBRECOXA A PASSARINHO IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0]]},
+  {codigo:"072410",cliente:"J F PARREIRA MINI MERCADO LTDA",cidade:"LONDRINA/PR",itens:[
+    ["COMPRO000082","PAO DE QUEIJO TRADICIONAL CONGELADO PCT 800 G CX PP 9,6 KG (CANCAO)",1.0,9.6],
+    ["FRASCANMI000010","CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0],
+    ["FRPTCANMI000010","CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",1.0,10.0]]},
+  {codigo:"072471",cliente:"MARIA DE LOURDES LIMA DA NOBREGA 00875758924",cidade:"LONDRINA/PR",itens:[
+    ["FRCSCANMI000018","CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",2.0,36.0],
+    ["FRMDCANMI000008","MIUDOS RESFRIADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",1.0,20.0]]}
+]}
+];
+
+// ---- auth ----
+// ATENÇÃO: isto é apenas uma trava de uso (evita cliques acidentais), NÃO é
+// segurança real. A senha não aparece mais em texto puro no código, mas o banco
+// continua gravável por quem tiver o link. Veja "Segurança" no README.
+// Para trocar a senha: python3 scripts/painel.py senha "SUA NOVA SENHA"
+const ADMIN_PASSWORD_HASH = "1c6a7dcce39c3532a67e6732668618f7e3b7b56314ead86d1948e56874059628";
+const ADMIN_KEY = "cargas_gtf_admin_v1";
+
+// SHA-256 puro (sem dependências) — funciona também em file://, onde crypto.subtle não existe.
+function sha256Hex(str){
+  const K = [
+    0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  let H = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+
+  // UTF-8
+  const bytes = [];
+  for(const ch of unescape(encodeURIComponent(str))) bytes.push(ch.charCodeAt(0));
+
+  const bitLen = bytes.length * 8;
+  bytes.push(0x80);
+  while(bytes.length % 64 !== 56) bytes.push(0);
+  for(let i=7;i>=0;i--) bytes.push((bitLen / Math.pow(2, i*8)) & 0xff);
+
+  const rotr = (x,n) => (x >>> n) | (x << (32-n));
+  const w = new Array(64);
+
+  for(let off=0; off<bytes.length; off+=64){
+    for(let i=0;i<16;i++){
+      w[i] = (bytes[off+i*4]<<24) | (bytes[off+i*4+1]<<16) | (bytes[off+i*4+2]<<8) | bytes[off+i*4+3];
+    }
+    for(let i=16;i<64;i++){
+      const s0 = rotr(w[i-15],7) ^ rotr(w[i-15],18) ^ (w[i-15] >>> 3);
+      const s1 = rotr(w[i-2],17) ^ rotr(w[i-2],19) ^ (w[i-2] >>> 10);
+      w[i] = (w[i-16] + s0 + w[i-7] + s1) | 0;
+    }
+    let [a,b,c,d,e,f,g,h] = H;
+    for(let i=0;i<64;i++){
+      const S1 = rotr(e,6) ^ rotr(e,11) ^ rotr(e,25);
+      const ch = (e & f) ^ (~e & g);
+      const t1 = (h + S1 + ch + K[i] + w[i]) | 0;
+      const S0 = rotr(a,2) ^ rotr(a,13) ^ rotr(a,22);
+      const maj = (a & b) ^ (a & c) ^ (b & c);
+      const t2 = (S0 + maj) | 0;
+      h=g; g=f; f=e; e=(d+t1)|0; d=c; c=b; b=a; a=(t1+t2)|0;
+    }
+    H = [ (H[0]+a)|0,(H[1]+b)|0,(H[2]+c)|0,(H[3]+d)|0,(H[4]+e)|0,(H[5]+f)|0,(H[6]+g)|0,(H[7]+h)|0 ];
+  }
+  return H.map(x => (x>>>0).toString(16).padStart(8,'0')).join('');
+}
+
+function isAdmin(){
+  return sessionStorage.getItem(ADMIN_KEY) === "1";
+}
+function tryEnterAdmin(){
+  const pass = prompt("Senha de administrador para alterar status:");
+  if(pass === null) return false;
+  if(sha256Hex(pass) === ADMIN_PASSWORD_HASH){
+    sessionStorage.setItem(ADMIN_KEY, "1");
+    return true;
+  }
+  alert("Senha incorreta.");
+  return false;
+}
+function updateAdminBar(){
+  const label = document.getElementById('adminState');
+  const btn = document.getElementById('adminToggle');
+  if(isAdmin()){
+    label.textContent = "Modo admin (pode alterar status)";
+    label.className = "admin-on";
+    btn.textContent = "Sair do modo admin";
+  } else {
+    label.textContent = "Modo consulta (somente leitura)";
+    label.className = "";
+    btn.textContent = "Entrar como admin";
+  }
+}
+document.getElementById('adminToggle').onclick = ()=>{
+  if(isAdmin()){
+    sessionStorage.removeItem(ADMIN_KEY);
+    updateAdminBar();
+  } else {
+    if(tryEnterAdmin()) updateAdminBar();
+  }
+};
+
+// ---- sincronização em tempo real (Firebase Realtime Database) ----
+// Já configurado. As regras recomendadas do banco estão em firebase.rules.json
+// e o passo a passo para aplicá-las está no README.
+const firebaseConfig = {
+  apiKey: "AIzaSyDHFF1q8Y2RHoTUq6Mao35rj0tliDXiRVk",
+  authDomain: "painel-cargas-gtf.firebaseapp.com",
+  databaseURL: "https://painel-cargas-gtf-default-rtdb.firebaseio.com",
+  projectId: "painel-cargas-gtf"
+};
+
+const FIREBASE_CONFIGURADO = firebaseConfig.apiKey !== "COLE_SUA_API_KEY_AQUI";
+
+const STAGE_LABELS = ["Veículo chegou na planta","Separado","Carregado","Faturado"];
+// statusMap[viagemNumero] = {1:bool,2:bool,3:bool,4:bool} -- 4 etapas independentes,
+// não sequenciais (ex.: carga pode estar "Separada" antes do veículo chegar na planta)
+let statusMap = {};
+let dbRef = null;
+
+function setSyncBar(state, text){
+  const bar = document.getElementById('syncBar');
+  bar.className = 'sync-bar ' + state;
+  document.getElementById('syncText').textContent = text;
+}
+
+// Enquanto o Firebase não é configurado, ou se ele falhar, o painel funciona
+// em modo local (armazenamento só neste navegador) para não travar o uso.
+const LOCAL_KEY = "cargas_gtf_status_v1";
+function loadLocal(){
+  try{return JSON.parse(localStorage.getItem(LOCAL_KEY)||"{}");}catch(e){return {};}
+}
+function saveLocal(s){
+  localStorage.setItem(LOCAL_KEY, JSON.stringify(s));
+}
+
+function iniciarSync(){
+  if(!FIREBASE_CONFIGURADO){
+    statusMap = loadLocal();
+    setSyncBar('sync-off', 'Atualização em tempo real não configurada — usando apenas este navegador. Veja as instruções no código-fonte (const firebaseConfig).');
+    render();
+    return;
+  }
+  try{
+    firebase.initializeApp(firebaseConfig);
+    dbRef = firebase.database().ref('cargas');
+    dbRef.on('value', (snapshot)=>{
+      statusMap = snapshot.val() || {};
+      setSyncBar('sync-ok', 'Conectado — status sincronizado em tempo real para todos que abrirem este link.');
+      render();
+    }, (err)=>{
+      console.error(err);
+      setSyncBar('sync-err', 'Erro ao conectar à atualização em tempo real. Verifique a configuração do Firebase.');
+    });
+  }catch(e){
+    console.error(e);
+    statusMap = loadLocal();
+    setSyncBar('sync-err', 'Falha ao iniciar a atualização em tempo real — usando apenas este navegador.');
+    render();
+  }
+}
+
+function setEtapa(numero, n, valor){
+  if(FIREBASE_CONFIGURADO && dbRef){
+    dbRef.child(numero).child(n).set(valor);
+  } else {
+    if(!statusMap[numero]) statusMap[numero] = {};
+    statusMap[numero][n] = valor;
+    saveLocal(statusMap);
+    render();
+  }
+}
+
+function fmt(n){
+  return Number(n).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1});
+}
+
+function pedidoTotais(p){
+  let cx=0,kg=0;
+  p.itens.forEach(it=>{cx+=it[2]; kg+=it[3];});
+  return {cx,kg};
+}
+
+function render(){
+  const grid = document.getElementById('grid');
+  grid.innerHTML = "";
+  const busca = document.getElementById('busca').value.trim().toLowerCase();
+  const filtroStatus = document.getElementById('filtroStatus').value;
+
+  let visiveis = 0;
+  const contagem = [0,0,0,0]; // quantas cargas têm a etapa N marcada (independente das outras)
+  viagens.forEach(v=>{
+    const st = statusMap[v.numero] || {};
+    for(let n=1;n<=4;n++){ if(st[n]) contagem[n-1]++; }
+  });
+
+  // Quando a planilha de carregamento traz a ordem, os cards seguem essa fila —
+  // é a sequência em que os veículos serão carregados, não a de emissão.
+  const naTela = viagens.slice().sort((a,b)=>{
+    const oa = a.ordem || 999, ob = b.ordem || 999;
+    if(oa !== ob) return oa - ob;
+    return (a.hora||"").localeCompare(b.hora||"") || a.numero.localeCompare(b.numero);
+  });
+
+  naTela.forEach(v=>{
+    const st = statusMap[v.numero] || {};
+    const matchesStatus = !filtroStatus || !!st[filtroStatus];
+    const haystack = (v.numero+" "+v.transportadora+" "+v.motorista+" "+(v.placa||"")+" "+
+      (v.regiao||"")+" "+(v.chegada||"")+" "+
+      v.pedidos.map(p=>p.cliente+" "+p.cidade).join(" ")).toLowerCase();
+    const matchesBusca = !busca || haystack.includes(busca);
+    if(!matchesStatus || !matchesBusca) return;
+    visiveis++;
+
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    const head = document.createElement('div');
+    head.className = 'card-head';
+    head.innerHTML = `
+      <div class="head-left" role="button" tabindex="0">
+        <div class="viagem-id">${v.ordem ? '<span class="ordem-chip" title="Ordem de carregamento">'+v.ordem+'&ordm;</span>' : ''}Viagem ${v.numero} <span class="chev">&#9662;</span></div>
+        <div class="head-meta">${v.chegada ? '<span class="badge badge-chegada">Chega '+v.chegada+'</span> &middot; ' : ''}${v.regiao ? '<b class="regiao">'+v.regiao+'</b> &middot; ' : ''}${v.transportadora} &middot; ${v.motorista}${v.placa ? ' &middot; <span class="badge">Placa '+v.placa+'</span>' : ''} &middot; <span class="badge">${v.entregas} entregas</span> &middot; ${v.data} ${v.hora}</div>
+      </div>
+      <div class="head-right">
+        <div class="totals"><b>${fmt(v.totalCx)}</b> cx / <b>${fmt(v.totalKg)}</b> kg</div>
+        <div class="status-label">Status (toque para alterar &mdash; requer login)</div>
+        <div class="status-track" data-viagem="${v.numero}"></div>
+      </div>`;
+
+    const track = head.querySelector('.status-track');
+    STAGE_LABELS.forEach((label, idx)=>{
+      const n = idx+1;
+      const checked = !!st[n];
+      const btn = document.createElement('button');
+      btn.className = 'status-btn' + (checked ? ' on-'+n : '');
+      btn.innerHTML = `<span class="dot">${checked ? '&#10003;' : ''}</span>${!isAdmin() ? '<span class="lock-icon">&#128274;</span>' : ''}${label}`;
+      btn.title = isAdmin() ? "Clique para marcar/desmarcar" : "Requer login de admin para alterar";
+      btn.onclick = (ev)=>{
+        ev.stopPropagation();
+        if(!isAdmin()){
+          if(!tryEnterAdmin()) return;
+          updateAdminBar();
+        }
+        setEtapa(v.numero, n, !checked);
+      };
+      track.appendChild(btn);
+    });
+
+    const body = document.createElement('div');
+    body.className = 'card-body';
+
+    v.pedidos.forEach((p, pi)=>{
+      const tot = pedidoTotais(p);
+      const pedidoEl = document.createElement('div');
+      pedidoEl.className = 'pedido';
+      pedidoEl.innerHTML = `
+        <div class="pedido-head">
+          <div><span class="pedido-cliente">${p.codigo ? p.codigo+' - ' : ''}${p.cliente}</span><span class="pedido-cidade">${p.cidade}</span></div>
+          <div class="pedido-tot">${fmt(tot.cx)} cx / ${fmt(tot.kg)} kg</div>
+        </div>
+        ${p.obs ? `<div class="pedido-obs">&#9888; ${p.obs}</div>` : ''}
+        <div class="itens">
+          <table>
+            <thead><tr><th>Código</th><th>Produto</th><th>CX</th><th>KG</th></tr></thead>
+            <tbody>
+              ${p.itens.map(it=>`<tr><td class="codigo">${it[0]}</td><td>${it[1]}</td><td class="num">${fmt(it[2])}</td><td class="num">${fmt(it[3])}</td></tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`;
+      const ph = pedidoEl.querySelector('.pedido-head');
+      const itensEl = pedidoEl.querySelector('.itens');
+      ph.onclick = ()=> itensEl.classList.toggle('open');
+      body.appendChild(pedidoEl);
+    });
+
+    head.querySelector('.head-left').onclick = ()=> body.classList.toggle('open');
+    card.appendChild(head);
+    card.appendChild(body);
+    grid.appendChild(card);
+  });
+
+  if(visiveis===0){
+    grid.innerHTML = '<div class="empty">Nenhuma carga encontrada com esse filtro.</div>';
+  }
+
+  // ---- resumo de peso ----
+  // Quanto peso já passou por cada etapa. A porcentagem é sobre os QUILOS
+  // (não sobre a quantidade de cargas), porque uma carga de 16 t pesa muito
+  // mais na operação do que uma de 1 t.
+  const kgTotal = viagens.reduce((s,v)=> s + Number(v.totalKg||0), 0);
+  const ETAPAS = [
+    {n:2, nome:"Separado",  cor:"var(--s2)"},
+    {n:3, nome:"Carregado", cor:"var(--s3)"},
+    {n:4, nome:"Faturado",  cor:"var(--s4)"},
+  ];
+  let htmlPeso = `
+    <div class="peso-card destaque">
+      <div class="peso-label">Total de cargas</div>
+      <div class="peso-valor" style="color:var(--s3)">${fmt(kgTotal)}<span>kg</span></div>
+      <div class="peso-sub">${viagens.length} ${viagens.length===1?'carga':'cargas'}</div>
+    </div>`;
+  ETAPAS.forEach(e=>{
+    const feitas = viagens.filter(v => (statusMap[v.numero]||{})[e.n]);
+    const kg = feitas.reduce((s,v)=> s + Number(v.totalKg||0), 0);
+    const pct = kgTotal > 0 ? Math.round(kg / kgTotal * 100) : 0;
+    htmlPeso += `
+    <div class="peso-card">
+      <div class="peso-label">${e.nome}</div>
+      <div class="peso-valor" style="color:${e.cor}">${fmt(kg)}<span>kg</span></div>
+      <div class="peso-sub">${feitas.length} de ${viagens.length} cargas &middot; ${pct}%</div>
+      <div class="peso-bar"><i style="width:${pct}%; background:${e.cor}"></i></div>
+    </div>`;
+  });
+  document.getElementById('resumoPeso').innerHTML = htmlPeso;
+
+  const stats = document.getElementById('stats');
+  const total = viagens.length;
+  stats.innerHTML = `
+    <div class="stat"><b>${total}</b>Total de cargas</div>
+    <div class="stat"><b>${contagem[0]}</b>Na planta</div>
+    <div class="stat"><b>${contagem[1]}</b>Separado</div>
+    <div class="stat"><b>${contagem[2]}</b>Carregado</div>
+    <div class="stat"><b>${contagem[3]}</b>Faturado</div>
+  `;
+  updateAdminBar();
+}
+
+document.getElementById('busca').addEventListener('input', render);
+document.getElementById('filtroStatus').addEventListener('change', render);
+iniciarSync();
+
+// ---- aplicativo instalável ----
+// Registra o service worker, que guarda o painel no aparelho: o app abre mesmo
+// sem internet (mostrando o último conteúdo carregado).
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(e=>console.warn('SW:', e));
+  });
+}
+
+// Android / Chrome / Edge: botão próprio de instalação
+let deferredPrompt = null;
+const installBtn = document.getElementById('installBtn');
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.classList.add('show');
+});
+installBtn.onclick = async ()=>{
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  installBtn.classList.remove('show');
+};
+window.addEventListener('appinstalled', ()=> installBtn.classList.remove('show'));
+
+// iPhone / iPad: o Safari não oferece botão, então mostramos a instrução uma vez
+(function(){
+  const HINT_KEY = 'cargas_gtf_ios_hint_v1';
+  const ua = navigator.userAgent;
+  const isIOS = /iPad|iPhone|iPod/.test(ua) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const instalado = window.navigator.standalone === true ||
+                    window.matchMedia('(display-mode: standalone)').matches;
+  let visto = false;
+  try{ visto = localStorage.getItem(HINT_KEY) === '1'; }catch(e){}
+  if(isIOS && !instalado && !visto){
+    document.getElementById('iosHint').classList.add('show');
+  }
+  document.getElementById('iosHintClose').onclick = ()=>{
+    document.getElementById('iosHint').classList.remove('show');
+    try{ localStorage.setItem(HINT_KEY, '1'); }catch(e){}
+  };
+})();
+</script>
+</body>
+</html>

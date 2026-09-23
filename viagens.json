@@ -1,0 +1,3390 @@
+[
+  {
+    "numero": "5002380",
+    "transportadora": "GONCALVES & TORTOLA S/A",
+    "motorista": "SERGIO ANDRE CAMPOS SANTANA",
+    "data": "21/09/2026",
+    "hora": "18:12",
+    "placa": "RUY7D65",
+    "entregas": 18,
+    "totalCx": 385.0,
+    "totalKg": 4732.7,
+    "pedidos": [
+      {
+        "codigo": "005292",
+        "cliente": "FAGOTTE E SANCHES LTDA",
+        "cidade": "ARAPONGAS/PR",
+        "itens": [
+          [
+            "FRINCANMI000002",
+            "FRANGO RESFRIADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",
+            2.0,
+            40.0
+          ]
+        ]
+      },
+      {
+        "codigo": "005292",
+        "cliente": "FAGOTTE E SANCHES LTDA",
+        "cidade": "ARAPONGAS/PR",
+        "itens": [
+          [
+            "FRINCANMI000002",
+            "FRANGO RESFRIADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",
+            5.0,
+            100.0
+          ],
+          [
+            "FRPTCANMI000004",
+            "CARNE CONGELADA DE FRANGO PEITO C/ OSSO PV CX 18 KG",
+            2.0,
+            36.0
+          ]
+        ]
+      },
+      {
+        "codigo": "013811",
+        "cliente": "SUPERALVO SUPERMERCADO LTDA",
+        "cidade": "APUCARANA/PR",
+        "itens": [
+          [
+            "COMPRO000064",
+            "FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "COMPRO000066",
+            "EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "COMPRO000067",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 2 KG CAIXA PP 10 KG (CANCAO ALIMENTOS)",
+            2.0,
+            20.0
+          ],
+          [
+            "COMPRO000068",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",
+            1.0,
+            10.0
+          ],
+          [
+            "COMPRO000069",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",
+            2.0,
+            19.8
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ],
+          [
+            "FRINCANMI000002",
+            "FRANGO RESFRIADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",
+            5.0,
+            100.0
+          ],
+          [
+            "FRINCANMI000003",
+            "FRANGO CONGELADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",
+            10.0,
+            200.0
+          ],
+          [
+            "FRMDCANMI000015",
+            "MIUDOS CONGELADOS DE FRANGO (CORACAO) PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ],
+          [
+            "FRMDCANMI000022",
+            "MIUDOS CONGELADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ],
+          [
+            "FRPECANME000003",
+            "CARNE CONGELADA DE FRANGO C/ OSSO PES GRADE A PCT 2 X 7,5 KG CX 15 KG G2",
+            5.0,
+            75.0
+          ],
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ],
+          [
+            "FRPTCANMI000021",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "013811",
+        "cliente": "SUPERALVO SUPERMERCADO LTDA",
+        "cidade": "APUCARANA/PR",
+        "itens": [
+          [
+            "COMPRO000064",
+            "FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "COMPRO000066",
+            "EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "COMPRO000068",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",
+            1.0,
+            10.0
+          ],
+          [
+            "COMPRO000081",
+            "PAO DE QUEIJO TRADICIONAL CONGELADO PACOTE 300 G CX PP 9,6 KG (CANCAO)",
+            1.0,
+            9.6
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ],
+          [
+            "FRASCANMI000011",
+            "CARNE CONGELADA DE FRANGO (MEIO DA ASA PACOTE IQF) CX PP 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRASCANMI000043",
+            "CARNE CONGELADA DE FRANGO (MEIO DA ASA C/ OSSO) PCT 10 KG CX PP 20 KG (CANCAO)",
+            10.0,
+            200.0
+          ],
+          [
+            "FRCSCANMI000011",
+            "CARNE CONGELADA DE FRANGO SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRINCANMI000003",
+            "FRANGO CONGELADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",
+            3.0,
+            60.0
+          ],
+          [
+            "FRMDCANMI000015",
+            "MIUDOS CONGELADOS DE FRANGO (CORACAO) PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ],
+          [
+            "FRMDCANMI000022",
+            "MIUDOS CONGELADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ],
+          [
+            "FRPECANME000003",
+            "CARNE CONGELADA DE FRANGO C/ OSSO PES GRADE A PCT 2 X 7,5 KG CX 15 KG G2",
+            4.0,
+            60.0
+          ],
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ],
+          [
+            "FRPTCANMI000021",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "013811",
+        "cliente": "SUPERALVO SUPERMERCADO LTDA",
+        "cidade": "APUCARANA/PR",
+        "itens": [
+          [
+            "COMPRO000064",
+            "FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "COMPRO000068",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",
+            1.0,
+            10.0
+          ],
+          [
+            "COMPRO000069",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",
+            2.0,
+            19.8
+          ],
+          [
+            "COMPRO000081",
+            "PAO DE QUEIJO TRADICIONAL CONGELADO PACOTE 300 G CX PP 9,6 KG (CANCAO)",
+            1.0,
+            9.6
+          ],
+          [
+            "COMPRO000094",
+            "LASANHA A BOLONHESA CONG BDJ 600 G CX 7,2 KG",
+            1.0,
+            7.2
+          ],
+          [
+            "COMPRO000095",
+            "LASANHA QUATRO QUEIJOS CONG BDJ 600 G CX 7,2 KG",
+            1.0,
+            7.2
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ],
+          [
+            "FRASCANMI000011",
+            "CARNE CONGELADA DE FRANGO (MEIO DA ASA PACOTE IQF) CX PP 10 KG",
+            2.0,
+            20.0
+          ],
+          [
+            "FRCSCANMI000003",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",
+            13.0,
+            234.0
+          ],
+          [
+            "FRCSCANMI000009",
+            "CARNE CONGELADA DE FRANGO (COXA PACOTE IQF) CX PP 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRCSCANMI000011",
+            "CARNE CONGELADA DE FRANGO SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRINCANMI000002",
+            "FRANGO RESFRIADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",
+            1.0,
+            20.0
+          ],
+          [
+            "FRMDCANMI000016",
+            "MIUDOS CONGELADOS DE FRANGO FIGADO PCT 20 X 1 KG CX 20 KG",
+            2.0,
+            40.0
+          ],
+          [
+            "FRMDCANMI000022",
+            "MIUDOS CONGELADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ],
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ],
+          [
+            "FRPTCANMI000021",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "013811",
+        "cliente": "SUPERALVO SUPERMERCADO LTDA",
+        "cidade": "APUCARANA/PR",
+        "itens": [
+          [
+            "COMPRO000064",
+            "FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "COMPRO000067",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 2 KG CAIXA PP 10 KG (CANCAO ALIMENTOS)",
+            2.0,
+            20.0
+          ],
+          [
+            "COMPRO000068",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",
+            1.0,
+            10.0
+          ],
+          [
+            "COMPRO000069",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",
+            2.0,
+            19.8
+          ],
+          [
+            "COMPRO000081",
+            "PAO DE QUEIJO TRADICIONAL CONGELADO PACOTE 300 G CX PP 9,6 KG (CANCAO)",
+            1.0,
+            9.6
+          ],
+          [
+            "COMPRO000094",
+            "LASANHA A BOLONHESA CONG BDJ 600 G CX 7,2 KG",
+            1.0,
+            7.2
+          ],
+          [
+            "COMPRO000095",
+            "LASANHA QUATRO QUEIJOS CONG BDJ 600 G CX 7,2 KG",
+            1.0,
+            7.2
+          ],
+          [
+            "FRASCANMI000043",
+            "CARNE CONGELADA DE FRANGO (MEIO DA ASA C/ OSSO) PCT 10 KG CX PP 20 KG (CANCAO)",
+            6.0,
+            120.0
+          ],
+          [
+            "FRCSCANMI000009",
+            "CARNE CONGELADA DE FRANGO (COXA PACOTE IQF) CX PP 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRCSCANMI000011",
+            "CARNE CONGELADA DE FRANGO SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRINCANMI000003",
+            "FRANGO CONGELADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",
+            3.0,
+            60.0
+          ],
+          [
+            "FRMDCANMI000016",
+            "MIUDOS CONGELADOS DE FRANGO FIGADO PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ],
+          [
+            "FRPECANME000003",
+            "CARNE CONGELADA DE FRANGO C/ OSSO PES GRADE A PCT 2 X 7,5 KG CX 15 KG G2",
+            5.0,
+            75.0
+          ],
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRPTCANMI000021",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ],
+          [
+            "FRPTCANMI000033",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",
+            7.0,
+            140.0
+          ]
+        ]
+      },
+      {
+        "codigo": "013816",
+        "cliente": "SUPERCENTER COMERCIO ATACADISTA LTDA",
+        "cidade": "ARAPONGAS/PR",
+        "itens": [
+          [
+            "COMPRO000069",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",
+            192.0,
+            1900.8
+          ]
+        ],
+        "obs": "DESCARGA AGENDADA AS14 HRS DIA 18 09"
+      },
+      {
+        "codigo": "061790",
+        "cliente": "MORIAH MINIMERCADO LTDA",
+        "cidade": "APUCARANA/PR",
+        "itens": [
+          [
+            "FRPTCANMI000033",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",
+            5.0,
+            100.0
+          ]
+        ]
+      },
+      {
+        "codigo": "064711",
+        "cliente": "A.T. DE SOUZA SANTOS MERCEARIA LTDA",
+        "cidade": "APUCARANA/PR",
+        "itens": [
+          [
+            "COMPRO000069",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",
+            2.0,
+            19.8
+          ],
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ]
+        ]
+      },
+      {
+        "codigo": "064731",
+        "cliente": "R H DA SILVA MERCEARIA E QUITANDA",
+        "cidade": "APUCARANA/PR",
+        "itens": [
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRPTCANMI000069",
+            "CARNE CONGELADA DE FRANGO S/ OSSO S/ PELE FILE DE PEITO EM BIFES IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ]
+        ]
+      },
+      {
+        "codigo": "064874",
+        "cliente": "ANDRADE E NASCIMENTO LTDA",
+        "cidade": "APUCARANA/PR",
+        "itens": [
+          [
+            "COMPRO000065",
+            "EMPANADO DE FRANGO CONG (CHICKEN) PCT 300G CAIXA PP 3 KG",
+            1.0,
+            3.0
+          ]
+        ]
+      },
+      {
+        "codigo": "065286",
+        "cliente": "SERGIUS PASTEIS LTDA",
+        "cidade": "APUCARANA/PR",
+        "itens": [
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            20.0,
+            200.0
+          ]
+        ]
+      },
+      {
+        "codigo": "066402",
+        "cliente": "E.SILVA ALIMENTOS LTDA",
+        "cidade": "ARAPONGAS/PR",
+        "itens": [
+          [
+            "FRMDCANMI000020",
+            "MIUDOS RESFRIADOS DE FRANGO CORACAO PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "068703",
+        "cliente": "GS COMERCIO DE CARNES LTDA",
+        "cidade": "APUCARANA/PR",
+        "itens": [
+          [
+            "FRPTCANMI000033",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",
+            3.0,
+            60.0
+          ]
+        ]
+      },
+      {
+        "codigo": "069683",
+        "cliente": "SATELIS E MATEUS LTDA",
+        "cidade": "APUCARANA/PR",
+        "itens": [
+          [
+            "FRPTCANMI000004",
+            "CARNE CONGELADA DE FRANGO PEITO C/ OSSO PV CX 18 KG",
+            2.0,
+            36.0
+          ]
+        ]
+      },
+      {
+        "codigo": "071115",
+        "cliente": "MARCIO ROBERTO TOSATTO 02342969929",
+        "cidade": "APUCARANA/PR",
+        "itens": [
+          [
+            "COMPRO000068",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",
+            1.0,
+            10.0
+          ]
+        ]
+      },
+      {
+        "codigo": "072033",
+        "cliente": "MERCADO SANTIAGO LTDA",
+        "cidade": "ARAPONGAS/PR",
+        "itens": [
+          [
+            "COMPRO000101",
+            "EMPANADO DE TILAPIA (SMALL FISH) CONG PCT 400 G CX 3,2 KG",
+            1.0,
+            3.2
+          ],
+          [
+            "FRCSCANMI000003",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",
+            3.0,
+            54.0
+          ],
+          [
+            "FRPTCANMI000033",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",
+            3.0,
+            60.0
+          ]
+        ]
+      },
+      {
+        "codigo": "076898",
+        "cliente": "DOUGLAS GODAS DO NASCIMENTO",
+        "cidade": "APUCARANA/PR",
+        "itens": [
+          [
+            "COMPRO000066",
+            "EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "COMPRO000069",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",
+            1.0,
+            9.9
+          ]
+        ]
+      }
+    ],
+    "ordem": 1,
+    "regiao": "ARAPONGAS",
+    "chegada": "00:00"
+  },
+  {
+    "numero": "5002384",
+    "transportadora": "GONCALVES & TORTOLA S/A",
+    "motorista": "JULIO FELIX DA SILVA",
+    "data": "21/09/2026",
+    "hora": "18:15",
+    "placa": "RVE0H48",
+    "entregas": 26,
+    "totalCx": 111.0,
+    "totalKg": 1356.8,
+    "pedidos": [
+      {
+        "codigo": "003774",
+        "cliente": "COMPANHIA SULAMERICANA DE DISTRIBUICAO",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRASCANMI000047",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO COXINHA DA ASA BDJ PV CX 10,5 KG",
+            2.0,
+            21.0
+          ],
+          [
+            "FRASCANMI000048",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO MEIO DAS ASAS BDJ PV CX 10,2 KG",
+            1.0,
+            10.2
+          ],
+          [
+            "FRCSCANMI000051",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO SOBRECOXA BDJ PV CX 13 KG",
+            1.0,
+            13.0
+          ],
+          [
+            "FRPTCANMI000061",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",
+            2.0,
+            22.8
+          ],
+          [
+            "FRPTCANMI000062",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",
+            5.0,
+            56.0
+          ]
+        ]
+      },
+      {
+        "codigo": "004559",
+        "cliente": "ACOUGUE REI DA CARNE LTDA",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",
+            10.0,
+            180.0
+          ],
+          [
+            "FRMDCANMI000020",
+            "MIUDOS RESFRIADOS DE FRANGO CORACAO PCT 20 X 1 KG CX 20 KG",
+            7.0,
+            140.0
+          ]
+        ]
+      },
+      {
+        "codigo": "006769",
+        "cliente": "J C BRAGANTINE MINIMERCADO",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "COMPRO000099",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",
+            1.0,
+            3.0
+          ],
+          [
+            "FRPTCANMI000021",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ]
+        ]
+      },
+      {
+        "codigo": "006868",
+        "cliente": "J MARTUCCI MINIMERCADO LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "COMPRO000094",
+            "LASANHA A BOLONHESA CONG BDJ 600 G CX 7,2 KG",
+            1.0,
+            7.2
+          ],
+          [
+            "COMPRO000099",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",
+            1.0,
+            3.0
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRCSCANMI000059",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA A PASSARINHO IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ]
+        ]
+      },
+      {
+        "codigo": "007710",
+        "cliente": "L J LOPES PIRES",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",
+            2.0,
+            36.0
+          ]
+        ]
+      },
+      {
+        "codigo": "007721",
+        "cliente": "L M DO CARMO SCACCHETI - ME",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "COMPRO000064",
+            "FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "COMPRO000069",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",
+            1.0,
+            9.9
+          ],
+          [
+            "FRCSCANMI000003",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",
+            1.0,
+            18.0
+          ],
+          [
+            "FRPECANME000003",
+            "CARNE CONGELADA DE FRANGO C/ OSSO PES GRADE A PCT 2 X 7,5 KG CX 15 KG G2",
+            1.0,
+            15.0
+          ]
+        ]
+      },
+      {
+        "codigo": "007828",
+        "cliente": "RESTAURANTE SHIRMAR LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",
+            3.0,
+            54.0
+          ]
+        ]
+      },
+      {
+        "codigo": "008383",
+        "cliente": "M. J. CORREIA DA SILVA & SILVA LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRASCANMI000027",
+            "CARNE RESFRIADA DE FRANGO COXINHA DA ASA PV CX 20 KG",
+            2.0,
+            40.0
+          ],
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            4.0,
+            40.0
+          ]
+        ]
+      },
+      {
+        "codigo": "009630",
+        "cliente": "MERCADO KATAYAMA LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "COMPRO000069",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",
+            1.0,
+            9.9
+          ],
+          [
+            "COMPRO000081",
+            "PAO DE QUEIJO TRADICIONAL CONGELADO PACOTE 300 G CX PP 9,6 KG (CANCAO)",
+            1.0,
+            9.6
+          ]
+        ]
+      },
+      {
+        "codigo": "011551",
+        "cliente": "PEREIRA FARIAS ACOUGUE LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRCSCANMI000003",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",
+            6.0,
+            108.0
+          ]
+        ]
+      },
+      {
+        "codigo": "013507",
+        "cliente": "SIRLEI GOMES DE AQUINO",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "COMPRO000068",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",
+            1.0,
+            10.0
+          ],
+          [
+            "COMPRO000099",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",
+            1.0,
+            3.0
+          ],
+          [
+            "FRCSCANMI000021",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA C/ PORCAO DORSAL PV CX 18 KG",
+            3.0,
+            54.0
+          ]
+        ]
+      },
+      {
+        "codigo": "027038",
+        "cliente": "G L BERNARDINI RESTAURANTE EIRELI",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "FRCSCANMI000053",
+            "CARNE CONGELADA DE FRANGO S/ OSSO C/ PELE FILE DE COXA E SOBRECOXA PCT 20 X 1 KG CX 20 KG",
+            2.0,
+            40.0
+          ]
+        ],
+        "obs": "RECEBIMENTO ATE 15HSSS"
+      },
+      {
+        "codigo": "035084",
+        "cliente": "MNC MARTINS LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRMDCANMI000008",
+            "MIUDOS RESFRIADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",
+            2.0,
+            40.0
+          ]
+        ]
+      },
+      {
+        "codigo": "037803",
+        "cliente": "MERCADO PAULISTANO LTDA",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "COMPRO000094",
+            "LASANHA A BOLONHESA CONG BDJ 600 G CX 7,2 KG",
+            1.0,
+            7.2
+          ],
+          [
+            "COMPRO000118",
+            "SANDUICHE FUT BURGUER MAIONESE GRILL CONG PCT 18 X 150 G CX 2,7 KG",
+            1.0,
+            2.7
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRMDCANMI000022",
+            "MIUDOS CONGELADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ],
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRPTCANMI000059",
+            "CARNE CONGELADA DE FRANGO S/ OSSO S/ PELE FILE DE PEITO BDJ 12 X 1 KG CX 12 KG",
+            1.0,
+            12.0
+          ]
+        ]
+      },
+      {
+        "codigo": "039124",
+        "cliente": "ADEMIR COLA MINIMERCADO",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "COMPRO000118",
+            "SANDUICHE FUT BURGUER MAIONESE GRILL CONG PCT 18 X 150 G CX 2,7 KG",
+            1.0,
+            2.7
+          ],
+          [
+            "FRPTCANMI000021",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ]
+        ]
+      },
+      {
+        "codigo": "056478",
+        "cliente": "I B SIQUEIRA PANIFICADORA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRPTCANMI000045",
+            "CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",
+            1.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "059909",
+        "cliente": "MARIA JOSE DOS SANTOS LTDA",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "COMPRO000099",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",
+            1.0,
+            3.0
+          ]
+        ]
+      },
+      {
+        "codigo": "060264",
+        "cliente": "MERCADINHO BOM PRECO LTDA",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "COMPRO000067",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 2 KG CAIXA PP 10 KG (CANCAO ALIMENTOS)",
+            1.0,
+            10.0
+          ],
+          [
+            "COMPRO000099",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",
+            1.0,
+            3.0
+          ],
+          [
+            "FRCSCANMI000011",
+            "CARNE CONGELADA DE FRANGO SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ]
+        ]
+      },
+      {
+        "codigo": "060508",
+        "cliente": "MERCADO KUSUMOTO WELLINGTON XAVIER LTDA",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "COMPRO000069",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",
+            1.0,
+            9.9
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ]
+        ]
+      },
+      {
+        "codigo": "064003",
+        "cliente": "MERCADO SERV+ 2 LTDA",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "COMPRO000069",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",
+            1.0,
+            9.9
+          ],
+          [
+            "COMPRO000094",
+            "LASANHA A BOLONHESA CONG BDJ 600 G CX 7,2 KG",
+            1.0,
+            7.2
+          ],
+          [
+            "COMPRO000117",
+            "SANDUICHE FUT BURGUER BACON C/ REQUEIJAO CONG PCT 18 X 150 G CX 2,7 KG",
+            1.0,
+            2.7
+          ]
+        ]
+      },
+      {
+        "codigo": "067749",
+        "cliente": "BRITO E LINO LTDA",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "COMPRO000059",
+            "POLENTA PALITO TRADICIONAL CONGELADA PACOTE 1 KG CX PP 10 KG PROD CANCAO",
+            1.0,
+            10.0
+          ],
+          [
+            "COMPRO000099",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",
+            1.0,
+            3.0
+          ],
+          [
+            "COMPRO000116",
+            "SANDUICHE FUT BURGUER C/ MOLHO DE PICLES CONG PCT 18 X 150 G CX 2,7 KG",
+            1.0,
+            2.7
+          ],
+          [
+            "COMPRO000117",
+            "SANDUICHE FUT BURGUER BACON C/ REQUEIJAO CONG PCT 18 X 150 G CX 2,7 KG",
+            1.0,
+            2.7
+          ],
+          [
+            "COMPRO000118",
+            "SANDUICHE FUT BURGUER MAIONESE GRILL CONG PCT 18 X 150 G CX 2,7 KG",
+            1.0,
+            2.7
+          ]
+        ]
+      },
+      {
+        "codigo": "071702",
+        "cliente": "TRAJANO COMERCIO LTDA",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "COMPRO000064",
+            "FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "COMPRO000069",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",
+            1.0,
+            9.9
+          ],
+          [
+            "FRASCANMI000011",
+            "CARNE CONGELADA DE FRANGO (MEIO DA ASA PACOTE IQF) CX PP 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRPTCANMI000021",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ]
+        ]
+      },
+      {
+        "codigo": "073117",
+        "cliente": "REAL LIMA SARANDI LTDA",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "COMPRO000116",
+            "SANDUICHE FUT BURGUER C/ MOLHO DE PICLES CONG PCT 18 X 150 G CX 2,7 KG",
+            1.0,
+            2.7
+          ],
+          [
+            "COMPRO000117",
+            "SANDUICHE FUT BURGUER BACON C/ REQUEIJAO CONG PCT 18 X 150 G CX 2,7 KG",
+            1.0,
+            2.7
+          ],
+          [
+            "COMPRO000118",
+            "SANDUICHE FUT BURGUER MAIONESE GRILL CONG PCT 18 X 150 G CX 2,7 KG",
+            1.0,
+            2.7
+          ]
+        ]
+      },
+      {
+        "codigo": "073271",
+        "cliente": "GNOATTO & GNOATTO LTDA",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "COMPRO000068",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",
+            1.0,
+            10.0
+          ]
+        ]
+      },
+      {
+        "codigo": "073508",
+        "cliente": "MERCEARIA BOM PASTOR LTDA",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "FRCSCANMI000059",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA A PASSARINHO IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ]
+        ]
+      },
+      {
+        "codigo": "074287",
+        "cliente": "TALES MERCADO LTDA",
+        "cidade": "SARANDI/PR",
+        "itens": [
+          [
+            "COMPRO000069",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",
+            2.0,
+            19.8
+          ],
+          [
+            "FRCSCANMI000059",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA A PASSARINHO IQF PCT 10 X 1 KG CX 10 KG",
+            10.0,
+            100.0
+          ]
+        ]
+      }
+    ],
+    "ordem": 2,
+    "regiao": "MARINGA",
+    "chegada": "00:10"
+  },
+  {
+    "numero": "5002381",
+    "transportadora": "GONCALVES & TORTOLA S/A",
+    "motorista": "DIEGO OLIVEIRA DE MORAES",
+    "data": "21/09/2026",
+    "hora": "18:12",
+    "placa": "RVC1F26",
+    "entregas": 10,
+    "totalCx": 444.0,
+    "totalKg": 6393.5,
+    "pedidos": [
+      {
+        "codigo": "001904",
+        "cliente": "VENDRAMINI FILHOS LTDA",
+        "cidade": "CAMPO MOURAO/PR",
+        "itens": [
+          [
+            "COMPRO000121",
+            "COXINHA DA ASA EMPANADA TRADICIONAL PCT 10 X 700 G CX 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            6.0,
+            60.0
+          ],
+          [
+            "FRASCANMI000011",
+            "CARNE CONGELADA DE FRANGO (MEIO DA ASA PACOTE IQF) CX PP 10 KG",
+            5.0,
+            50.0
+          ],
+          [
+            "FRASCANMI000027",
+            "CARNE RESFRIADA DE FRANGO COXINHA DA ASA PV CX 20 KG",
+            3.0,
+            60.0
+          ],
+          [
+            "FRASCANMI000037",
+            "CARNE RESFRIADA DE FRANGO ASA PV CX 20 KG",
+            3.0,
+            60.0
+          ],
+          [
+            "FRCSCANMI000009",
+            "CARNE CONGELADA DE FRANGO (COXA PACOTE IQF) CX PP 10 KG",
+            2.0,
+            20.0
+          ],
+          [
+            "FRCSCANMI000055",
+            "CARNE CONGELADA DE FRANGO FILE DE SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",
+            3.0,
+            30.0
+          ],
+          [
+            "FRMDCANMI000020",
+            "MIUDOS RESFRIADOS DE FRANGO CORACAO PCT 20 X 1 KG CX 20 KG",
+            3.0,
+            60.0
+          ],
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            5.0,
+            50.0
+          ],
+          [
+            "FRPTCANMI000021",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            4.0,
+            40.0
+          ]
+        ]
+      },
+      {
+        "codigo": "001904",
+        "cliente": "VENDRAMINI FILHOS LTDA",
+        "cidade": "ARARUNA/PR",
+        "itens": [
+          [
+            "COMPRO000008",
+            "FILEZINHO DE FRANGO EMPANADO CONG PCT 700 G CX PP 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "COMPRO000066",
+            "EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",
+            2.0,
+            14.0
+          ],
+          [
+            "COMPRO000100",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 1 KG CX 7 KG",
+            2.0,
+            14.0
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            6.0,
+            60.0
+          ],
+          [
+            "FRCSCANMI000055",
+            "CARNE CONGELADA DE FRANGO FILE DE SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "002380",
+        "cliente": "CARREIRA & IRMAOS LTDA",
+        "cidade": "CAMPO MOURAO/PR",
+        "itens": [
+          [
+            "COMPRO000059",
+            "POLENTA PALITO TRADICIONAL CONGELADA PACOTE 1 KG CX PP 10 KG PROD CANCAO",
+            4.0,
+            40.0
+          ],
+          [
+            "COMPRO000067",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 2 KG CAIXA PP 10 KG (CANCAO ALIMENTOS)",
+            25.0,
+            250.0
+          ],
+          [
+            "COMPRO000083",
+            "GALINHA INTEIRA CONGELADA (CABECA PESCOCO MOELA E PES) CX PP 20 KG (MISTER FRANGO)",
+            10.0,
+            200.0
+          ],
+          [
+            "COMPRO000094",
+            "LASANHA A BOLONHESA CONG BDJ 600 G CX 7,2 KG",
+            2.0,
+            14.4
+          ],
+          [
+            "COMPRO000099",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",
+            1.0,
+            3.0
+          ],
+          [
+            "COMPRO000117",
+            "SANDUICHE FUT BURGUER BACON C/ REQUEIJAO CONG PCT 18 X 150 G CX 2,7 KG",
+            1.0,
+            2.7
+          ],
+          [
+            "FRASCANMI000048",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO MEIO DAS ASAS BDJ PV CX 10,2 KG",
+            2.0,
+            20.4
+          ],
+          [
+            "FRCSCANMI000011",
+            "CARNE CONGELADA DE FRANGO SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",
+            30.0,
+            300.0
+          ],
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",
+            11.0,
+            198.0
+          ],
+          [
+            "FRINCANMI000005",
+            "FRANGO TEMPERADO CONGELADO C/ MIUDOS (PESCOCO MOELA E FIGADO) CX PP 20 KG (CANCAO)",
+            10.0,
+            200.0
+          ],
+          [
+            "FRMDCANMI000016",
+            "MIUDOS CONGELADOS DE FRANGO FIGADO PCT 20 X 1 KG CX 20 KG",
+            10.0,
+            200.0
+          ],
+          [
+            "FRPTCANMI000061",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",
+            18.0,
+            205.2
+          ],
+          [
+            "FRPTCANMI000062",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",
+            27.0,
+            302.4
+          ]
+        ],
+        "obs": "AGENDAMENTO 9 00"
+      },
+      {
+        "codigo": "014998",
+        "cliente": "CIA PARANA DE ALIMENTOS S/A",
+        "cidade": "CAMPO MOURAO/PR",
+        "itens": [
+          [
+            "FRCSCANMI000003",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",
+            83.0,
+            1494.0
+          ]
+        ]
+      },
+      {
+        "codigo": "014998",
+        "cliente": "CIA PARANA DE ALIMENTOS S/A",
+        "cidade": "CAMPO MOURAO/PR",
+        "itens": [
+          [
+            "FRCSCANMI000003",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",
+            83.0,
+            1494.0
+          ]
+        ]
+      },
+      {
+        "codigo": "029986",
+        "cliente": "KAIROS COMERCIO DE ALIMENTOS LTDA",
+        "cidade": "UBIRATA/PR",
+        "itens": [
+          [
+            "COMPRO000066",
+            "EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",
+            2.0,
+            14.0
+          ],
+          [
+            "COMPRO000067",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 2 KG CAIXA PP 10 KG (CANCAO ALIMENTOS)",
+            3.0,
+            30.0
+          ],
+          [
+            "COMPRO000068",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",
+            3.0,
+            30.0
+          ],
+          [
+            "COMPRO000082",
+            "PAO DE QUEIJO TRADICIONAL CONGELADO PCT 800 G CX PP 9,6 KG (CANCAO)",
+            2.0,
+            19.2
+          ],
+          [
+            "COMPRO000094",
+            "LASANHA A BOLONHESA CONG BDJ 600 G CX 7,2 KG",
+            1.0,
+            7.2
+          ],
+          [
+            "COMPRO000099",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",
+            1.0,
+            3.0
+          ],
+          [
+            "COMPRO000100",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 1 KG CX 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            15.0,
+            150.0
+          ],
+          [
+            "FRASCANMI000011",
+            "CARNE CONGELADA DE FRANGO (MEIO DA ASA PACOTE IQF) CX PP 10 KG",
+            3.0,
+            30.0
+          ],
+          [
+            "FRCSCANMI000009",
+            "CARNE CONGELADA DE FRANGO (COXA PACOTE IQF) CX PP 10 KG",
+            3.0,
+            30.0
+          ],
+          [
+            "FRCSCANMI000011",
+            "CARNE CONGELADA DE FRANGO SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",
+            3.0,
+            30.0
+          ],
+          [
+            "FRCSCANMI000059",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA A PASSARINHO IQF PCT 10 X 1 KG CX 10 KG",
+            4.0,
+            40.0
+          ],
+          [
+            "FRMDCANMI000016",
+            "MIUDOS CONGELADOS DE FRANGO FIGADO PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ],
+          [
+            "FRMDCANMI000034",
+            "MIUDOS CONGELADOS DE FRANGO (CORACAO) BDJ 20 X 600 G CX 12 KG",
+            1.0,
+            12.0
+          ],
+          [
+            "FRPTCANMI000004",
+            "CARNE CONGELADA DE FRANGO PEITO C/ OSSO PV CX 18 KG",
+            3.0,
+            54.0
+          ],
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            4.0,
+            40.0
+          ],
+          [
+            "FRPTCANMI000021",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            5.0,
+            50.0
+          ],
+          [
+            "FRPTCANMI000033",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",
+            3.0,
+            60.0
+          ]
+        ]
+      },
+      {
+        "codigo": "062082",
+        "cliente": "ROSE A. SOARES PANIFICADORA LTDA.",
+        "cidade": "MAMBORE/PR",
+        "itens": [
+          [
+            "FRPTCANMI000033",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",
+            3.0,
+            60.0
+          ]
+        ]
+      },
+      {
+        "codigo": "062084",
+        "cliente": "J. SACHUK & CIA. LTDA",
+        "cidade": "MAMBORE/PR",
+        "itens": [
+          [
+            "COMPRO000069",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",
+            1.0,
+            9.9
+          ],
+          [
+            "COMPRO000095",
+            "LASANHA QUATRO QUEIJOS CONG BDJ 600 G CX 7,2 KG",
+            1.0,
+            7.2
+          ],
+          [
+            "FRINCANMI000002",
+            "FRANGO RESFRIADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",
+            1.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "069213",
+        "cliente": "EVERTON LUCASYNSKI CARLIM",
+        "cidade": "MAMBORE/PR",
+        "itens": [
+          [
+            "COMPRO000009",
+            "ANEIS DE CEBOLA EMPANADAS CONGELADA PACOTE 1,1 KG CX PP 11 KG (CANCAO ALIMENTOS)",
+            1.0,
+            11.0
+          ],
+          [
+            "COMPRO000066",
+            "EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "COMPRO000069",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",
+            1.0,
+            9.9
+          ],
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "076133",
+        "cliente": "JOAO LEOPOLDO MOREIRA",
+        "cidade": "CAMPINA DA LAGOA/PR",
+        "itens": [
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ],
+          [
+            "FRCSCANMI000003",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",
+            2.0,
+            36.0
+          ],
+          [
+            "FRCSCANMI000055",
+            "CARNE CONGELADA DE FRANGO FILE DE SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRMDCANMI000015",
+            "MIUDOS CONGELADOS DE FRANGO (CORACAO) PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ],
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ],
+          [
+            "FRPTCANMI000033",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",
+            2.0,
+            40.0
+          ]
+        ]
+      }
+    ],
+    "ordem": 3,
+    "regiao": "CAMPO MOURAO",
+    "chegada": "02:00"
+  },
+  {
+    "numero": "5002383",
+    "transportadora": "GONCALVES & TORTOLA S/A",
+    "motorista": "JOSE GERMANO SOARES",
+    "data": "21/09/2026",
+    "hora": "18:15",
+    "placa": "RVE0H44",
+    "entregas": 27,
+    "totalCx": 114.0,
+    "totalKg": 1402.7,
+    "pedidos": [
+      {
+        "codigo": "001471",
+        "cliente": "B O ALVES BARBOSA LANCHONETE",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "COMPRO000069",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",
+            1.0,
+            9.9
+          ]
+        ]
+      },
+      {
+        "codigo": "001989",
+        "cliente": "BRASEIRO COMERCIO DE GENEROS ALIMENTICIOS LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "COMPRO000059",
+            "POLENTA PALITO TRADICIONAL CONGELADA PACOTE 1 KG CX PP 10 KG PROD CANCAO",
+            1.0,
+            10.0
+          ],
+          [
+            "COMPRO000068",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 400 G CAIXA PP 10 KG (CANCAO ALIMENTOS)",
+            1.0,
+            10.0
+          ],
+          [
+            "COMPRO000099",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",
+            1.0,
+            3.0
+          ],
+          [
+            "FRMDCANMI000020",
+            "MIUDOS RESFRIADOS DE FRANGO CORACAO PCT 20 X 1 KG CX 20 KG",
+            2.0,
+            40.0
+          ]
+        ]
+      },
+      {
+        "codigo": "003774",
+        "cliente": "COMPANHIA SULAMERICANA DE DISTRIBUICAO",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRASCANMI000047",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO COXINHA DA ASA BDJ PV CX 10,5 KG",
+            1.0,
+            10.5
+          ],
+          [
+            "FRASCANMI000048",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO MEIO DAS ASAS BDJ PV CX 10,2 KG",
+            1.0,
+            10.2
+          ],
+          [
+            "FRCSCANMI000051",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO SOBRECOXA BDJ PV CX 13 KG",
+            1.0,
+            13.0
+          ],
+          [
+            "FRCSCANMI000052",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO COXA BDJ PV CX 11,1 KG",
+            1.0,
+            11.1
+          ],
+          [
+            "FRPTCANMI000061",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",
+            1.0,
+            11.4
+          ],
+          [
+            "FRPTCANMI000062",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",
+            1.0,
+            11.2
+          ]
+        ]
+      },
+      {
+        "codigo": "003774",
+        "cliente": "COMPANHIA SULAMERICANA DE DISTRIBUICAO",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRASCANMI000047",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO COXINHA DA ASA BDJ PV CX 10,5 KG",
+            1.0,
+            10.5
+          ],
+          [
+            "FRPTCANMI000061",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",
+            1.0,
+            11.4
+          ],
+          [
+            "FRPTCANMI000062",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",
+            4.0,
+            44.8
+          ]
+        ]
+      },
+      {
+        "codigo": "006484",
+        "cliente": "INDUSTRIA E COMERCIO DE MASSAS HUMAITA LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRPTCANMI000065",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO S/ PELE PEITO S/ SASSAMI PCT PV CX 20 KG",
+            1.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "007563",
+        "cliente": "KENT FRIO ALIMENTOS LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "COMPRO000009",
+            "ANEIS DE CEBOLA EMPANADAS CONGELADA PACOTE 1,1 KG CX PP 11 KG (CANCAO ALIMENTOS)",
+            1.0,
+            11.0
+          ],
+          [
+            "FRPTCANMI000033",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",
+            1.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "008020",
+        "cliente": "LEJON COMERCIO ATACADISTA DE PRODUTOS ALIMENTICIOS LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "COMPRO000067",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 2 KG CAIXA PP 10 KG (CANCAO ALIMENTOS)",
+            9.0,
+            90.0
+          ],
+          [
+            "COMPRO000082",
+            "PAO DE QUEIJO TRADICIONAL CONGELADO PCT 800 G CX PP 9,6 KG (CANCAO)",
+            10.0,
+            96.0
+          ]
+        ]
+      },
+      {
+        "codigo": "008526",
+        "cliente": "M S TANABE & CIA LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRCSCANMI000053",
+            "CARNE CONGELADA DE FRANGO S/ OSSO C/ PELE FILE DE COXA E SOBRECOXA PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ],
+          [
+            "FRMDCANMI000015",
+            "MIUDOS CONGELADOS DE FRANGO (CORACAO) PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ],
+          [
+            "FRPTCANMI000004",
+            "CARNE CONGELADA DE FRANGO PEITO C/ OSSO PV CX 18 KG",
+            1.0,
+            18.0
+          ]
+        ]
+      },
+      {
+        "codigo": "011974",
+        "cliente": "R Y ONO DOCES",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRPTCANMI000018",
+            "CARNE RESFRIADA DE FRANGO PEITO C/ OSSO PV CX 18 KG",
+            3.0,
+            54.0
+          ]
+        ]
+      },
+      {
+        "codigo": "012248",
+        "cliente": "RESTAURANTE ALINANDA LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRCSCANMI000003",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",
+            1.0,
+            18.0
+          ],
+          [
+            "FRPTCANMI000033",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",
+            1.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "014337",
+        "cliente": "SUPERMERCADO NOVA KIPAO LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "COMPRO000065",
+            "EMPANADO DE FRANGO CONG (CHICKEN) PCT 300G CAIXA PP 3 KG",
+            1.0,
+            3.0
+          ]
+        ]
+      },
+      {
+        "codigo": "016014",
+        "cliente": "CILIOMAR TORTOLA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "COMPRO000064",
+            "FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "COMPRO000099",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",
+            1.0,
+            3.0
+          ],
+          [
+            "PEFLCANMI000001",
+            "FILE DE TILAPIA CONGELADA IQF 800 G CX PP 10,4 (CANCAO ALIMENTOS)",
+            1.0,
+            10.4
+          ]
+        ],
+        "obs": "ENTRGAR NA RECEPCAO DA GTF ATE 09H"
+      },
+      {
+        "codigo": "024494",
+        "cliente": "PG RESTAURANTE LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "026205",
+        "cliente": "GFC FOODS LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "COMPRO000003",
+            "MANDIOCA TOLETE CONGELADA PACOTE 1 KG CX PP 12 KG PROD CANCAO",
+            1.0,
+            12.0
+          ]
+        ]
+      },
+      {
+        "codigo": "036021",
+        "cliente": "COMERCIO DE GENEROS ALIMENTICIOS SM LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "COMPRO000064",
+            "FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "COMPRO000096",
+            "LASANHA DE FRANGO CONG BDJ 600 G CX 7,2 KG",
+            1.0,
+            7.2
+          ],
+          [
+            "COMPRO000099",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",
+            1.0,
+            3.0
+          ]
+        ]
+      },
+      {
+        "codigo": "037596",
+        "cliente": "RESTAURANTE E LANCHONETE CAPRA LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",
+            3.0,
+            54.0
+          ]
+        ]
+      },
+      {
+        "codigo": "037694",
+        "cliente": "BRIOCHE CROCANTE PANIFICADORA E CONFEITARIA LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRPTCANMI000045",
+            "CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",
+            3.0,
+            60.0
+          ]
+        ]
+      },
+      {
+        "codigo": "038063",
+        "cliente": "ARMAZEM BAR E RESTAURANTE LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRASCANMI000043",
+            "CARNE CONGELADA DE FRANGO (MEIO DA ASA C/ OSSO) PCT 10 KG CX PP 20 KG (CANCAO)",
+            1.0,
+            20.0
+          ],
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",
+            1.0,
+            18.0
+          ],
+          [
+            "FRCSCANMI000053",
+            "CARNE CONGELADA DE FRANGO S/ OSSO C/ PELE FILE DE COXA E SOBRECOXA PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "046249",
+        "cliente": "RAFAEL ALVES DA SILVA 08549174971",
+        "cidade": "PAICANDU/PR",
+        "itens": [
+          [
+            "COMPRO000116",
+            "SANDUICHE FUT BURGUER C/ MOLHO DE PICLES CONG PCT 18 X 150 G CX 2,7 KG",
+            1.0,
+            2.7
+          ],
+          [
+            "COMPRO000117",
+            "SANDUICHE FUT BURGUER BACON C/ REQUEIJAO CONG PCT 18 X 150 G CX 2,7 KG",
+            1.0,
+            2.7
+          ],
+          [
+            "COMPRO000118",
+            "SANDUICHE FUT BURGUER MAIONESE GRILL CONG PCT 18 X 150 G CX 2,7 KG",
+            1.0,
+            2.7
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRASCANMI000011",
+            "CARNE CONGELADA DE FRANGO (MEIO DA ASA PACOTE IQF) CX PP 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRPTCANMI000033",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",
+            1.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "046414",
+        "cliente": "PANIFICADORA PAO QUENTE DE MARINGA LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRPTCANMI000033",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",
+            4.0,
+            80.0
+          ]
+        ]
+      },
+      {
+        "codigo": "069323",
+        "cliente": "PEGASUS RESTAURANTE E CAFETERIA LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRCSCANMI000053",
+            "CARNE CONGELADA DE FRANGO S/ OSSO C/ PELE FILE DE COXA E SOBRECOXA PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ],
+          [
+            "FRPTCANMI000045",
+            "CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",
+            1.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "070647",
+        "cliente": "20.283.103 EDERSON HILDEBRANDI",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            17.0,
+            170.0
+          ]
+        ]
+      },
+      {
+        "codigo": "071314",
+        "cliente": "A M SETANI LANCHES",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRPTCANMI000045",
+            "CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",
+            1.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "073351",
+        "cliente": "K2 RESTAURANTE LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",
+            1.0,
+            18.0
+          ],
+          [
+            "FRPTCANMI000045",
+            "CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",
+            2.0,
+            40.0
+          ]
+        ]
+      },
+      {
+        "codigo": "074471",
+        "cliente": "DIOFAINES KER NETO RESTAURANTE",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "COMPRO000099",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",
+            2.0,
+            6.0
+          ],
+          [
+            "PEFLCANMI000013",
+            "PEIXE TEMPERADO EMPANADO CONGELADO (ISCAS DE TILAPIA) PCT 400 G CX PP 3,2 KG",
+            5.0,
+            16.0
+          ]
+        ]
+      },
+      {
+        "codigo": "075003",
+        "cliente": "V. C. RESTAURANTE LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",
+            5.0,
+            90.0
+          ]
+        ]
+      },
+      {
+        "codigo": "076517",
+        "cliente": "62.594.861 FRANCISCA MARIA DE JESUS",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",
+            2.0,
+            36.0
+          ]
+        ]
+      }
+    ],
+    "ordem": 4,
+    "regiao": "MARINGA",
+    "chegada": "02:30"
+  },
+  {
+    "numero": "5002377",
+    "transportadora": "GO LOG TRANSPORTES RAPIDOS LTDA",
+    "motorista": "JOSEILTON RODRIGUES CARDOSO",
+    "data": "21/09/2026",
+    "hora": "18:10",
+    "placa": "AXU5151",
+    "entregas": 10,
+    "totalCx": 186.0,
+    "totalKg": 2145.2,
+    "pedidos": [
+      {
+        "codigo": "003666",
+        "cliente": "COMERCIO DE CARNES PEPELIO LTDA.",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",
+            40.0,
+            720.0
+          ]
+        ]
+      },
+      {
+        "codigo": "005865",
+        "cliente": "GCA - DISTRIBUIDORA COMERCIAL DE ALIMENTOS LTDA",
+        "cidade": "MANDAGUACU/PR",
+        "itens": [
+          [
+            "FRASCANMI000047",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO COXINHA DA ASA BDJ PV CX 10,5 KG",
+            4.0,
+            42.0
+          ],
+          [
+            "FRASCANMI000047",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO COXINHA DA ASA BDJ PV CX 10,5 KG",
+            3.0,
+            31.5
+          ],
+          [
+            "FRASCANMI000047",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO COXINHA DA ASA BDJ PV CX 10,5 KG",
+            3.0,
+            31.5
+          ],
+          [
+            "FRASCANMI000047",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO COXINHA DA ASA BDJ PV CX 10,5 KG",
+            9.0,
+            94.5
+          ],
+          [
+            "FRASCANMI000048",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO MEIO DAS ASAS BDJ PV CX 10,2 KG",
+            1.0,
+            10.2
+          ],
+          [
+            "FRASCANMI000048",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO MEIO DAS ASAS BDJ PV CX 10,2 KG",
+            1.0,
+            10.2
+          ],
+          [
+            "FRASCANMI000048",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO MEIO DAS ASAS BDJ PV CX 10,2 KG",
+            1.0,
+            10.2
+          ],
+          [
+            "FRASCANMI000048",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO MEIO DAS ASAS BDJ PV CX 10,2 KG",
+            1.0,
+            10.2
+          ],
+          [
+            "FRASCANMI000048",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO MEIO DAS ASAS BDJ PV CX 10,2 KG",
+            3.0,
+            30.6
+          ],
+          [
+            "FRCSCANMI000052",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO COXA BDJ PV CX 11,1 KG",
+            3.0,
+            33.3
+          ],
+          [
+            "FRCSCANMI000052",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO COXA BDJ PV CX 11,1 KG",
+            3.0,
+            33.3
+          ],
+          [
+            "FRCSCANMI000052",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO COXA BDJ PV CX 11,1 KG",
+            4.0,
+            44.4
+          ],
+          [
+            "FRCSCANMI000052",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO COXA BDJ PV CX 11,1 KG",
+            3.0,
+            33.3
+          ],
+          [
+            "FRCSCANMI000052",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO COXA BDJ PV CX 11,1 KG",
+            4.0,
+            44.4
+          ],
+          [
+            "FRPTCANMI000061",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",
+            2.0,
+            22.8
+          ],
+          [
+            "FRPTCANMI000061",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",
+            3.0,
+            34.2
+          ],
+          [
+            "FRPTCANMI000061",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",
+            3.0,
+            34.2
+          ],
+          [
+            "FRPTCANMI000061",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",
+            3.0,
+            34.2
+          ],
+          [
+            "FRPTCANMI000061",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",
+            7.0,
+            79.8
+          ],
+          [
+            "FRPTCANMI000062",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",
+            3.0,
+            33.6
+          ],
+          [
+            "FRPTCANMI000062",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",
+            3.0,
+            33.6
+          ],
+          [
+            "FRPTCANMI000062",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",
+            6.0,
+            67.2
+          ],
+          [
+            "FRPTCANMI000062",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",
+            4.0,
+            44.8
+          ],
+          [
+            "FRPTCANMI000062",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",
+            9.0,
+            100.8
+          ]
+        ],
+        "obs": "ATENCAO ENTREGAR DO ENDERECO AV MARINGA 1043 SARANDI PR"
+      },
+      {
+        "codigo": "007120",
+        "cliente": "SUPERMERCADO JOTA K LTDA",
+        "cidade": "MANDAGUACU/PR",
+        "itens": [
+          [
+            "COMPRO000064",
+            "FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",
+            1.0,
+            7.0
+          ]
+        ]
+      },
+      {
+        "codigo": "035793",
+        "cliente": "SILVA & JANUARIO GENEROS ALIMENTICIOS LTDA",
+        "cidade": "MANDAGUACU/PR",
+        "itens": [
+          [
+            "COMPRO000117",
+            "SANDUICHE FUT BURGUER BACON C/ REQUEIJAO CONG PCT 18 X 150 G CX 2,7 KG",
+            1.0,
+            2.7
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRCSCANMI000059",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA A PASSARINHO IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ]
+        ]
+      },
+      {
+        "codigo": "035793",
+        "cliente": "SILVA & JANUARIO GENEROS ALIMENTICIOS LTDA",
+        "cidade": "MANDAGUACU/PR",
+        "itens": [
+          [
+            "COMPRO000065",
+            "EMPANADO DE FRANGO CONG (CHICKEN) PCT 300G CAIXA PP 3 KG",
+            1.0,
+            3.0
+          ],
+          [
+            "COMPRO000116",
+            "SANDUICHE FUT BURGUER C/ MOLHO DE PICLES CONG PCT 18 X 150 G CX 2,7 KG",
+            1.0,
+            2.7
+          ],
+          [
+            "COMPRO000117",
+            "SANDUICHE FUT BURGUER BACON C/ REQUEIJAO CONG PCT 18 X 150 G CX 2,7 KG",
+            1.0,
+            2.7
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRCSCANMI000059",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA A PASSARINHO IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ]
+        ]
+      },
+      {
+        "codigo": "036828",
+        "cliente": "JOSE ALEXANDRE ROSA RESTAURANTE LTDA",
+        "cidade": "MANDAGUACU/PR",
+        "itens": [
+          [
+            "COMPRO000097",
+            "BOLINHO DE TILAPIA CONG PCT 300 G CX 4,2 KG",
+            1.0,
+            4.2
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            3.0,
+            30.0
+          ],
+          [
+            "FRCSCANMI000011",
+            "CARNE CONGELADA DE FRANGO SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "057374",
+        "cliente": "V SARETTO & SARETTO LTDA",
+        "cidade": "DOUTOR CAMARGO/PR",
+        "itens": [
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX (CANCAO ALIMENTOS): Folha: 3 PP 18KG (CANCAO)",
+            10.0,
+            180.0
+          ],
+          [
+            "FRMDCANMI000022",
+            "MIUDOS CONGELADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ]
+        ],
+        "obs": "RESTAURANTE CATARINA PROXIMO A PONTE DO RIO IVAI ENTREGAR A PARTIR DAS 5 30H"
+      },
+      {
+        "codigo": "057375",
+        "cliente": "BRUSTOLIM E RODRIGUES LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "COMPRO000064",
+            "FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",
+            10.0,
+            70.0
+          ]
+        ]
+      },
+      {
+        "codigo": "060088",
+        "cliente": "ANTONIO RODRIGUES GUEDES LTDA",
+        "cidade": "MARINGA/PR",
+        "itens": [
+          [
+            "COMPRO000069",
+            "BATATA PALITO CONGELADA 9 X 9 MM PACOTE 1,1 KG CAIXA PP 9,9 KG (CANCAO ALIMENTOS)",
+            1.0,
+            9.9
+          ],
+          [
+            "COMPRO000097",
+            "BOLINHO DE TILAPIA CONG PCT 300 G CX 4,2 KG",
+            1.0,
+            4.2
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ]
+        ]
+      },
+      {
+        "codigo": "072711",
+        "cliente": "SRA. DESCONTAO GENEROS ALIMENTICIOS LTDA",
+        "cidade": "MARIALVA/PR",
+        "itens": [
+          [
+            "COMPRO000101",
+            "EMPANADO DE TILAPIA (SMALL FISH) CONG PCT 400 G CX 3,2 KG",
+            20.0,
+            64.0
+          ]
+        ]
+      }
+    ],
+    "ordem": 5,
+    "regiao": "MANDAGUACU",
+    "chegada": "03:00"
+  },
+  {
+    "numero": "5002378",
+    "transportadora": "GO LOG TRANSPORTES RAPIDOS LTDA",
+    "motorista": "JOSEILTON RODRIGUES CARDOSO",
+    "data": "21/09/2026",
+    "hora": "18:11",
+    "placa": "AZU2043",
+    "entregas": 6,
+    "totalCx": 275.0,
+    "totalKg": 4490.4,
+    "pedidos": [
+      {
+        "codigo": "001904",
+        "cliente": "VENDRAMINI FILHOS LTDA",
+        "cidade": "ENGENHEIRO BELTRAO/PR",
+        "itens": [
+          [
+            "COMPRO000064",
+            "FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "COMPRO000100",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 1 KG CX 7 KG",
+            2.0,
+            14.0
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            6.0,
+            60.0
+          ],
+          [
+            "FRCSCANMI000009",
+            "CARNE CONGELADA DE FRANGO (COXA PACOTE IQF) CX PP 10 KG",
+            2.0,
+            20.0
+          ],
+          [
+            "FRCSCANMI000055",
+            "CARNE CONGELADA DE FRANGO FILE DE SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ],
+          [
+            "FRMDCANMI000030",
+            "CARNE CONGELADA DE FRANGO PESCOCO S/ PELE C/ OSSO PCT 18 X 1 KG CX 18 KG",
+            2.0,
+            36.0
+          ],
+          [
+            "FRPTCANMI000021",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            4.0,
+            40.0
+          ],
+          [
+            "FRPTCANMI000069",
+            "CARNE CONGELADA DE FRANGO S/ OSSO S/ PELE FILE DE PEITO EM BIFES IQF PCT 10 X 1 KG CX 10 KG",
+            3.0,
+            30.0
+          ]
+        ]
+      },
+      {
+        "codigo": "001904",
+        "cliente": "VENDRAMINI FILHOS LTDA",
+        "cidade": "PEABIRU/PR",
+        "itens": [
+          [
+            "COMPRO000064",
+            "FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "COMPRO000066",
+            "EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",
+            2.0,
+            14.0
+          ],
+          [
+            "COMPRO000100",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 1 KG CX 7 KG",
+            2.0,
+            14.0
+          ],
+          [
+            "COMPRO000119",
+            "BOLINHO DE FRANGO FUT CHICKEN C/ RECHEIO CREMOSO DE QUEIJO CONG PTC 300 G CX 4,2 KG",
+            2.0,
+            8.4
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            6.0,
+            60.0
+          ],
+          [
+            "FRCSCANMI000055",
+            "CARNE CONGELADA DE FRANGO FILE DE SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",
+            2.0,
+            20.0
+          ],
+          [
+            "FRMDCANMI000030",
+            "CARNE CONGELADA DE FRANGO PESCOCO S/ PELE C/ OSSO PCT 18 X 1 KG CX 18 KG",
+            2.0,
+            36.0
+          ],
+          [
+            "FRPTCANMI000021",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO S/ PELE S/ SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            4.0,
+            40.0
+          ]
+        ]
+      },
+      {
+        "codigo": "001904",
+        "cliente": "VENDRAMINI FILHOS LTDA",
+        "cidade": "TERRA BOA/PR",
+        "itens": [
+          [
+            "COMPRO000008",
+            "FILEZINHO DE FRANGO EMPANADO CONG PCT 700 G CX PP 7 KG",
+            3.0,
+            21.0
+          ],
+          [
+            "COMPRO000064",
+            "FILEZINHO DE FRANGO EMPANADO CONG PCT 1KG CAIXA PP 7 KG",
+            2.0,
+            14.0
+          ],
+          [
+            "COMPRO000066",
+            "EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",
+            3.0,
+            21.0
+          ],
+          [
+            "FRCSCANMI000055",
+            "CARNE CONGELADA DE FRANGO FILE DE SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",
+            3.0,
+            30.0
+          ]
+        ]
+      },
+      {
+        "codigo": "014998",
+        "cliente": "CIA PARANA DE ALIMENTOS S A",
+        "cidade": "CAMPO MOURAO/PR",
+        "itens": [
+          [
+            "FRCSCANMI000003",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",
+            83.0,
+            1494.0
+          ]
+        ]
+      },
+      {
+        "codigo": "014998",
+        "cliente": "CIA PARANA DE ALIMENTOS S A",
+        "cidade": "GOIOERE/PR",
+        "itens": [
+          [
+            "FRCSCANMI000003",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",
+            83.0,
+            1494.0
+          ]
+        ]
+      },
+      {
+        "codigo": "014998",
+        "cliente": "CIA PARANA DE ALIMENTOS S A",
+        "cidade": "ASSIS CHATEAUBRIAND/PR",
+        "itens": [
+          [
+            "FRCSCANMI000003",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",
+            55.0,
+            990.0
+          ]
+        ]
+      }
+    ],
+    "ordem": 6,
+    "regiao": "ASSIS CHATEAUBRIAND",
+    "chegada": "03:30"
+  },
+  {
+    "numero": "5002379",
+    "transportadora": "R C LOGISTICA LTDA",
+    "motorista": "RAFAEL BRUNO COMO",
+    "data": "21/09/2026",
+    "hora": "18:11",
+    "placa": "QIU3C76",
+    "entregas": 4,
+    "totalCx": 276.0,
+    "totalKg": 4968.0,
+    "pedidos": [
+      {
+        "codigo": "014998",
+        "cliente": "CIA PARANA DE ALIMENTOS S/A",
+        "cidade": "IVAIPORA/PR",
+        "itens": [
+          [
+            "FRCSCANMI000003",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",
+            83.0,
+            1494.0
+          ]
+        ]
+      },
+      {
+        "codigo": "014998",
+        "cliente": "CIA PARANA DE ALIMENTOS S A",
+        "cidade": "IVAIPORA/PR",
+        "itens": [
+          [
+            "FRCSCANMI000003",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",
+            83.0,
+            1494.0
+          ]
+        ]
+      },
+      {
+        "codigo": "014998",
+        "cliente": "CIA PARANA DE ALIMENTOS S A",
+        "cidade": "PITANGA/PR",
+        "itens": [
+          [
+            "FRCSCANMI000003",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",
+            83.0,
+            1494.0
+          ]
+        ]
+      },
+      {
+        "codigo": "014998",
+        "cliente": "CIA PARANA DE ALIMENTOS S/A",
+        "cidade": "MANOEL RIBAS/PR",
+        "itens": [
+          [
+            "FRCSCANMI000003",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA PV CX 18 KG",
+            27.0,
+            486.0
+          ]
+        ]
+      }
+    ],
+    "ordem": 7,
+    "regiao": "IVAIPORA",
+    "chegada": "04:00"
+  },
+  {
+    "numero": "5002382",
+    "transportadora": "GONCALVES & TORTOLA S/A",
+    "motorista": "MAICON DOUGLAS DOS SANTOS SAGRILO",
+    "data": "21/09/2026",
+    "hora": "18:14",
+    "placa": "RVE0H38",
+    "entregas": 19,
+    "totalCx": 57.0,
+    "totalKg": 937.2,
+    "pedidos": [
+      {
+        "codigo": "000410",
+        "cliente": "ADALCIR SAGGIN - RESTAURANTE",
+        "cidade": "CAMBE/PR",
+        "itens": [
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",
+            3.0,
+            54.0
+          ]
+        ],
+        "obs": "DAS 7 AS 14 HRS"
+      },
+      {
+        "codigo": "000436",
+        "cliente": "ADEMAR SANCHES CANO",
+        "cidade": "ARAPONGAS/PR",
+        "itens": [
+          [
+            "FRINCANMI000002",
+            "FRANGO RESFRIADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",
+            2.0,
+            40.0
+          ]
+        ]
+      },
+      {
+        "codigo": "005794",
+        "cliente": "G.LOPES & CIA LTDA",
+        "cidade": "ROLANDIA/PR",
+        "itens": [
+          [
+            "FRMDCANMI000016",
+            "MIUDOS CONGELADOS DE FRANGO FIGADO PCT 20 X 1 KG CX 20 KG",
+            10.0,
+            200.0
+          ],
+          [
+            "FRMDCANMI000030",
+            "CARNE CONGELADA DE FRANGO PESCOCO S/ PELE C/ OSSO PCT 18 X 1 KG CX 18 KG",
+            5.0,
+            90.0
+          ]
+        ]
+      },
+      {
+        "codigo": "006750",
+        "cliente": "J A LOPES COMERCIAL DE ALIMENTOS LTDA",
+        "cidade": "ROLANDIA/PR",
+        "itens": [
+          [
+            "FRMDCANMI000016",
+            "MIUDOS CONGELADOS DE FRANGO FIGADO PCT 20 X 1 KG CX 20 KG",
+            6.0,
+            120.0
+          ],
+          [
+            "FRMDCANMI000030",
+            "CARNE CONGELADA DE FRANGO PESCOCO S/ PELE C/ OSSO PCT 18 X 1 KG CX 18 KG",
+            3.0,
+            54.0
+          ]
+        ]
+      },
+      {
+        "codigo": "007174",
+        "cliente": "JOCIMAR DO ESPIRITO SANTO LTDA",
+        "cidade": "LONDRINA/PR",
+        "itens": [
+          [
+            "FRMDCANMI000030",
+            "CARNE CONGELADA DE FRANGO PESCOCO S/ PELE C/ OSSO PCT 18 X 1 KG CX 18 KG",
+            2.0,
+            36.0
+          ]
+        ]
+      },
+      {
+        "codigo": "010079",
+        "cliente": "MERCEARIA PROMISSAO LTDA",
+        "cidade": "ARAPONGAS/PR",
+        "itens": [
+          [
+            "FRCSCANMI000006",
+            "CARNE CONGELADA DE FRANGO (COXAS INTERFOLHADO) CX PP 18 KG",
+            5.0,
+            90.0
+          ]
+        ]
+      },
+      {
+        "codigo": "035752",
+        "cliente": "INOUE & SEIDI LTDA",
+        "cidade": "LONDRINA/PR",
+        "itens": [
+          [
+            "FRPTCANMI000045",
+            "CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",
+            1.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "064695",
+        "cliente": "MACARIO RESTAURANTE LTDA",
+        "cidade": "LONDRINA/PR",
+        "itens": [
+          [
+            "COMPRO000097",
+            "BOLINHO DE TILAPIA CONG PCT 300 G CX 4,2 KG",
+            2.0,
+            8.4
+          ]
+        ]
+      },
+      {
+        "codigo": "064917",
+        "cliente": "VALDECIR PONTES DE OLIVEIRA - MINIMERCADO",
+        "cidade": "ARAPONGAS/PR",
+        "itens": [
+          [
+            "FRCSCANMI000059",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA A PASSARINHO IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ]
+        ]
+      },
+      {
+        "codigo": "065076",
+        "cliente": "PALADAR NOBRE ESPETARIA LTDA",
+        "cidade": "ARAPONGAS/PR",
+        "itens": [
+          [
+            "FRPTCANMI000033",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",
+            2.0,
+            40.0
+          ]
+        ]
+      },
+      {
+        "codigo": "065169",
+        "cliente": "PIZZARIA HOT LTDA",
+        "cidade": "ARAPONGAS/PR",
+        "itens": [
+          [
+            "FRPTCANMI000045",
+            "CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",
+            2.0,
+            40.0
+          ]
+        ]
+      },
+      {
+        "codigo": "069646",
+        "cliente": "BASSI COMERCIO DE ALIMENTOS LTDA",
+        "cidade": "ARAPONGAS/PR",
+        "itens": [
+          [
+            "PEFLCANMI000002",
+            "FILE DE TILAPIA CONGELADA IQF 400 G CX PP 10,4 KG",
+            1.0,
+            10.4
+          ]
+        ]
+      },
+      {
+        "codigo": "071673",
+        "cliente": "BEMALVEDAN 1 LTDA",
+        "cidade": "LONDRINA/PR",
+        "itens": [
+          [
+            "COMPRO000074",
+            "ANEIS DE CEBOLA EMPANADAS CONGELADA PACOTE 1,1 KG CX PP 6,6 KG (CANCAO ALIMENTOS)",
+            1.0,
+            6.6
+          ]
+        ]
+      },
+      {
+        "codigo": "071848",
+        "cliente": "48.385.117 MONICA VIVARELLI BERTOZZI",
+        "cidade": "LONDRINA/PR",
+        "itens": [
+          [
+            "FRCSCANMI000011",
+            "CARNE CONGELADA DE FRANGO SOBRECOXA IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ]
+        ]
+      },
+      {
+        "codigo": "072530",
+        "cliente": "VILLA VERDE HORTIFRUTI E MERCEARIA LTDA",
+        "cidade": "LONDRINA/PR",
+        "itens": [
+          [
+            "COMPRO000099",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",
+            1.0,
+            3.0
+          ],
+          [
+            "COMPRO000119",
+            "BOLINHO DE FRANGO FUT CHICKEN C/ RECHEIO CREMOSO DE QUEIJO CONG PTC 300 G CX 4,2 KG",
+            1.0,
+            4.2
+          ]
+        ]
+      },
+      {
+        "codigo": "072581",
+        "cliente": "THAISA MARIS MANSANO AIRES GREGORI 03626673901",
+        "cidade": "LONDRINA/PR",
+        "itens": [
+          [
+            "FRPTCANMI000045",
+            "CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",
+            1.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "072766",
+        "cliente": "IRMAOS ESCAPILATO & CIA LTDA",
+        "cidade": "LONDRINA/PR",
+        "itens": [
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO) CX 10 KG: Folha: 3",
+            1.0,
+            18.0
+          ]
+        ]
+      },
+      {
+        "codigo": "073079",
+        "cliente": "PAULO CESAR TRUIZ & CIA LTDA",
+        "cidade": "ARAPONGAS/PR",
+        "itens": [
+          [
+            "FRCSCANMI000051",
+            "CARNE RESFRIADA DE FRANGO C/ OSSO SOBRECOXA BDJ PV CX 13 KG",
+            2.0,
+            26.0
+          ],
+          [
+            "FRPTCANMI000062",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILE DE PEITO BDJ PV CX 11,2 KG",
+            2.0,
+            22.4
+          ]
+        ]
+      },
+      {
+        "codigo": "075714",
+        "cliente": "64.711.824 ODAIR FERNANDES",
+        "cidade": "CAMBE/PR",
+        "itens": [
+          [
+            "COMPRO000097",
+            "BOLINHO DE TILAPIA CONG PCT 300 G CX 4,2 KG",
+            1.0,
+            4.2
+          ]
+        ]
+      }
+    ],
+    "ordem": 8,
+    "regiao": "LONDRINA",
+    "chegada": "04:00"
+  },
+  {
+    "numero": "5002385",
+    "transportadora": "TRANSPORTADORA ROSA DOS VENTOS LTDA",
+    "motorista": "RAFAEL DO NASCIMENTO MORAES",
+    "data": "21/09/2026",
+    "hora": "18:16",
+    "placa": "SEA3A72",
+    "entregas": 10,
+    "totalCx": 90.0,
+    "totalKg": 1206.6,
+    "pedidos": [
+      {
+        "codigo": "004716",
+        "cliente": "EDNALVA FELIX DA SILVA LTDA",
+        "cidade": "LONDRINA/PR",
+        "itens": [
+          [
+            "FRASCANMI000037",
+            "CARNE RESFRIADA DE FRANGO ASA PV CX 20 KG",
+            2.0,
+            40.0
+          ],
+          [
+            "FRASCANMI000043",
+            "CARNE CONGELADA DE FRANGO (MEIO DA ASA C/ OSSO) PCT 10 KG CX PP 20 KG (CANCAO)",
+            1.0,
+            20.0
+          ],
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",
+            3.0,
+            54.0
+          ],
+          [
+            "FRMDCANMI000020",
+            "MIUDOS RESFRIADOS DE FRANGO CORACAO PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ],
+          [
+            "FRPECANME000003",
+            "CARNE CONGELADA DE FRANGO C/ OSSO PES GRADE A PCT 2 X 7,5 KG CX 15 KG G2",
+            1.0,
+            15.0
+          ],
+          [
+            "FRPTCANMI000061",
+            "CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",
+            2.0,
+            22.8
+          ]
+        ]
+      },
+      {
+        "codigo": "011879",
+        "cliente": "R.A CAIRES DISTRIBUIDORA DE CARNES ME",
+        "cidade": "LONDRINA/PR",
+        "itens": [
+          [
+            "FRPTCANMI000045",
+            "CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",
+            20.0,
+            400.0
+          ]
+        ],
+        "obs": "ENTREGA NA PARTE DA MANHA"
+      },
+      {
+        "codigo": "014645",
+        "cliente": "SUPERMERCADOS BAZA LTDA",
+        "cidade": "JATAIZINHO/PR",
+        "itens": [
+          [
+            "COMPRO000101",
+            "EMPANADO DE TILAPIA (SMALL FISH) CONG PCT 400 G CX 3,2 KG",
+            3.0,
+            9.6
+          ],
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",
+            2.0,
+            36.0
+          ],
+          [
+            "FRMDCANMI000008",
+            "MIUDOS RESFRIADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ]
+        ]
+      },
+      {
+        "codigo": "014645",
+        "cliente": "SUPERMERCADOS BAZA LTDA",
+        "cidade": "IBIPORA/PR",
+        "itens": [
+          [
+            "COMPRO000066",
+            "EMPANADO DE FRANGO CONG (CHICKEN) PCT 1KG CAIXA PP 7 KG",
+            3.0,
+            21.0
+          ],
+          [
+            "COMPRO000101",
+            "EMPANADO DE TILAPIA (SMALL FISH) CONG PCT 400 G CX 3,2 KG",
+            20.0,
+            64.0
+          ],
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",
+            5.0,
+            90.0
+          ],
+          [
+            "FRINCANMI000002",
+            "FRANGO RESFRIADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",
+            4.0,
+            80.0
+          ],
+          [
+            "FRMDCANMI000008",
+            "MIUDOS RESFRIADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ]
+        ],
+        "obs": "CLIENTE RECEBE DAS 8H ATE 11H 2H ATE 16 30"
+      },
+      {
+        "codigo": "014645",
+        "cliente": "SUPERMERCADOS BAZA LTDA",
+        "cidade": "IBIPORA/PR",
+        "itens": [
+          [
+            "COMPRO000101",
+            "EMPANADO DE TILAPIA (SMALL FISH) CONG PCT 400 G CX 3,2 KG",
+            3.0,
+            9.6
+          ],
+          [
+            "FRINCANMI000002",
+            "FRANGO RESFRIADO C/ MIUDOS (2 FIGADO 2 PESCOCO) CX PP 20 KG (CANCAO)",
+            1.0,
+            20.0
+          ]
+        ],
+        "obs": "CLIENTE RECEBE DAS 8H ATE 11H 2H ATE 16 30H"
+      },
+      {
+        "codigo": "065686",
+        "cliente": "DOCE VIDA COMERCIO DE ALIMENTOS LTDA",
+        "cidade": "LONDRINA/PR",
+        "itens": [
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",
+            2.0,
+            36.0
+          ],
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",
+            2.0,
+            36.0
+          ],
+          [
+            "FRPTCANMI000045",
+            "CARNE RESFRIADA DE FRANGO (FILE DE PEITO INDIVIDUAL) CX PP 20 KG (CANCAO ALIMENTOS)",
+            1.0,
+            20.0
+          ]
+        ],
+        "obs": "CLIENTE RECEBE ATE 12H"
+      },
+      {
+        "codigo": "068996",
+        "cliente": "A. K. MIYAZAKI DOS SANTOS & CIA LTDA",
+        "cidade": "LONDRINA/PR",
+        "itens": [
+          [
+            "FRPTCANMI000033",
+            "CARNE CONGELADA DE FRANGO FILE DE PEITO PV CX 20 KG",
+            3.0,
+            60.0
+          ]
+        ]
+      },
+      {
+        "codigo": "071876",
+        "cliente": "MINIMERCADO PARREIRA LTDA",
+        "cidade": "LONDRINA/PR",
+        "itens": [
+          [
+            "COMPRO000100",
+            "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 1 KG CX 7 KG",
+            1.0,
+            7.0
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRCSCANMI000059",
+            "CARNE CONGELADA DE FRANGO COXA E SOBRECOXA A PASSARINHO IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ]
+        ],
+        "obs": "CLIENTE FECHA DAS 13H ATE 15H"
+      },
+      {
+        "codigo": "072410",
+        "cliente": "J F PARREIRA MINI MERCADO LTDA",
+        "cidade": "LONDRINA/PR",
+        "itens": [
+          [
+            "COMPRO000082",
+            "PAO DE QUEIJO TRADICIONAL CONGELADO PCT 800 G CX PP 9,6 KG (CANCAO)",
+            1.0,
+            9.6
+          ],
+          [
+            "FRASCANMI000010",
+            "CARNE CONGELADA DE FRANGO COXINHA DA ASA IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ],
+          [
+            "FRPTCANMI000010",
+            "CARNE CONGELADA DE FRANGO FILEZINHO SASSAMI IQF PCT 10 X 1 KG CX 10 KG",
+            1.0,
+            10.0
+          ]
+        ]
+      },
+      {
+        "codigo": "072471",
+        "cliente": "MARIA DE LOURDES LIMA DA NOBREGA 00875758924",
+        "cidade": "LONDRINA/PR",
+        "itens": [
+          [
+            "FRCSCANMI000018",
+            "CARNE RESFRIADA DE FRANGO (COXA E SOBRECOXA INDIVIDUAL) CX PP 18KG (CANCAO)",
+            2.0,
+            36.0
+          ],
+          [
+            "FRMDCANMI000008",
+            "MIUDOS RESFRIADOS DE FRANGO MOELA PCT 20 X 1 KG CX 20 KG",
+            1.0,
+            20.0
+          ]
+        ]
+      }
+    ],
+    "ordem": 9,
+    "regiao": "LONDRINA",
+    "chegada": "04:30"
+  }
+]
