@@ -295,13 +295,19 @@ def subir_versao_sw():
         print("  aviso: sw.js não encontrado, versão do cache não foi alterada.")
         return None
     txt = SW.read_text(encoding="utf-8")
-    m = re.search(r'const CACHE = "painel-cargas-v(\d+)";', txt)
+    # aceita os dois formatos: CACHE = "nome-vN"  ou  CACHE = PREFIXO + "vN"
+    m = re.search(r'const CACHE = PREFIXO \+ "v(\d+)";', txt)
+    if m:
+        nova = int(m.group(1)) + 1
+        SW.write_text(txt.replace(m.group(0), f'const CACHE = PREFIXO + "v{nova}";'), encoding="utf-8")
+        return nova
+    m = re.search(r'const CACHE = "([a-z-]*)v(\d+)";', txt)
     if not m:
         print("  aviso: não achei a versão do cache em sw.js.")
         return None
-    nova = int(m.group(1)) + 1
+    nova = int(m.group(2)) + 1
     SW.write_text(
-        txt.replace(m.group(0), f'const CACHE = "painel-cargas-v{nova}";'), encoding="utf-8"
+        txt.replace(m.group(0), f'const CACHE = "{m.group(1)}v{nova}";'), encoding="utf-8"
     )
     return nova
 

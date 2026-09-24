@@ -11,7 +11,7 @@
 // O prefixo separa este painel de qualquer outro que a conta publique no mesmo
 // endereço github.io — sem isso, um apagaria o cache do outro ao ativar.
 const PREFIXO = "cargas-gtf-";
-const CACHE = PREFIXO + "v1";
+const CACHE = PREFIXO + "v2";
 
 const ARQUIVOS = [
   "./",
