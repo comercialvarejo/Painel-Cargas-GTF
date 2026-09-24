@@ -400,6 +400,33 @@ def cmd_senha(args):
     print("Guarde-a: o index.html só tem o hash, não dá para recuperar a senha a partir dele.")
 
 
+def cmd_cortes(args):
+    """Injeta a planilha de corte do dia no index.html."""
+    origem = pathlib.Path(args.arquivo)
+    if not origem.exists():
+        erro(f"não encontrei o arquivo {origem}")
+    try:
+        c = json.loads(origem.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        erro(f"{origem} não é um JSON válido: {e}")
+
+    for campo in ("linhas", "totalCorte", "kgDescontar"):
+        if campo not in c:
+            erro(f"falta o campo '{campo}' no arquivo de cortes")
+
+    html = ler_index()
+    m = re.search(r"^const cortes = .*?;$", html, re.M)
+    if not m:
+        erro("não encontrei a linha 'const cortes = ...' no index.html")
+    novo = "const cortes = " + json.dumps(c, ensure_ascii=False, separators=(",", ":")) + ";"
+    INDEX.write_text(html[: m.start()] + novo + html[m.end():], encoding="utf-8")
+
+    print(f"{len(c['linhas'])} linhas de corte publicadas")
+    print(f"  {br(c['totalCorte'])} kg cortados · {br(c['kgDescontar'])} kg a descontar do peso do romaneio")
+    print(f"  {sum(1 for l in c['linhas'] if l.get('viagem'))} com viagem identificada")
+    subir_versao_sw()
+
+
 def cmd_conferir(args):
     html = ler_index()
     i, j = localizar_bloco(html)
@@ -441,6 +468,10 @@ def main():
     s = sub.add_parser("senha", help="troca a senha do modo administrador")
     s.add_argument("senha", help="a nova senha, entre aspas")
     s.set_defaults(func=cmd_senha)
+
+    ct = sub.add_parser("cortes", help="injeta a planilha de corte do dia no painel")
+    ct.add_argument("arquivo", help="JSON com os cortes")
+    ct.set_defaults(func=cmd_cortes)
 
     c = sub.add_parser("conferir", help="mostra um resumo das cargas publicadas")
     c.set_defaults(func=cmd_conferir)
