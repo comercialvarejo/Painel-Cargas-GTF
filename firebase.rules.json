@@ -1,16 +1,19 @@
 {
   "_comentario": [
-    "Regras do Realtime Database do painel (projeto status-cargas-varejo).",
+    "Regras do Realtime Database do painel (projeto painel-cargas-gtf).",
     "Como aplicar: console.firebase.google.com > Realtime Database > aba Regras,",
     "cole o conteúdo abaixo (sem esta chave _comentario) e clique em Publicar.",
     "",
     "O que elas fazem, comparadas com o modo de teste (read/write liberados):",
     "  - leitura continua pública, porque o painel lê sem login;",
-    "  - escrita só é aceita no caminho exato cargas/<numero-da-viagem>/<1 a 4>;",
-    "  - o valor gravado só pode ser true ou false.",
+    "  - escrita só é aceita em cargas/<numero-da-viagem>/<1 a 4>, com true ou false;",
+    "  - e em cargas/<numero-da-viagem>/obs, com um texto de até 300 caracteres.",
     "Assim ninguém consegue apagar o banco inteiro de uma vez nem gravar lixo nele.",
-    "Isso NÃO impede alguém que tenha o link de marcar/desmarcar um status:",
-    "para isso seria preciso login de verdade (Firebase Authentication)."
+    "Isso NÃO impede alguém que tenha o link de marcar um status ou escrever uma",
+    "observação: para isso seria preciso login de verdade (Firebase Authentication).",
+    "",
+    "ATENÇÃO: a observação só grava depois que estas regras forem publicadas.",
+    "Com as regras antigas o painel mostra 'permission denied' ao salvar."
   ],
 
   "rules": {
@@ -21,6 +24,11 @@
       ".read": true,
 
       "$viagem": {
+        "obs": {
+          ".write": "$viagem.matches(/^[0-9]{1,12}$/)",
+          ".validate": "newData.isString() && newData.val().length <= 300"
+        },
+
         "$etapa": {
           ".write": "$viagem.matches(/^[0-9]{1,12}$/) && $etapa.matches(/^[1-4]$/)",
           ".validate": "newData.isBoolean()"

@@ -155,10 +155,41 @@
   .totals{font-size:13px; color:var(--muted); text-align:left;}
   .totals b{color:var(--text);}
   /* as quatro etapas sempre nas mesmas quatro colunas, em todos os cards */
+  /* botões de status à esquerda, observação à direita; quando não cabem lado a
+     lado, a observação desce para baixo em vez de espremer os botões */
+  .acao-linha{display:flex; flex-wrap:wrap; gap:10px 12px; width:100%; align-items:stretch;}
   .status-track{
     display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px;
-    width:100%; max-width:1000px;
+    flex:1 1 620px; max-width:1000px;
   }
+  .obs-box{
+    flex:1 1 300px; min-width:0; display:flex; flex-direction:column; gap:3px;
+    border:1px dashed var(--border); border-radius:8px; padding:7px 10px;
+    background:var(--panel2); cursor:pointer; transition:border-color .15s;
+  }
+  .obs-box:hover{border-color:var(--accent);}
+  .obs-box.tem-obs{border-style:solid; border-color:rgba(234,179,8,0.45); background:rgba(234,179,8,0.06);}
+  .obs-box.editando{cursor:default; border-style:solid; border-color:var(--accent);}
+  .obs-rotulo{
+    font-size:9.5px; color:var(--muted); text-transform:uppercase;
+    letter-spacing:.06em; font-weight:600; display:flex; align-items:center; gap:4px;
+  }
+  .obs-texto{font-size:12px; color:var(--text); line-height:1.4; white-space:pre-wrap; word-break:break-word;}
+  .obs-texto.vazio{color:var(--muted); font-style:italic;}
+  .obs-input{
+    width:100%; min-height:54px; resize:vertical; margin-top:2px;
+    background:var(--panel); border:1px solid var(--border); border-radius:6px;
+    color:var(--text); font:inherit; font-size:12px; padding:6px 8px; line-height:1.4;
+  }
+  .obs-input:focus{outline:none; border-color:var(--accent);}
+  .obs-acoes{display:flex; gap:6px; margin-top:4px; flex-wrap:wrap;}
+  .obs-acoes button{
+    border:1px solid var(--border); background:var(--panel); color:var(--muted);
+    font-size:11px; padding:5px 12px; border-radius:6px; cursor:pointer;
+  }
+  .obs-acoes button:hover{border-color:var(--accent); color:var(--text);}
+  .obs-acoes .obs-salvar{background:var(--accent); border-color:var(--accent); color:#fff; font-weight:600;}
+  .obs-acoes .obs-apagar:hover{border-color:#ef5f5f; color:#ef5f5f;}
   .status-btn{
     display:flex; align-items:center; gap:6px;
     border:1px solid var(--border); background:var(--panel2); color:var(--muted);
@@ -257,7 +288,10 @@
     .head-right{width:100%; align-items:stretch;}
     .totals{text-align:left; margin-bottom:2px; font-size:13px;}
     .status-label{text-align:left;}
-    .status-track{width:100%;}
+    .acao-linha{flex-direction:column; gap:8px;}
+    .status-track{flex:1 1 auto; width:100%;}
+    .obs-box{flex:1 1 auto; width:100%; padding:8px 10px;}
+    .obs-input{min-height:64px; font-size:16px;}
     .status-btn{justify-content:flex-start; padding:8px 10px; font-size:11.5px;}
 
     /* pedido: cliente em cima, cidade e totais embaixo */
@@ -1652,6 +1686,87 @@ function setEtapa(numero, n, valor){
   }
 }
 
+// ---- observação da carga ----
+// Fica em cargas/<viagem>/obs, ao lado das quatro etapas, e segue a mesma regra:
+// só quem entrou como admin pode escrever, e o texto aparece na hora para todo mundo.
+const OBS_MAX = 300;
+
+function setObs(numero, texto){
+  texto = (texto || "").slice(0, OBS_MAX).trim();
+  if(FIREBASE_CONFIGURADO && dbRef){
+    const alvo = dbRef.child(numero).child('obs');
+    (texto ? alvo.set(texto) : alvo.remove()).catch(e=>{
+      console.error(e);
+      alert("Não consegui salvar a observação: " + e.message +
+            "\n\nSe a mensagem falar em permissão, as regras do banco precisam ser atualizadas.");
+    });
+  } else {
+    if(!statusMap[numero]) statusMap[numero] = {};
+    if(texto) statusMap[numero].obs = texto; else delete statusMap[numero].obs;
+    saveLocal(statusMap);
+    render();
+  }
+}
+
+function montarObs(box, numero){
+  if(!box) return;
+  const texto = (statusMap[numero] || {}).obs || "";
+  const admin = isAdmin();
+  box.className = 'obs-box' + (texto ? ' tem-obs' : '');
+  box.title = admin ? "Clique para escrever a observação" : "Requer login de admin para alterar";
+  box.innerHTML =
+    `<div class="obs-rotulo">${!admin ? '<span class="lock-icon">&#128274;</span>' : ''}Observação</div>` +
+    `<div class="obs-texto${texto ? '' : ' vazio'}"></div>`;
+  box.querySelector('.obs-texto').textContent =
+    texto || (admin ? "Clique para escrever" : "Sem observação");
+  box.onclick = (ev)=>{
+    ev.stopPropagation();
+    if(!isAdmin()){
+      if(!tryEnterAdmin()) return;
+      updateAdminBar();
+      render();
+      return;
+    }
+    editarObs(box, numero, texto);
+  };
+}
+
+function editarObs(box, numero, texto){
+  box.className = 'obs-box editando';
+  box.innerHTML = `<div class="obs-rotulo">Observação</div>`;
+  const ta = document.createElement('textarea');
+  ta.className = 'obs-input';
+  ta.maxLength = OBS_MAX;
+  ta.value = texto;
+  ta.placeholder = "Ex.: veículo atrasado, doca trocada, carga conferida...";
+  const acoes = document.createElement('div');
+  acoes.className = 'obs-acoes';
+  const salvar = document.createElement('button');
+  salvar.className = 'obs-salvar';
+  salvar.textContent = 'Salvar';
+  const cancelar = document.createElement('button');
+  cancelar.textContent = 'Cancelar';
+  const apagar = document.createElement('button');
+  apagar.className = 'obs-apagar';
+  apagar.textContent = 'Apagar';
+  acoes.appendChild(salvar);
+  acoes.appendChild(cancelar);
+  if(texto) acoes.appendChild(apagar);
+  box.appendChild(ta);
+  box.appendChild(acoes);
+  box.onclick = (ev)=> ev.stopPropagation();
+  ta.focus();
+  ta.setSelectionRange(ta.value.length, ta.value.length);
+  salvar.onclick    = (ev)=>{ ev.stopPropagation(); setObs(numero, ta.value); };
+  cancelar.onclick  = (ev)=>{ ev.stopPropagation(); montarObs(box, numero); };
+  apagar.onclick    = (ev)=>{ ev.stopPropagation(); setObs(numero, ""); };
+  ta.onkeydown = (ev)=>{
+    ev.stopPropagation();
+    if(ev.key === 'Escape') montarObs(box, numero);
+    if(ev.key === 'Enter' && (ev.ctrlKey || ev.metaKey)) setObs(numero, ta.value);
+  };
+}
+
 function fmt(n){
   return Number(n).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1});
 }
@@ -1721,8 +1836,11 @@ function render(){
                  (c.jaAplicado ? ' <span class="badge">já aplicado no romaneio</span>' : '') +
                  `</div>`;
         })()}
-        <div class="status-label">Status (toque para alterar &mdash; requer login)</div>
-        <div class="status-track" data-viagem="${v.numero}"></div>
+        <div class="status-label">Status e observação (toque para alterar &mdash; requer login)</div>
+        <div class="acao-linha">
+          <div class="status-track" data-viagem="${v.numero}"></div>
+          <div class="obs-box" data-viagem="${v.numero}"></div>
+        </div>
       </div>`;
 
     const track = head.querySelector('.status-track');
@@ -1743,6 +1861,8 @@ function render(){
       };
       track.appendChild(btn);
     });
+
+    montarObs(head.querySelector('.obs-box'), v.numero);
 
     const body = document.createElement('div');
     body.className = 'card-body';
