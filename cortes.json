@@ -1,9 +1,194 @@
 {
   "data": "28/09/2026",
-  "linhas": [],
-  "porViagem": {},
-  "totalPedido": 0.0,
-  "totalFaturado": 0.0,
-  "totalCorte": 0.0,
-  "kgDescontar": 0.0
+  "linhas": [
+    {
+      "viagem": "5003324",
+      "vendedor": "LUIZ MAURO",
+      "pedido": "051682",
+      "cliente": "GONCALVES & TORTOLA S/A",
+      "cidade": "MARINGA",
+      "sku": "COMPRO000121",
+      "produto": "COXINHA DA ASA EMPANADA TRADICIONAL PCT 10 X 700 G CX 7 KG",
+      "kgPedido": 7.0,
+      "kgFaturado": 0.0,
+      "kgCorte": 7.0,
+      "jaAplicado": false
+    },
+    {
+      "viagem": "5003321",
+      "vendedor": "ALESSANDRA",
+      "pedido": "051727",
+      "cliente": "IRMAOS MUFFATO & CIA LTDA",
+      "cidade": "CAMPO MOURAO",
+      "sku": "FRMDCANMI000038",
+      "produto": "MIUDOS RESFRIADOS DE FRANGO CORACAO BDJ 20 X 600 G CX 12 KG",
+      "kgPedido": 12.0,
+      "kgFaturado": 0.0,
+      "kgCorte": 12.0,
+      "jaAplicado": false
+    },
+    {
+      "viagem": "5003320",
+      "vendedor": "ALESSANDRA",
+      "pedido": "051626",
+      "cliente": "IRMAOS MUFFATO & CIA LTDA",
+      "cidade": "LONDRINA",
+      "sku": "FRSACANMI000002",
+      "produto": "CARNE RESFRIADA DE FRANGO C/ OSSO SAMBIQUIRA BDJ 20 X 600 G CX 12 KG",
+      "kgPedido": 12.0,
+      "kgFaturado": 0.0,
+      "kgCorte": 12.0,
+      "jaAplicado": false
+    },
+    {
+      "viagem": "5003320",
+      "vendedor": "ALESSANDRA",
+      "pedido": "051626",
+      "cliente": "IRMAOS MUFFATO & CIA LTDA",
+      "cidade": "LONDRINA",
+      "sku": "FRPECANMI000003",
+      "produto": "CARNE RESFRIADA DE FRANGO C/ OSSO PES BDJ PV CX 7,5 KG",
+      "kgPedido": 40.0,
+      "kgFaturado": 37.5,
+      "kgCorte": 2.5,
+      "jaAplicado": false
+    },
+    {
+      "viagem": "5003320",
+      "vendedor": "ALESSANDRA",
+      "pedido": "051673",
+      "cliente": "IRMAOS MUFFATO & CIA LTDA",
+      "cidade": "CAMBE",
+      "sku": "FRSACANMI000002",
+      "produto": "CARNE RESFRIADA DE FRANGO C/ OSSO SAMBIQUIRA BDJ 20 X 600 G CX 12 KG",
+      "kgPedido": 12.0,
+      "kgFaturado": 0.0,
+      "kgCorte": 12.0,
+      "jaAplicado": false
+    },
+    {
+      "viagem": "5003326",
+      "vendedor": "ALESSANDRA",
+      "pedido": "051634",
+      "cliente": "IRMAOS MUFFATO & CIA LTDA",
+      "cidade": "APUCARANA",
+      "sku": "FRPECANMI000003",
+      "produto": "CARNE RESFRIADA DE FRANGO C/ OSSO PES BDJ PV CX 7,5 KG",
+      "kgPedido": 37.5,
+      "kgFaturado": 15.0,
+      "kgCorte": 22.5,
+      "jaAplicado": false
+    },
+    {
+      "viagem": "5003320",
+      "vendedor": "ALESSANDRA",
+      "pedido": "051674",
+      "cliente": "IRMAOS MUFFATO & CIA LTDA",
+      "cidade": "ROLANDIA",
+      "sku": "FRSACANMI000002",
+      "produto": "CARNE RESFRIADA DE FRANGO C/ OSSO SAMBIQUIRA BDJ 20 X 600 G CX 12 KG",
+      "kgPedido": 12.0,
+      "kgFaturado": 0.0,
+      "kgCorte": 12.0,
+      "jaAplicado": false
+    },
+    {
+      "viagem": "5003322",
+      "vendedor": "ALESSANDRA",
+      "pedido": "051632",
+      "cliente": "IRMAOS MUFFATO & CIA LTDA",
+      "cidade": "SARANDI",
+      "sku": "PEFLCANMI000012",
+      "produto": "PEIXE TEMPERADO EMPANADO CONGELADO (FILE DE TILAPIA) PCT 600 G CX PP 6 KG",
+      "kgPedido": 12.0,
+      "kgFaturado": 0.0,
+      "kgCorte": 12.0,
+      "jaAplicado": false
+    },
+    {
+      "viagem": "5003325",
+      "vendedor": "BOIADEIRO",
+      "pedido": "051780",
+      "cliente": "R.A CAIRES DISTRIBUIDORA DE CARNES ME",
+      "cidade": "LONDRINA",
+      "sku": "FRPTCANMI000061",
+      "produto": "CARNE RESFRIADA DE FRANGO S/ OSSO FILEZINHO SASSAMI BDJ PV CX 11,4 KG",
+      "kgPedido": 22.8,
+      "kgFaturado": 0.0,
+      "kgCorte": 22.8,
+      "jaAplicado": false
+    },
+    {
+      "viagem": "5003314",
+      "vendedor": "MAYCON",
+      "pedido": "051775",
+      "cliente": "RORATO E YAMAMOTO LTDA",
+      "cidade": "MARIALVA",
+      "sku": "FRPTCANMI000004",
+      "produto": "CARNE CONGELADA DE FRANGO PEITO C/ OSSO PV CX 18 KG",
+      "kgPedido": 900.0,
+      "kgFaturado": 342.0,
+      "kgCorte": 558.0,
+      "jaAplicado": true
+    },
+    {
+      "viagem": "5003315",
+      "vendedor": "MAYCON",
+      "pedido": "051533",
+      "cliente": "TALES MERCADO LTDA",
+      "cidade": "SARANDI",
+      "sku": "COMPRO000099",
+      "produto": "EMPANADO DE FRANGO (FUT CHICKEN) CONG PCT 300 G CX 3 KG",
+      "kgPedido": 6.0,
+      "kgFaturado": 3.0,
+      "kgCorte": 3.0,
+      "jaAplicado": false
+    }
+  ],
+  "porViagem": {
+    "5003326": {
+      "corte": 22.5,
+      "jaAplicado": false,
+      "real": 4096.4
+    },
+    "5003320": {
+      "corte": 38.5,
+      "jaAplicado": false,
+      "real": 4789.5
+    },
+    "5003322": {
+      "corte": 12.0,
+      "jaAplicado": false,
+      "real": 3365.4
+    },
+    "5003314": {
+      "corte": 558.0,
+      "jaAplicado": true,
+      "real": 6144.4
+    },
+    "5003321": {
+      "corte": 12.0,
+      "jaAplicado": false,
+      "real": 5803.8
+    },
+    "5003315": {
+      "corte": 3.0,
+      "jaAplicado": false,
+      "real": 1141.7
+    },
+    "5003324": {
+      "corte": 7.0,
+      "jaAplicado": false,
+      "real": 1620.0
+    },
+    "5003325": {
+      "corte": 22.8,
+      "jaAplicado": false,
+      "real": 2381.3
+    }
+  },
+  "totalPedido": 1073.3,
+  "totalFaturado": 397.5,
+  "totalCorte": 675.8,
+  "kgDescontar": 117.8
 }
