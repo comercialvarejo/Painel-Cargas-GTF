@@ -57,9 +57,13 @@
     background:var(--panel); border:1px solid var(--border); border-radius:12px;
     overflow:hidden;
   }
+  /* O cabeçalho do card é uma pilha: identificação em cima, pesos no meio, status
+     embaixo. Antes era uma linha com dois blocos lado a lado, e o bloco da direita
+     mudava de lugar conforme a carga tivesse ou não a linha de corte — o que
+     desalinhava os status de um card para o outro. */
   .card-head{
-    display:flex; justify-content:space-between; align-items:center;
-    padding:14px 18px; cursor:pointer; gap:12px; flex-wrap:wrap;
+    display:flex; flex-direction:column; align-items:stretch;
+    padding:14px 18px; cursor:pointer; gap:10px;
   }
   .head-left:hover{background:rgba(255,255,255,0.02);}
   .head-left{display:flex; flex-direction:column; gap:2px; cursor:pointer;}
@@ -85,7 +89,7 @@
   }
   .regiao{color:var(--text); font-weight:600;}
   /* peso real x programado dentro do card */
-  .card-corte{font-size:12px; color:var(--muted); margin-top:2px;}
+  .card-corte{font-size:12px; color:var(--muted);}
   .card-corte b{color:#ef5f5f;}
   .card-corte .real{color:var(--s4); font-weight:600;}
 
@@ -123,7 +127,7 @@
     font-size:11px; color:var(--muted); text-transform:uppercase;
     letter-spacing:.06em; font-weight:600; margin-bottom:12px;
   }
-  .peso-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px;}
+  .peso-grid{display:grid; grid-template-columns:repeat(var(--peso-cols,4), minmax(0,1fr)); gap:12px;}
   .peso-card{
     background:var(--panel2); border:1px solid var(--border); border-radius:10px;
     padding:12px 14px; display:flex; flex-direction:column; gap:4px;
@@ -140,20 +144,27 @@
   .peso-bar i{display:block; height:100%; border-radius:3px; transition:width .3s;}
   @media (max-width: 760px){
     .peso-wrap{padding:14px;}
-    .peso-grid{grid-template-columns:1fr 1fr; gap:10px;}
+    .peso-grid{grid-template-columns:1fr 1fr; gap:10px; --peso-cols:2;}
     .peso-card{padding:10px 12px;}
     .peso-valor{font-size:18px;}
   }
-  .head-right{display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
-  .status-label{font-size:10px; color:var(--muted); width:100%; text-align:right;}
-  .totals{font-size:12px; color:var(--muted); text-align:right;}
+  .head-right{
+    display:flex; align-items:baseline; gap:6px 16px; flex-wrap:wrap; width:100%;
+  }
+  .status-label{font-size:10px; color:var(--muted); width:100%; text-align:left;}
+  .totals{font-size:13px; color:var(--muted); text-align:left;}
   .totals b{color:var(--text);}
-  .status-track{display:flex; gap:4px;}
+  /* as quatro etapas sempre nas mesmas quatro colunas, em todos os cards */
+  .status-track{
+    display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:6px;
+    width:100%; max-width:1000px;
+  }
   .status-btn{
     display:flex; align-items:center; gap:6px;
     border:1px solid var(--border); background:var(--panel2); color:var(--muted);
-    font-size:11px; padding:6px 10px; border-radius:6px; cursor:pointer;
-    white-space:nowrap; transition:all .15s;
+    font-size:11.5px; padding:8px 10px; border-radius:6px; cursor:pointer;
+    white-space:nowrap; transition:all .15s; min-height:36px; width:100%;
+    overflow:hidden; text-overflow:ellipsis;
   }
   .status-btn:hover{border-color:var(--accent);}
   .status-btn .dot{
@@ -1814,7 +1825,12 @@ function render(){
       <div class="peso-bar"><i style="width:${pct}%; background:${e.cor}"></i></div>
     </div>`;
   });
-  document.getElementById('resumoPeso').innerHTML = htmlPeso;
+  const gradePeso = document.getElementById('resumoPeso');
+  gradePeso.innerHTML = htmlPeso;
+  // com corte são 6 blocos (3 de peso + 3 etapas... na verdade 4), sem corte são 4.
+  // Fecha as linhas certinhas em vez de deixar sobrar buraco na última.
+  const qtdPeso = gradePeso.children.length;
+  gradePeso.style.setProperty('--peso-cols', qtdPeso === 6 ? 3 : 4);
 
   // ---- seção Cortes do dia ----
   const wrap = document.getElementById('corteWrap');
