@@ -11,7 +11,7 @@
 // O prefixo separa este painel de qualquer outro que a conta publique no mesmo
 // endereço github.io — sem isso, um apagaria o cache do outro ao ativar.
 const PREFIXO = "cargas-gtf-";
-const CACHE = PREFIXO + "v27";
+const CACHE = PREFIXO + "v28";
 
 const ARQUIVOS = [
   "./",
@@ -55,6 +55,10 @@ self.addEventListener("fetch", (e) => {
 
   // O banco de status é tempo real: nunca passa pelo cache.
   if (url.hostname.endsWith("firebaseio.com") || url.hostname.endsWith("firebasedatabase.app")) return;
+
+  // As cargas do dia vêm de um arquivo externo e nunca podem ficar no cache:
+  // quem guarda a última versão é o próprio painel, no aparelho.
+  if (url.searchParams.has("_fonte")) return;
 
   // A página em si: rede primeiro, para pegar as cargas atualizadas assim que
   // houver internet; sem rede, abre a última versão guardada.
