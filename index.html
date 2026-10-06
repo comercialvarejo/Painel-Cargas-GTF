@@ -278,8 +278,10 @@
 
     /* busca e filtro lado a lado, em vez de uma linha cada */
     .toolbar{display:flex; flex-wrap:wrap; gap:8px;}
-    .toolbar input[type=text]{flex:1 1 58%; min-width:0; padding:9px 12px;}
-    .toolbar select{flex:1 1 38%; min-width:0; padding:9px 8px;}
+    .toolbar input[type=text]{flex:1 1 40%; min-width:0; padding:9px 12px;}
+    .toolbar select{flex:1 1 30%; min-width:0; padding:9px 8px;}
+    .btn-atualizar{flex:0 0 auto; padding:9px 12px; font-size:16px;}
+    .btn-atualizar .tx{display:none;}
 
     /* o card vira uma coluna só */
     .card-head{flex-direction:column; align-items:stretch; padding:12px; gap:10px;}
@@ -416,6 +418,19 @@
   .fonte-info{display:inline; color:var(--muted);}
   .fonte-info:not(:empty)::before{content:"\00a0\00b7\00a0";}
   .fonte-info.fonte-aviso{color:#f59e0b;}
+
+  /* botão de atualizar as cargas */
+  .btn-atualizar{
+    background:var(--panel2); border:1px solid var(--border); color:var(--text);
+    padding:8px 14px; border-radius:8px; font-size:13px; cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
+  }
+  .btn-atualizar:hover{border-color:var(--muted);}
+  .btn-atualizar:disabled{opacity:.7; cursor:wait;}
+  .btn-atualizar .ic{display:inline-block; font-size:15px; line-height:1;}
+  .btn-atualizar.girando .ic{animation:girar 1s linear infinite;}
+  @keyframes girar{to{transform:rotate(360deg);}}
+  .fonte-info.fonte-ok{color:#22c55e;}
 </style>
 </head>
 <body>
@@ -437,6 +452,7 @@
     <option value="3">Carregado</option>
     <option value="4">Faturado</option>
   </select>
+  <button type="button" id="btnAtualizar" class="btn-atualizar" title="Buscar as cargas mais recentes"><span class="ic" aria-hidden="true">&#8635;</span><span class="tx">Atualizar</span></button>
   <div class="stats" id="stats"></div>
 </div>
 
@@ -1868,9 +1884,15 @@ function usarGuardado(){
   }catch(e){ return false; }
 }
 
-async function carregarDados(){
+let carregando = false;
+async function carregarDados(manual){
   if(!FONTE_DADOS){ return; }
-  const tinhaGuardado = usarGuardado();
+  if(carregando) return;
+  carregando = true;
+  const btn = document.getElementById("btnAtualizar");
+  if(btn){ btn.disabled = true; btn.classList.add("girando"); }
+  if(manual) setFonteInfo("atualizando…");
+  const tinhaGuardado = manual ? true : usarGuardado();
   const ctrl = new AbortController();
   const relogio = setTimeout(()=>ctrl.abort(), FONTE_ESPERA);
   try{
@@ -1884,17 +1906,29 @@ async function carregarDados(){
     const d = await resp.json();
     if(!fonteValida(d)) throw new Error("o arquivo não está no formato esperado");
     aplicarDados(d);
-    setFonteInfo(d.geradoEmTexto ? "cargas de " + d.geradoEmTexto : "");
+    const txt = d.geradoEmTexto ? "cargas de " + d.geradoEmTexto : "";
+    setFonteInfo(manual ? txt + " (atualizado agora)" : txt, manual ? "fonte-ok" : "");
+    if(manual) setTimeout(()=>setFonteInfo(txt), 4000);
     try{ localStorage.setItem(FONTE_GUARDADA, JSON.stringify(d)); }catch(e){}
   }catch(e){
     clearTimeout(relogio);
-    console.warn("[cargas] não consegui buscar as cargas em " + FONTE_DADOS + ":", e.message);
-    setFonteInfo(tinhaGuardado
-      ? "sem conexão com a fonte — mostrando as últimas cargas salvas"
-      : "sem conexão com a fonte — mostrando a cópia de reserva do aplicativo",
+    console.warn("[cargas] não consegui buscar as cargas:", e.message);
+    setFonteInfo(manual
+      ? "não consegui atualizar agora — mantendo as cargas que já estão na tela"
+      : tinhaGuardado
+        ? "sem conexão com a fonte — mostrando as últimas cargas salvas"
+        : "sem conexão com a fonte — mostrando a cópia de reserva do aplicativo",
       "fonte-aviso");
+  }finally{
+    carregando = false;
+    if(btn){ btn.disabled = false; btn.classList.remove("girando"); }
   }
 }
+
+(function(){
+  const btn = document.getElementById("btnAtualizar");
+  if(btn) btn.addEventListener("click", ()=>carregarDados(true));
+})();
 
 carregarDados();
 
