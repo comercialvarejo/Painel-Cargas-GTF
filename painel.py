@@ -71,7 +71,7 @@ INDEX = RAIZ / "index.html"
 SW = RAIZ / "sw.js"
 JSON_PADRAO = RAIZ / "viagens.json"
 
-ABRE = "const viagens = ["
+ABRE = "let viagens = ["
 FECHA = "\n];"
 
 

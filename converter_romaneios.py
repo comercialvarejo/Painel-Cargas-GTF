@@ -183,6 +183,7 @@ def converter(pdf, cidades):
             if m:
                 viagem["data"] = f"{m.group(3)}/{m.group(2)}/{m.group(1)}"
                 viagem["hora"] = m.group(4)
+                cab = [c for c in cab if c.strip() not in ("-", "–")]  # traço solto quando o nome da transportadora quebra de linha
                 if len(cab) == 2:
                     viagem["transportadora"], viagem["motorista"] = map(espacos, cab)
                 elif len(cab) == 1 and FIM_TRANSP.match(espacos(cab[0])):
