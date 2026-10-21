@@ -236,6 +236,15 @@
   .pedido-cidade{font-size:12px; color:var(--muted); font-weight:400; margin-left:6px;}
   .pedido-tot{font-size:12px; color:var(--muted); white-space:nowrap;}
   .pedido-obs{font-size:11.5px; color:#f2b93a; margin-top:4px; font-style:italic;}
+  .pedido-dir{display:flex; align-items:baseline; gap:18px; flex-wrap:wrap; justify-content:flex-end;}
+  .pedido-corte{font-size:12px; color:var(--muted); white-space:nowrap; text-align:right;}
+  .pedido-corte b{color:#ef5f5f;}
+  .pedido-corte .ped-n{font-size:10.5px; color:var(--muted); margin-left:4px;}
+  .pedido-corte.aplicado b{color:var(--muted); font-weight:500;}
+  .item-corte{display:block; font-size:10.5px; color:#ef5f5f; margin-top:1px;}
+  .pedido-cortes{margin-top:8px; padding:8px 10px; border:1px dashed rgba(239,95,95,.45); border-radius:8px; font-size:11.5px; line-height:1.55;}
+  .pedido-cortes .t{color:#ef5f5f; font-weight:600; margin-bottom:2px;}
+  .pedido-cortes .ja{color:var(--muted);}
   .itens{display:none; margin-top:10px;}
   .itens.open{display:block;}
   table{width:100%; border-collapse:collapse; font-size:12.5px;}
@@ -302,6 +311,8 @@
     .pedido-cliente{font-size:13px; line-height:1.35;}
     .pedido-cidade{margin-left:0; display:block; font-size:11.5px;}
     .pedido-tot{font-size:12px;}
+    .pedido-dir{flex-direction:column; align-items:flex-start; gap:2px; justify-content:flex-start;}
+    .pedido-corte{white-space:normal; text-align:left;}
 
     /* a tabela de itens perde a coluna de código: ele vira uma linha sob o produto */
     table{font-size:11.5px;}
@@ -2137,6 +2148,35 @@ function fmt(n){
   return Number(n).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1});
 }
 
+/* Associa cada linha de corte ao pedido (cliente) da viagem onde ele caiu.
+   A planilha traz o nome do cliente e o município; o romaneio traz o código, o nome
+   (às vezes truncado) e a cidade com /UF. Casa por código, quando a linha tiver
+   `codCli`, ou por nome + cidade; se o mesmo cliente tiver vários blocos na viagem,
+   escolhe o que contém o SKU cortado.                                            */
+function normTxt(s){
+  return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .toUpperCase().replace(/[^A-Z0-9]/g,'');
+}
+function cortesPorPedido(v){
+  const out = v.pedidos.map(()=>[]);
+  (cortes.linhas || []).forEach(l=>{
+    if(l.viagem !== v.numero) return;
+    const cli = normTxt(l.cliente), cid = normTxt(l.cidade);
+    const cand = [];
+    v.pedidos.forEach((p,i)=>{
+      const nome = normTxt(p.cliente);
+      const mesmoNome = nome === cli ||
+        (Math.min(nome.length, cli.length) >= 15 && (nome.startsWith(cli) || cli.startsWith(nome)));
+      const mesmoCod = !!(l.codCli && p.codigo && String(l.codCli) === String(p.codigo));
+      if((mesmoNome || mesmoCod) && normTxt((p.cidade||'').split('/')[0]) === cid) cand.push(i);
+    });
+    if(!cand.length) return;
+    const comSku = cand.filter(i => v.pedidos[i].itens.some(it => it[0] === l.sku));
+    out[(comSku.length ? comSku : cand)[0]].push(l);
+  });
+  return out;
+}
+
 function pedidoTotais(p){
   let cx=0,kg=0;
   p.itens.forEach(it=>{cx+=it[2]; kg+=it[3];});
@@ -2233,23 +2273,38 @@ function render(){
     const body = document.createElement('div');
     body.className = 'card-body';
 
+    const cortesDosPedidos = cortesPorPedido(v);
     v.pedidos.forEach((p, pi)=>{
       const tot = pedidoTotais(p);
+      const cps = cortesDosPedidos[pi] || [];
+      const cpsAtivos = cps.filter(l=>!l.jaAplicado);
+      const kgCortePed = cpsAtivos.reduce((a,l)=>a+Number(l.kgCorte||0),0);
+      const kgJa = cps.filter(l=>l.jaAplicado).reduce((a,l)=>a+Number(l.kgCorte||0),0);
+      const numsPed = Array.from(new Set(cps.map(l=>l.pedido))).join(', ');
+      const cortePedHtml = !cps.length ? '' :
+        (kgCortePed > 0
+          ? `<div class="pedido-corte" title="Corte neste cliente">Corte <b>${fmt(kgCortePed)} kg</b><span class="ped-n">pedido ${numsPed}</span></div>`
+          : `<div class="pedido-corte aplicado" title="Corte já aplicado no romaneio"><b>corte já aplicado</b> (${fmt(kgJa)} kg)<span class="ped-n">pedido ${numsPed}</span></div>`);
+      const detalheCorte = !cps.length ? '' :
+        `<div class="pedido-cortes"><div class="t">Cortes neste cliente</div>` +
+        cps.map(l=>`<div class="${l.jaAplicado?'ja':''}">Pedido <b>${l.pedido}</b> &middot; ${l.produto} <span class="codigo">(${l.sku})</span> &middot; pedido ${fmt(l.kgPedido)} kg &rarr; faturado ${fmt(l.kgFaturado)} kg &middot; corte <b style="color:#ef5f5f">${fmt(l.kgCorte)} kg</b>${l.jaAplicado?' (já aplicado no romaneio)':''}</div>`).join('') +
+        `</div>`;
       const pedidoEl = document.createElement('div');
       pedidoEl.className = 'pedido';
       pedidoEl.innerHTML = `
         <div class="pedido-head">
           <div><span class="pedido-cliente">${p.codigo ? p.codigo+' - ' : ''}${p.cliente}</span><span class="pedido-cidade">${p.cidade}</span></div>
-          <div class="pedido-tot">${fmt(tot.cx)} cx / ${fmt(tot.kg)} kg</div>
+          <div class="pedido-dir">${cortePedHtml}<div class="pedido-tot">${fmt(tot.cx)} cx / ${fmt(tot.kg)} kg</div></div>
         </div>
         ${p.obs ? `<div class="pedido-obs">&#9888; ${p.obs}</div>` : ''}
         <div class="itens">
           <table>
             <thead><tr><th>Código</th><th>Produto</th><th>CX</th><th>KG</th></tr></thead>
             <tbody>
-              ${p.itens.map(it=>`<tr><td class="codigo">${it[0]}</td><td>${it[1]}<span class="codigo-inline">${it[0]}</span></td><td class="num">${fmt(it[2])}</td><td class="num">${fmt(it[3])}</td></tr>`).join('')}
+              ${p.itens.map(it=>{ const ci = cps.filter(l=>l.sku===it[0] && !l.jaAplicado); const kc = ci.reduce((a,l)=>a+Number(l.kgCorte||0),0); return `<tr><td class="codigo">${it[0]}</td><td>${it[1]}<span class="codigo-inline">${it[0]}</span>${kc>0?`<span class="item-corte">corte ${fmt(kc)} kg</span>`:''}</td><td class="num">${fmt(it[2])}</td><td class="num">${fmt(it[3])}</td></tr>`;}).join('')}
             </tbody>
           </table>
+          ${detalheCorte}
         </div>`;
       const ph = pedidoEl.querySelector('.pedido-head');
       const itensEl = pedidoEl.querySelector('.itens');
