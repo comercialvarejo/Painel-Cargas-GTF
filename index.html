@@ -117,6 +117,14 @@
   .corte-viagem.sim{border:1px solid rgba(59,130,246,.5); color:var(--s3);}
   .corte-viagem.nao{border:1px solid var(--border); color:var(--muted);}
   .corte-nota{font-size:11.5px; color:var(--muted); margin-top:10px; line-height:1.5;}
+  .corte-rodape{display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-top:10px;}
+  .corte-rodape .corte-nota{margin-top:0; flex:1 1 420px;}
+  .btn-exportar{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+    padding:9px 16px; border-radius:8px; font-size:12.5px; font-weight:600; font-family:inherit;
+    background:rgba(239,95,95,.12); color:#ef5f5f; border:1px solid rgba(239,95,95,.55);
+  }
+  .btn-exportar:hover{background:rgba(239,95,95,.22);}
 
   /* ---------- resumo de peso ---------- */
   .peso-wrap{
@@ -2408,12 +2416,19 @@ function render(){
         </tr></thead>
         <tbody>${linhas}</tbody>
       </table>
-      <div class="corte-nota">
-        Dados da consulta do Protheus, ligados à viagem pela coluna VIAGEM_MAE.
-        O peso real de cada carga aparece no próprio card. Quando o corte já havia sido
-        aplicado antes de o romaneio ser impresso, ele vem marcado — nesse caso o peso
-        do romaneio já é o real e não há o que descontar.
+      <div class="corte-rodape">
+        <div class="corte-nota">
+          Dados da consulta do Protheus, ligados à viagem pela coluna VIAGEM_MAE.
+          O peso real de cada carga aparece no próprio card. Quando o corte já havia sido
+          aplicado antes de o romaneio ser impresso, ele vem marcado — nesse caso o peso
+          do romaneio já é o real e não há o que descontar.
+        </div>
+        <button type="button" class="btn-exportar" id="btnExportarCortes"
+                title="Baixa uma planilha Excel com todos os cortes, por viagem, pedido e cliente">
+          &#11015; Exportar cortes (Excel)
+        </button>
       </div>`;
+    document.getElementById('btnExportarCortes').onclick = exportarCortes;
   }
 
   const stats = document.getElementById('stats');
@@ -2426,6 +2441,131 @@ function render(){
     <div class="stat"><b>${contagem[3]}</b><span class="rotulo-longo">Faturado</span><span class="rotulo-curto">Fatur.</span></div>
   `;
   updateAdminBar();
+}
+
+/* ---------- exportar cortes para planilha Excel (.xlsx) ----------
+   Gera o arquivo aqui mesmo, no navegador, sem biblioteca externa: um .xlsx é um zip
+   de XMLs; montamos o zip sem compressão. Duas abas: "Cortes" (uma linha por pedido
+   e produto, para cobrança) e "Por viagem" (resumo).                               */
+function xlsxCrcTabela(){
+  const t = new Uint32Array(256);
+  for(let n=0;n<256;n++){ let c=n; for(let k=0;k<8;k++) c = (c&1) ? (0xEDB88320 ^ (c>>>1)) : (c>>>1); t[n]=c>>>0; }
+  return t;
+}
+function xlsxCrc(bytes, tabela){
+  let c = 0xFFFFFFFF;
+  for(let i=0;i<bytes.length;i++) c = tabela[(c ^ bytes[i]) & 0xFF] ^ (c >>> 8);
+  return (c ^ 0xFFFFFFFF) >>> 0;
+}
+function xlsxZip(arquivos){            // arquivos: [{nome, texto}] -> Uint8Array
+  const enc = new TextEncoder(), tab = xlsxCrcTabela();
+  const partes = [], central = [];
+  let pos = 0;
+  const u16 = n => [n & 255, (n >>> 8) & 255];
+  const u32 = n => [n & 255, (n >>> 8) & 255, (n >>> 16) & 255, (n >>> 24) & 255];
+  arquivos.forEach(a=>{
+    const nome = enc.encode(a.nome), dados = enc.encode(a.texto), crc = xlsxCrc(dados, tab);
+    const cab = [].concat(u32(0x04034b50), u16(20), u16(0x0800), u16(0), u16(0), u16(0x21),
+                          u32(crc), u32(dados.length), u32(dados.length), u16(nome.length), u16(0));
+    partes.push(Uint8Array.from(cab), nome, dados);
+    central.push({nome, crc, tam: dados.length, pos});
+    pos += cab.length + nome.length + dados.length;
+  });
+  const iniCentral = pos;
+  central.forEach(c=>{
+    const e = [].concat(u32(0x02014b50), u16(20), u16(20), u16(0x0800), u16(0), u16(0), u16(0x21),
+                        u32(c.crc), u32(c.tam), u32(c.tam), u16(c.nome.length), u16(0), u16(0),
+                        u16(0), u16(0), u32(0), u32(c.pos));
+    partes.push(Uint8Array.from(e), c.nome);
+    pos += e.length + c.nome.length;
+  });
+  const fim = [].concat(u32(0x06054b50), u16(0), u16(0), u16(central.length), u16(central.length),
+                        u32(pos - iniCentral), u32(iniCentral), u16(0));
+  partes.push(Uint8Array.from(fim));
+  const total = partes.reduce((a,p)=>a+p.length, 0), out = new Uint8Array(total);
+  let o = 0; partes.forEach(p=>{ out.set(p, o); o += p.length; });
+  return out;
+}
+function xlsxEsc(t){
+  return String(t==null?'':t).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,'')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function xlsxCol(i){ let s=''; i++; while(i>0){ const m=(i-1)%26; s=String.fromCharCode(65+m)+s; i=Math.floor((i-1)/26); } return s; }
+function xlsxAba(cabecalho, linhas, larguras, totais){
+  // estilos: 1 cabeçalho, 2 número 0,0, 3 total em negrito
+  let r = 1, xml = '<row r="1">' + cabecalho.map((h,i)=>
+    `<c r="${xlsxCol(i)}1" s="1" t="inlineStr"><is><t>${xlsxEsc(h)}</t></is></c>`).join('') + '</row>';
+  const cel = (v,i,rr,st)=> (typeof v === 'number')
+    ? `<c r="${xlsxCol(i)}${rr}" s="${st||2}"><v>${v}</v></c>`
+    : `<c r="${xlsxCol(i)}${rr}" t="inlineStr"${st?` s="${st}"`:''}><is><t xml:space="preserve">${xlsxEsc(v)}</t></is></c>`;
+  linhas.forEach(l=>{ r++; xml += `<row r="${r}">` + l.map((v,i)=>cel(v,i,r)).join('') + '</row>'; });
+  const ultimaLinhaDados = linhas.length + 1;
+  if(totais){ r++; xml += `<row r="${r}">` + totais.map((v,i)=>cel(v,i,r,3)).join('') + '</row>'; }
+  return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+    '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+    '<sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>' +
+    '<cols>' + larguras.map((w,i)=>`<col min="${i+1}" max="${i+1}" width="${w}" customWidth="1"/>`).join('') + '</cols>' +
+    `<sheetData>${xml}</sheetData>` +
+    `<autoFilter ref="A1:${xlsxCol(cabecalho.length-1)}${ultimaLinhaDados}"/></worksheet>`;
+}
+function exportarCortes(){
+  const linhas = (cortes && cortes.linhas) || [];
+  if(!linhas.length){ alert('Não há cortes para exportar.'); return; }
+  const arred = n => Math.round(n*10)/10;
+  const porNum = {}; viagens.forEach(v => { porNum[v.numero] = v; });
+  const ord = linhas.slice().sort((a,b)=>
+    (a.viagem||'').localeCompare(b.viagem||'') || (a.cliente||'').localeCompare(b.cliente||'') ||
+    (a.pedido||'').localeCompare(b.pedido||'') || (a.produto||'').localeCompare(b.produto||''));
+  const dataCorte = cortes.data || '';
+  const abaCortes = ord.map(l=>{
+    const v = porNum[l.viagem] || {};
+    return [dataCorte, l.viagem || '', v.placa || '', v.transportadora || '', v.motorista || '',
+            l.pedido || '', l.cliente || '', l.cidade || '', l.vendedor || '', l.sku || '', l.produto || '',
+            Number(l.kgPedido||0), Number(l.kgFaturado||0), Number(l.kgCorte||0),
+            l.jaAplicado ? 'Já aplicado antes do romaneio' : 'Cortado - descontar do peso'];
+  });
+  const soma = campo => arred(ord.reduce((a,l)=>a+Number(l[campo]||0),0));
+  const sheet1 = xlsxAba(
+    ['Data dos cortes','Viagem','Placa','Transportadora','Motorista','Pedido','Cliente','Cidade','Vendedor',
+     'Código produto','Produto','Kg pedido','Kg faturado','Kg cortado','Situação'],
+    abaCortes, [14,10,10,30,28,10,40,22,22,18,60,12,12,12,30],
+    ['TOTAL','','','','','','','','','','', soma('kgPedido'), soma('kgFaturado'), soma('kgCorte'), '']);
+
+  const resumo = {};
+  ord.forEach(l=>{
+    const k = l.viagem || '(sem viagem)';
+    const e = resumo[k] || (resumo[k] = {corte:0, ja:0, itens:0, pedidos:new Set()});
+    e.itens++; e.pedidos.add(l.pedido);
+    if(l.jaAplicado) e.ja += Number(l.kgCorte||0); else e.corte += Number(l.kgCorte||0);
+  });
+  const abaViagem = Object.keys(resumo).sort().map(k=>{
+    const v = porNum[k] || {}, e = resumo[k], kgRom = Number(v.totalKg||0);
+    return [k, v.placa||'', v.transportadora||'', v.motorista||'', v.regiao||'', kgRom,
+            arred(e.corte), arred(e.ja), arred(kgRom - e.corte), e.pedidos.size, e.itens];
+  });
+  const col = i => arred(abaViagem.reduce((a,r)=>a+r[i],0));
+  const sheet2 = xlsxAba(
+    ['Viagem','Placa','Transportadora','Motorista','Região','Kg do romaneio','Kg cortado (descontar)',
+     'Kg já aplicado no romaneio','Peso real (kg)','Pedidos com corte','Itens cortados'],
+    abaViagem, [10,10,30,28,22,16,20,22,16,16,14],
+    ['TOTAL','','','','', col(5), col(6), col(7), col(8), '', col(10)]);
+
+  const NS = 'http://schemas.openxmlformats.org/spreadsheetml/2006/main';
+  const XH = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+  const arquivos = [
+    {nome:'[Content_Types].xml', texto:XH+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/worksheets/sheet2.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>'},
+    {nome:'_rels/.rels', texto:XH+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'},
+    {nome:'xl/workbook.xml', texto:XH+`<workbook xmlns="${NS}" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Cortes" sheetId="1" r:id="rId1"/><sheet name="Por viagem" sheetId="2" r:id="rId2"/></sheets></workbook>`},
+    {nome:'xl/_rels/workbook.xml.rels', texto:XH+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet2.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'},
+    {nome:'xl/styles.xml', texto:XH+`<styleSheet xmlns="${NS}"><numFmts count="1"><numFmt numFmtId="164" formatCode="#,##0.0"/></numFmts><fonts count="3"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFC0392B"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="4"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1"><alignment vertical="center" wrapText="1"/></xf><xf numFmtId="164" fontId="0" fillId="0" borderId="0" xfId="0" applyNumberFormat="1"/><xf numFmtId="164" fontId="2" fillId="0" borderId="0" xfId="0" applyNumberFormat="1" applyFont="1"/></cellXfs></styleSheet>`},
+    {nome:'xl/worksheets/sheet1.xml', texto:sheet1},
+    {nome:'xl/worksheets/sheet2.xml', texto:sheet2}
+  ];
+  const blob = new Blob([xlsxZip(arquivos)], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  const nome = 'cortes-GTFOODS-' + (dataCorte ? dataCorte.split('/').join('-') : new Date().toISOString().slice(0,10)) + '.xlsx';
+  const url = URL.createObjectURL(blob), a = document.createElement('a');
+  a.href = url; a.download = nome; document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 1500);
 }
 
 document.getElementById('corteHead').onclick = ()=>{
