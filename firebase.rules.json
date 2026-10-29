@@ -7,7 +7,8 @@
     "O que elas fazem, comparadas com o modo de teste (read/write liberados):",
     "  - leitura continua pública, porque o painel lê sem login;",
     "  - escrita só é aceita em cargas/<numero-da-viagem>/<1 a 4>, com true ou false;",
-    "  - e em cargas/<numero-da-viagem>/obs, com um texto de até 300 caracteres.",
+    "  - e em cargas/<numero-da-viagem>/obs, com um texto de até 300 caracteres;",
+    "  - e em pendentes/<numero-da-viagem>, com um texto (a cópia da carga marcada como Não carregado).",
     "Assim ninguém consegue apagar o banco inteiro de uma vez nem gravar lixo nele.",
     "Isso NÃO impede alguém que tenha o link de marcar um status ou escrever uma",
     "observação: para isso seria preciso login de verdade (Firebase Authentication).",
@@ -33,6 +34,15 @@
           ".write": "$viagem.matches(/^[0-9]{1,12}$/) && $etapa.matches(/^[1-4]$/)",
           ".validate": "newData.isBoolean()"
         }
+      }
+    },
+
+    "pendentes": {
+      ".read": true,
+
+      "$viagem": {
+        ".write": "$viagem.matches(/^[0-9]{1,12}$/)",
+        ".validate": "newData.isString() && newData.val().length <= 200000"
       }
     }
   }

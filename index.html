@@ -162,6 +162,23 @@
   .status-label{font-size:10px; color:var(--muted); width:100%; text-align:left;}
   .totals{font-size:13px; color:var(--muted); text-align:left;}
   .totals b{color:var(--text);}
+  /* status "Não carregado": a carga marcada fica no painel nos dias seguintes até ser desmarcada */
+  .pend-btn{
+    margin-left:auto; display:flex; align-items:center; gap:6px; align-self:center;
+    border:1px solid var(--border); background:var(--panel2); color:var(--muted);
+    font-size:11.5px; padding:7px 12px; border-radius:6px; cursor:pointer; white-space:nowrap;
+    transition:all .15s; min-height:34px;
+  }
+  .pend-btn:hover{border-color:#f97316;}
+  .pend-btn .dot{
+    width:14px; height:14px; border-radius:4px; border:1.5px solid currentColor;
+    display:inline-flex; align-items:center; justify-content:center; font-size:10px; line-height:1;
+  }
+  .pend-btn.on{border-color:#f97316; color:#fdba74; background:rgba(249,115,22,0.10);}
+  .pend-btn.on .dot{background:#f97316; border-color:#f97316; color:#2a1200;}
+  .badge-pend{background:rgba(249,115,22,0.15); color:#fdba74; border-color:#f97316;}
+  .card.pendente{border-color:#f97316;}
+  @media (max-width:640px){ .pend-btn{width:100%; margin-left:0; justify-content:flex-start;} }
   /* as quatro etapas sempre nas mesmas quatro colunas, em todos os cards */
   /* botões de status à esquerda, observação à direita; quando não cabem lado a
      lado, a observação desce para baixo em vez de espremer os botões */
@@ -470,6 +487,7 @@
     <option value="2">Separado</option>
     <option value="3">Carregado</option>
     <option value="4">Faturado</option>
+    <option value="pend">Não carregado (repete no dia seguinte)</option>
   </select>
   <button type="button" id="btnAtualizar" class="btn-atualizar" title="Buscar as cargas mais recentes"><span class="ic" aria-hidden="true">&#8635;</span><span class="tx">Atualizar</span></button>
   <div class="stats" id="stats"></div>
@@ -2012,6 +2030,81 @@ const firebaseConfig = {
 
 const FIREBASE_CONFIGURADO = firebaseConfig.apiKey !== "COLE_SUA_API_KEY_AQUI";
 
+// ---- status "Não carregado" (carga que continua no painel nos dias seguintes) ----
+// Quando a carga é marcada, o painel guarda uma cópia dela em pendentes/<viagem>
+// (Firebase) e passa a mostrá-la junto com as cargas do dia até alguém desmarcar.
+// Tem senha própria, separada da senha de administrador. Como no admin, é só uma
+// trava de uso (a senha não aparece em texto puro, mas não é segurança real).
+const PEND_PASSWORD_HASH = "ce25f1c0182d9baf518bbe60a60881edd3faef4c8b95d960400eb916a65112f0";
+const PEND_KEY = "cargas_gtf_pend_auth_v1";
+const PEND_LOCAL_KEY = "cargas_gtf_pendentes_v1";
+const viagensBackup = viagens;   // cópia de reserva embutida no arquivo
+let viagensDia = null;           // cargas do dia, vindas do dados.json
+let pendentesMap = {};           // numero -> JSON (texto) da carga marcada como não carregada
+let dbPend = null;
+
+function pendLiberado(){ return sessionStorage.getItem(PEND_KEY) === "1"; }
+function pedirSenhaPend(){
+  if(pendLiberado()) return true;
+  const pass = prompt("Senha para alterar o status Não carregado:");
+  if(pass === null) return false;
+  if(sha256Hex(pass) === PEND_PASSWORD_HASH){
+    sessionStorage.setItem(PEND_KEY, "1");
+    return true;
+  }
+  alert("Senha incorreta.");
+  return false;
+}
+function loadPendLocal(){
+  try{return JSON.parse(localStorage.getItem(PEND_LOCAL_KEY)||"{}");}catch(e){return {};}
+}
+// cargas do dia + cargas pendentes de dias anteriores (as que não estão no dia)
+function recomporViagens(){
+  const base = viagensDia || viagensBackup;
+  const nums = new Set(base.map(v=>v.numero));
+  const extras = [];
+  Object.keys(pendentesMap || {}).forEach(num=>{
+    if(nums.has(num)) return;
+    try{
+      const v = JSON.parse(pendentesMap[num]);
+      if(!v || typeof v.numero !== "string" || !Array.isArray(v.pedidos)) return;
+      v._pendente = true;
+      delete v.ordem;
+      extras.push(v);
+    }catch(e){}
+  });
+  viagens = base.concat(extras);
+}
+function setPendente(v, ligar){
+  const num = v.numero;
+  if(FIREBASE_CONFIGURADO && dbPend){
+    let op;
+    if(ligar){
+      const copia = JSON.parse(JSON.stringify(v));
+      delete copia._pendente;
+      op = dbPend.child(num).set(JSON.stringify(copia));
+    } else {
+      op = dbPend.child(num).remove();
+    }
+    op.catch(e=>{
+      console.error(e);
+      alert("Não consegui salvar o status Não carregado: " + e.message +
+            "\n\nSe a mensagem falar em permissão, as regras do banco precisam ser atualizadas (veja firebase.rules.json).");
+    });
+  } else {
+    if(ligar){
+      const copia = JSON.parse(JSON.stringify(v));
+      delete copia._pendente;
+      pendentesMap[num] = JSON.stringify(copia);
+    } else {
+      delete pendentesMap[num];
+    }
+    try{ localStorage.setItem(PEND_LOCAL_KEY, JSON.stringify(pendentesMap)); }catch(e){}
+    recomporViagens();
+    render();
+  }
+}
+
 const STAGE_LABELS = ["Veículo chegou na planta","Separado","Carregado","Faturado"];
 // statusMap[viagemNumero] = {1:bool,2:bool,3:bool,4:bool} -- 4 etapas independentes,
 // não sequenciais (ex.: carga pode estar "Separada" antes do veículo chegar na planta)
@@ -2037,6 +2130,7 @@ function saveLocal(s){
 function iniciarSync(){
   if(!FIREBASE_CONFIGURADO){
     statusMap = loadLocal();
+    pendentesMap = loadPendLocal(); recomporViagens();
     setSyncBar('sync-off', 'Atualização em tempo real não configurada — usando apenas este navegador. Veja as instruções no código-fonte (const firebaseConfig).');
     render();
     return;
@@ -2044,6 +2138,14 @@ function iniciarSync(){
   try{
     firebase.initializeApp(firebaseConfig);
     dbRef = firebase.database().ref('cargas');
+    dbPend = firebase.database().ref('pendentes');
+    dbPend.on('value', (snap)=>{
+      pendentesMap = snap.val() || {};
+      recomporViagens();
+      render();
+    }, (err)=>{
+      console.warn("[cargas] não consegui ler as cargas pendentes:", err && err.message);
+    });
     dbRef.on('value', (snapshot)=>{
       statusMap = snapshot.val() || {};
       setSyncBar('sync-ok', 'Conectado — status sincronizado em tempo real para todos que abrirem este link.');
@@ -2055,6 +2157,7 @@ function iniciarSync(){
   }catch(e){
     console.error(e);
     statusMap = loadLocal();
+    pendentesMap = loadPendLocal(); recomporViagens();
     setSyncBar('sync-err', 'Falha ao iniciar a atualização em tempo real — usando apenas este navegador.');
     render();
   }
@@ -2207,7 +2310,8 @@ function render(){
   // Quando a planilha de carregamento traz a ordem, os cards seguem essa fila —
   // é a sequência em que os veículos serão carregados, não a de emissão.
   const naTela = viagens.slice().sort((a,b)=>{
-    const oa = a.ordem || 999, ob = b.ordem || 999;
+    // cargas pendentes de dias anteriores vêm primeiro
+    const oa = a._pendente ? 0 : (a.ordem || 999), ob = b._pendente ? 0 : (b.ordem || 999);
     if(oa !== ob) return oa - ob;
     // sem ordem de carregamento, vale a data e a hora do romaneio (dd/mm/aaaa -> aaaammdd)
     const dia = v => (v.data||"").split("/").reverse().join("");
@@ -2217,7 +2321,7 @@ function render(){
 
   naTela.forEach(v=>{
     const st = statusMap[v.numero] || {};
-    const matchesStatus = !filtroStatus || !!st[filtroStatus];
+    const matchesStatus = !filtroStatus || (filtroStatus === 'pend' ? !!pendentesMap[v.numero] : !!st[filtroStatus]);
     const haystack = (v.numero+" "+v.transportadora+" "+v.motorista+" "+(v.placa||"")+" "+
       (v.regiao||"")+" "+(v.chegada||"")+" "+
       v.pedidos.map(p=>p.cliente+" "+p.cidade).join(" ")).toLowerCase();
@@ -2226,7 +2330,7 @@ function render(){
     visiveis++;
 
     const card = document.createElement('div');
-    card.className = 'card';
+    card.className = 'card' + (v._pendente ? ' pendente' : '');
 
     const head = document.createElement('div');
     head.className = 'card-head';
@@ -2256,6 +2360,28 @@ function render(){
           <div class="obs-box" data-viagem="${v.numero}"></div>
         </div>
       </div>`;
+
+    // status "Não carregado": mantém a carga no painel nos dias seguintes
+    {
+      const ligado = !!pendentesMap[v.numero];
+      const pb = document.createElement('button');
+      pb.className = 'pend-btn' + (ligado ? ' on' : '');
+      pb.innerHTML = `<span class="dot">${ligado ? '&#10003;' : ''}</span>${!pendLiberado() ? '<span class="lock-icon">&#128274;</span>' : ''}` +
+                     (ligado ? 'Não carregado &mdash; repete no dia seguinte' : 'Não carregado');
+      pb.title = pendLiberado()
+        ? (ligado ? "Desmarcar: a carga deixa de repetir nos próximos dias" : "Marcar: a carga continua no painel nos próximos dias")
+        : "Requer a senha do status Não carregado";
+      pb.onclick = (ev)=>{
+        ev.stopPropagation();
+        if(!pedirSenhaPend()) return;
+        setPendente(v, !ligado);
+      };
+      head.querySelector('.head-right').insertBefore(pb, head.querySelector('.status-label'));
+      if(v._pendente){
+        const chips = head.querySelector('.meta-chips');
+        if(chips) chips.insertAdjacentHTML('afterbegin', '<span class="badge badge-pend" title="Carga de dia anterior que não foi carregada">Pendente de ' + (v.data || '') + '</span>');
+      }
+    }
 
     const track = head.querySelector('.status-track');
     STAGE_LABELS.forEach((label, idx)=>{
@@ -2628,7 +2754,8 @@ function expandirProdutos(d){
 
 function aplicarDados(d){
   expandirProdutos(d);
-  viagens = d.viagens;
+  viagensDia = d.viagens;
+  recomporViagens();
   cortes = (d.cortes && Array.isArray(d.cortes.linhas)) ? d.cortes : CORTES_VAZIO;
   render();
 }
